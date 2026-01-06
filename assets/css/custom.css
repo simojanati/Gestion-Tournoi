@@ -23,8 +23,37 @@
 
 /* RTL fixes for Sneat vertical menu layout */
 html[dir="rtl"] body { direction: rtl; }
-html[dir="rtl"] .layout-menu { left: auto !important; right: 0 !important; }
-html[dir="rtl"] .layout-page { padding-left: 0 !important; padding-right: 16.25rem; } /* menu width */
+
+/* Desktop: menu fixed on the right, content padded on the right */
+@media (min-width: 1200px) {
+  html[dir="rtl"] .layout-menu { left: auto !important; right: 0 !important; }
+  html[dir="rtl"] .layout-menu-fixed:not(.layout-menu-collapsed) .layout-page,
+  html[dir="rtl"] .layout-menu-fixed-offcanvas:not(.layout-menu-collapsed) .layout-page {
+    padding-left: 0 !important;
+    padding-right: 16.25rem !important; /* menu width */
+  }
+  html[dir="rtl"] .layout-footer-fixed:not(.layout-menu-collapsed) .layout-wrapper:not(.layout-without-menu) .content-footer {
+    left: 0 !important;
+    right: 16.25rem !important;
+  }
+}
+
+/* Mobile/tablet: offcanvas menu must slide from the right in RTL */
+@media (max-width: 1199.98px) {
+  html[dir="rtl"] .layout-page {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+  html[dir="rtl"] .layout-menu {
+    left: auto !important;
+    right: 0 !important;
+    transform: translate3d(100%, 0, 0) !important; /* hide to the right */
+  }
+  html[dir="rtl"].layout-menu-expanded .layout-menu {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
 html[dir="rtl"] .layout-navbar { left: 0; right: 0; }
 html[dir="rtl"] .dropdown-menu-end { right: auto !important; left: 0 !important; }
 html[dir="rtl"] .ms-auto { margin-right: auto !important; margin-left: 0 !important; }
