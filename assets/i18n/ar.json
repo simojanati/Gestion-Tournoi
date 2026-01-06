@@ -1,0 +1,415 @@
+{
+  "app": {
+    "title": "تسيير البطولة"
+  },
+  "common": {
+    "actions": "إجراءات",
+    "add": "إضافة",
+    "all": "الكل",
+    "auto": "تلقائي",
+    "cancel": "إلغاء",
+    "catalog": "الكتالوج",
+    "clear": "مسح",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "confirmDelete": "واش متأكد بغيتي تحذف؟",
+    "delete": "حذف",
+    "deleted": "تم الحذف",
+    "deleting": "جارٍ الحذف...",
+    "edit": "تعديل",
+    "filterTournament": "البطولة",
+    "generate": "توليد",
+    "invalidTeams": "خاص الفريقين يكونو مختلفين.",
+    "loading": "جاري التحميل...",
+    "participants": "المشاركون",
+    "players": "اللاعبون",
+    "refresh": "تحديث",
+    "required": "بعض الحقول الإلزامية ناقصة.",
+    "roster": "قائمة اللاعبين",
+    "save": "حفظ",
+    "saved": "تم الحفظ",
+    "saving": "جارٍ الحفظ...",
+    "search": "بحث",
+    "sync": "مزامنة",
+    "tbd": "غير محدد",
+    "update": "تحديث",
+    "vs": "ضد",
+    "noData": "لا توجد بيانات",
+    "back": "رجوع",
+    "show": "عرض",
+    "hide": "إخفاء"
+  },
+  "events": {
+    "add": "إضافة حدث",
+    "applyScore": "تطبيق النتيجة",
+    "autoScore": "النتيجة التلقائية",
+    "autoScoreNA": "النتيجة التلقائية: -",
+    "clock": "الساعة",
+    "clockPlaceholder": "05:32",
+    "fields": {
+      "clock": "الكرونو",
+      "minute": "الدقيقة",
+      "notes": "ملاحظات",
+      "period": "الشوط/الفترة",
+      "player": "اللاعب",
+      "playerIn": "اللاعب الداخل",
+      "points": "النقاط",
+      "team": "الفريق",
+      "time": "الوقت",
+      "type": "النوع",
+      "value": "القيمة"
+    },
+    "minute": "الدقيقة",
+    "minutePlaceholder": "0",
+    "noEvents": "لا توجد أحداث بعد.",
+    "notes": "ملاحظات",
+    "notesPlaceholder": "ملاحظات اختيارية...",
+    "period": {
+      "ET1": "شوط إضافي 1",
+      "ET2": "شوط إضافي 2",
+      "H1": "الشوط الأول",
+      "H2": "الشوط الثاني",
+      "OT": "إضافي",
+      "P1": "فترة 1",
+      "P2": "فترة 2",
+      "PEN": "ركلات الترجيح",
+      "Q1": "ربع 1",
+      "Q2": "ربع 2",
+      "Q3": "ربع 3",
+      "Q4": "ربع 4"
+    },
+    "player": "اللاعب",
+    "playerIn": "اللاعب الداخل",
+    "points": "النقاط",
+    "scoreApplied": "تم تطبيق النتيجة",
+    "team": "الفريق",
+    "time": "الوقت",
+    "timeline": "التسلسل الزمني",
+    "type": {
+      "2MIN_SUSPENSION": "إقصاء دقيقتين",
+      "7M_GOAL": "هدف 7 متر",
+      "7M_MISSED": "إضاعة 7 متر",
+      "EJECTION": "طرد",
+      "EVENT": "حدث",
+      "FOUL": "خطأ",
+      "GOAL": "هدف",
+      "OWN_GOAL": "هدف في مرماه",
+      "PENALTY_GOAL": "هدف من ركلة جزاء",
+      "PENALTY_MISSED": "ضربة جزاء مهدرة",
+      "RED_CARD": "بطاقة حمراء",
+      "SCORE": "تسجيل",
+      "SECOND_YELLOW": "صفراء ثانية",
+      "SUBSTITUTION": "تبديل",
+      "TECHNICAL": "خطأ تقني",
+      "TIMEOUT": "وقت مستقطع",
+      "YELLOW_CARD": "بطاقة صفراء"
+    },
+    "value": "القيمة"
+  },
+  "format": {
+    "CHAMPIONNAT": "دوري",
+    "GROUPS_FINALS": "مجموعات + نهائيات",
+    "GROUPS_KO": "مجموعات + إقصاء",
+    "KNOCKOUT": "إقصاء مباشر",
+    "KO": "إقصاء مباشر",
+    "LEAGUE": "دوري"
+  },
+  "format_desc": {
+    "CHAMPIONNAT": "كل فريق يلعب ضد جميع الفرق (ذهاب/إياب).",
+    "GROUPS_FINALS": "مجموعات أولاً ثم المتأهلون إلى الأدوار النهائية.",
+    "GROUPS_KO": "مرحلة مجموعات ثم أدوار إقصائية",
+    "KNOCKOUT": "جدول إقصائي بخسارة واحدة.",
+    "KO": "جدول إقصاء مباشر",
+    "LEAGUE": "دوري: كل فريق يلعب ضد الجميع"
+  },
+  "format_tip": {
+    "CHAMPIONNAT": "مناسب لعدد فرق قليل، الترتيب يحسم البطل.",
+    "GROUPS_FINALS": "مناسب لجمع المجموعات مع نهائيات قوية.",
+    "GROUPS_KO": "توليد المجموعات ومباريات المجموعات وإنشاء نهائي (placeholder).",
+    "KNOCKOUT": "سريع، خسارة واحدة تخرجك.",
+    "KO": "توليد مباريات الإقصاء المباشر (مع Byes عند الحاجة).",
+    "LEAGUE": "توليد جولات ومباريات الدوري."
+  },
+  "login": {
+    "btn": "دخول",
+    "email": "البريد الإلكتروني",
+    "invalid": "البريد أو كلمة المرور غير صحيحة",
+    "password": "كلمة المرور",
+    "title": "تسجيل الدخول"
+  },
+  "matches": {
+    "addTitle": "إضافة مباراة",
+    "away": "الفريق الضيف",
+    "awayScore": "أهداف الضيف",
+    "editTitle": "تعديل المباراة",
+    "events": "الأحداث",
+    "group": "المجموعة",
+    "home": "الفريق المستضيف",
+    "homeScore": "أهداف المستضيف",
+    "modal": {
+      "title": "مباراة"
+    },
+    "referee": "الحكم",
+    "stage": "المرحلة",
+    "startTime": "التوقيت",
+    "status": "الحالة",
+    "title": "المباريات",
+    "tournament": "البطولة",
+    "venue": "الملعب",
+    "details": "تفاصيل"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "logout": "تسجيل الخروج",
+    "matches": "المباريات",
+    "public": "عرض للجمهور",
+    "settings": "الإعدادات",
+    "standings": "الترتيب",
+    "teams": "الفرق",
+    "tournaments": "البطولات"
+  },
+  "phase": {
+    "FINAL": "النهائي",
+    "GROUP": "مجموعات",
+    "LEAGUE": "دوري",
+    "QUARTER_FINAL": "ربع النهائي",
+    "ROUND_OF_16": "دور 16",
+    "SEMI_FINAL": "نصف النهائي"
+  },
+  "players": {
+    "add": "إضافة لاعب",
+    "firstName": "الاسم الشخصي",
+    "fullName": "الاسم الكامل",
+    "jerseyNumber": "رقم القميص",
+    "lastName": "النسب",
+    "phone": "الهاتف",
+    "position": "المركز",
+    "status": "الحالة"
+  },
+  "sport": {
+    "BASKETBALL": "كرة السلة",
+    "FOOTBALL": "كرة القدم",
+    "HANDBALL": "كرة اليد",
+    "OTHER": "أخرى"
+  },
+  "stage": {
+    "GROUP": "دور المجموعات",
+    "KNOCKOUT": "إقصاء مباشر"
+  },
+  "standings": {
+    "compute": "حساب",
+    "group": "المجموعة",
+    "groupTitle": "المجموعة {g}",
+    "knockoutTitle": "مباريات الإقصائيات",
+    "leagueTitle": "جدول الترتيب",
+    "matchLabel": "المباراة",
+    "noGroups": "لا توجد مجموعات لهذا البطولة.",
+    "noKo": "لا توجد مباريات إقصائية بعد.",
+    "noTeamsLinked": "لا توجد فرق مرتبطة بهذه البطولة.",
+    "score": "النتيجة",
+    "slot": "مقعد",
+    "stage": "المرحلة",
+    "stageGroup": "مجموعات",
+    "stageKnockout": "الإقصائيات",
+    "stageLeague": "دوري",
+    "status": "الحالة",
+    "title": "الترتيب",
+    "tournament": "البطولة",
+    "statsTitle": "إحصائيات البطولة",
+    "stats": {
+      "noEvents": "ما كايناش أحداث ديال الماتش دابا.",
+      "topScorers": "الهدافين",
+      "goals": "أهداف",
+      "yellowCards": "إنذارات",
+      "redCards": "بطاقات حمراء",
+      "topPoints": "أكثر نقاط",
+      "points": "نقطة",
+      "fouls": "أخطاء",
+      "timeouts": "وقت مستقطع",
+      "susp2min": "إقصاء 2 د",
+      "mostActive": "الأكثر نشاطاً",
+      "goalsByTeam": "أهداف حسب الفريق",
+      "fairPlay": "اللعب النظيف (أقل بطاقات)",
+      "fairPlayPts": "نقطة"
+    }
+  },
+  "status": {
+    "ACTIVE": "نشط",
+    "ARCHIVED": "مؤرشف",
+    "CANCELED": "ملغاة",
+    "DRAFT": "مسودة",
+    "FINISHED": "منتهية",
+    "IN_PROGRESS": "جارية",
+    "PUBLISHED": "منشور",
+    "SCHEDULED": "مبرمجة"
+  },
+  "table": {
+    "col": {
+      "endDate": "النهاية",
+      "format": "النظام",
+      "location": "المكان",
+      "name": "الاسم",
+      "sport": "الرياضة",
+      "startDate": "البداية",
+      "status": "الحالة"
+    },
+    "matches": {
+      "actions": "إجراءات",
+      "away": "الضيف",
+      "dateTime": "التاريخ/الوقت",
+      "group": "المجموعة",
+      "home": "المستضيف",
+      "phase": "المرحلة",
+      "referee": "الحكم",
+      "result": "النتيجة",
+      "round": "الجولة",
+      "score": "النتيجة",
+      "stage": "المرحلة",
+      "start": "التوقيت",
+      "status": "الحالة",
+      "tournament": "البطولة",
+      "venue": "الملعب"
+    },
+    "standings": {
+      "against": "عليه",
+      "diff": "+/-",
+      "draws": "ت",
+      "for": "له",
+      "losses": "خ",
+      "played": "لعب",
+      "points": "نقاط",
+      "rank": "#",
+      "team": "الفريق",
+      "wins": "ف"
+    },
+    "teams": {
+      "actions": "إجراءات",
+      "coach": "المدرب",
+      "group": "المجموعة",
+      "groupCode": "المجموعة",
+      "name": "الفريق",
+      "phone": "الهاتف",
+      "players": "اللاعبون",
+      "seed": "ترتيب",
+      "tournament": "البطولة",
+      "updated": "آخر تحديث"
+    },
+    "tournaments": {
+      "format": "النظام",
+      "sport": "الرياضة",
+      "status": "الحالة",
+      "title": "البطولات"
+    }
+  },
+  "table.matches.round": "الجولة",
+  "teams": {
+    "actions": {
+      "assign": "ربط",
+      "tournaments": "البطولات"
+    },
+    "addTitle": "إضافة فريق",
+    "coach": "المدرب",
+    "confirmDeletePlayer": "حذف اللاعب؟",
+    "confirmRemoveLink": "إزالة الفريق من البطولة؟",
+    "editTitle": "تعديل فريق",
+    "errors": {
+      "nameRequired": "اسم الفريق مطلوب",
+      "sportRequired": "الرياضة مطلوبة"
+    },
+    "fields": {
+      "createNewTeam": "إنشاء فريق جديد",
+      "existingTeam": "فريق موجود",
+      "groupCode": "المجموعة",
+      "logoUrl": "رابط الشعار",
+      "managerName": "المسؤول",
+      "managerPhone": "الهاتف",
+      "seed": "الترتيب",
+      "sport": "الرياضة",
+      "teamName": "اسم الفريق",
+      "tournament": "البطولة"
+    },
+    "group": "المجموعة",
+    "hint": {
+      "tournamentOptional": "اختياري: اتركه فارغاً لإنشاء الفريق فقط."
+    },
+    "modal": {
+      "title": "فريق"
+    },
+    "phone": "الهاتف",
+    "selectNoTournament": "بدون بطولة (فريق فقط)",
+    "selectSport": "اختَر الرياضة",
+    "selectTeam": "اختر فريقاً",
+    "teamName": "اسم الفريق",
+    "title": "الفرق",
+    "tournament": "البطولة",
+    "tournamentsModal": {
+      "colGroup": "المجموعة",
+      "colSeed": "التصنيف",
+      "colTournament": "البطولة",
+      "empty": "لا توجد مشاركات",
+      "title": "مشاركات الفريق"
+    }
+  },
+  "tournament": {
+    "addTitle": "إضافة بطولة",
+    "confirmRegen": "إعادة التوليد (حذف المباريات الحالية)",
+    "createFinalPlaceholder": "إنشاء نهائي (placeholder)",
+    "doubleRound": "ذهاب وإياب",
+    "editTitle": "تعديل البطولة",
+    "errors": {
+      "groupsCountRequired": "عدد المجموعات مطلوب.",
+      "qualifiedPerGroupRequired": "عدد المتأهلين من كل مجموعة مطلوب.",
+      "rulesMissing": "إعدادات البطولة ناقصة. عدّل البطولة واملأ عدد الفرق وإعدادات الفورما أولاً.",
+      "teamsCountRequired": "عدد الفرق مطلوب."
+    },
+    "fields": {
+      "byes": "الإعفاءات",
+      "endDate": "تاريخ النهاية",
+      "format": "النظام",
+      "legs": "الذهاب والإياب",
+      "name": "الاسم",
+      "pairing": "آلية المواجهات",
+      "pairingHint": "مثال: A1 ضد B2، B1 ضد A2...",
+      "qualifiedPerGroup": "المتأهلون من كل مجموعة",
+      "sport": "الرياضة",
+      "startDate": "تاريخ البداية",
+      "status": "الحالة",
+      "teamsCount": "عدد الفرق",
+      "thirdPlace": "مباراة المركز الثالث",
+      "groupsCount": "عدد المجموعات"
+    },
+    "finalsGenerated": "تم توليد الأدوار النهائية",
+    "generateFinals": "توليد الأدوار النهائية",
+    "generateSubtitle": "سيتم إنشاء المجموعات و/أو المباريات حسب نوع البطولة.",
+    "generateTitle": "توليد المجموعات والمباريات",
+    "groupsCount": "عدد المجموعات",
+    "hints": {
+      "pairingCrossExample": "CROSS: A1 ضد B2، B1 ضد A2 ...",
+      "roundsCount": "الجولات: {n}",
+      "roundsNeedTeams": "حدد عدد الفرق لحساب الجولات.",
+      "teamsCountHelp": "حدد عدد الفرق في هذه البطولة.",
+      "teamsCountOk": "الفرق: {n}",
+      "teamsPerGroup": "فرق/مجموعة: {n}",
+      "totalQualified": "إجمالي المتأهلين: {n}"
+    },
+    "modal": {
+      "title": "بطولة"
+    },
+    "noTeamsLinked": "لا توجد فرق مرتبطة بهذا الدوري.",
+    "rulesMissing": "قواعد الدوري غير موجودة أو غير صالحة.",
+    "matchesExistEnableRegen": "كاينين ماتشات ديجا. فعّل إعادة التوليد باش تكمل.",
+    "placeholders": {
+      "name": "اسم الدوري",
+      "teamsCount": "مثال: 16",
+      "groupsCount": "مثال: 4",
+      "qualifiedPerGroup": "مثال: 2"
+    }
+  },
+  "matchDetails": {
+    "title": "تفاصيل المباراة",
+    "notes": "ملاحظات",
+    "saveNotes": "حفظ الملاحظات",
+    "notesPlaceholder": "اكتب ملاحظات المباراة هنا...",
+    "notFound": "ما لقيناش هاد المباراة."
+  }
+}

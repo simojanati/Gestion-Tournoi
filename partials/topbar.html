@@ -1,0 +1,65 @@
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+    <a class="nav-item nav-link px-0 me-xl-4 layout-menu-toggle menu-link" href="javascript:void(0)">
+      <i class="bx bx-menu bx-sm"></i>
+    </a>
+  </div>
+
+  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+    <!-- Search -->
+    <div class="navbar-nav align-items-center gt-topbar-search">
+      <div class="nav-item d-flex align-items-center gt-search-row">
+        <i class="bx bx-search fs-4 lh-0"></i>
+        <input type="text" class="form-control border-0 shadow-none" data-i18n-placeholder="common.search" placeholder="Search" aria-label="Search" />
+      </div>
+    </div>
+
+    <!-- Actions (language + profile) - keep them always adjacent -->
+    <div class="gt-topbar-actions d-flex align-items-center">
+      <!-- Lang -->
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown" aria-label="Language">
+          <i class="bx bx-globe"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#" data-gt-lang="fr">FR</a></li>
+          <li><a class="dropdown-item" href="#" data-gt-lang="en">EN</a></li>
+          <li><a class="dropdown-item" href="#" data-gt-lang="ar">AR</a></li>
+        </ul>
+      </div>
+
+      <!-- User -->
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" aria-label="Profile">
+          <div class="avatar avatar-online">
+            <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+          </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" href="javascript:void(0);">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar avatar-online">
+                    <img src="assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <span class="fw-semibold d-block" data-gt="userName">User</span>
+                  <small class="text-muted" data-gt="userRole">ROLE</small>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li><div class="dropdown-divider"></div></li>
+          <li>
+            <a class="dropdown-item" href="#" data-gt-action="logout">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle" data-i18n="nav.logout">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

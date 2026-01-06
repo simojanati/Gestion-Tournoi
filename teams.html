@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html class="light-style layout-menu-fixed" data-assets-path="assets/" data-template="vertical-menu-template-free" data-theme="theme-default" dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Teams</title>
+<meta content="" name="description"/>
+<!-- Favicon -->
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons. Uncomment required icon fonts -->
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<!-- Core CSS -->
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+<!-- Page CSS -->
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="assets/js/config.js"></script>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+<div id="gtSidebarHost"></div>
+<div class="layout-page">
+<div id="gtTopbarHost"></div>
+<div class="content-wrapper">
+<div class="container-xxl flex-grow-1 container-p-y">
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light" data-i18n="nav.teams">Teams</span>
+</h4>
+
+<div class="card">
+  <div class="card-header">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-3 align-items-center">
+      <div class="btn-group" role="group" aria-label="Teams view">
+        <button id="btnViewParticipants" type="button" class="btn btn-sm btn-outline-primary active" data-i18n="common.participants">Participants</button>
+        <button id="btnViewCatalog" type="button" class="btn btn-sm btn-outline-primary" data-i18n="common.catalog">Catalogue</button>
+      </div>
+
+      <div id="teamsControlsParticipants" class="d-flex flex-wrap gap-2 align-items-center">
+        <label class="form-label mb-0 me-2" data-i18n="common.filterTournament">Tournament</label>
+        <select id="teamsTournamentFilter" class="form-select form-select-sm" style="min-width: 220px;"></select>
+        <button id="btnTeamsRefresh" class="btn btn-sm btn-outline-primary">
+          <i class="bx bx-refresh me-1"></i><span data-i18n="common.refresh">Refresh</span>
+        </button>
+      </div>
+
+      <div id="teamsControlsCatalog" class="d-none d-flex flex-wrap gap-2 align-items-center">
+        <label class="form-label mb-0 me-2" data-i18n="teams.fields.sport">Sport</label>
+        <select id="teamsSportFilter" class="form-select form-select-sm" style="min-width: 160px;"></select>
+        <input id="teamsSearch" class="form-control form-control-sm" style="min-width: 240px;" type="text" data-i18n-placeholder="common.search" placeholder="Search">
+        <button id="btnTeamsCatalogRefresh" class="btn btn-sm btn-outline-primary">
+          <i class="bx bx-refresh me-1"></i><span data-i18n="common.refresh">Refresh</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button id="btnTeamsAdd" class="btn btn-sm btn-primary">
+        <i class="bx bx-plus me-1"></i><span data-i18n="common.add">Add</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+  <div class="card-body">
+    <div id="teamsAlert" class="mb-3"></div>
+    <div id="teamsParticipantsWrap" class="table-responsive text-nowrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th data-i18n="table.teams.tournament">Tournament</th>
+        <th data-i18n="table.teams.name">Team</th>
+        <th data-i18n="table.teams.groupCode">Group</th>
+        <th data-i18n="table.teams.seed">Seed</th>
+        <th data-i18n="table.teams.players">Players</th>
+        <th data-i18n="table.teams.coach">Coach</th>
+        <th data-i18n="table.teams.phone">Phone</th>
+        <th data-i18n="table.teams.updated">Updated</th>
+        <th data-i18n="common.actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tblTeams"></tbody>
+  </table>
+</div>
+
+<div id="teamsCatalogWrap" class="d-none">
+  <div class="table-responsive text-nowrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th data-i18n="table.tournaments.sport">Sport</th>
+          <th data-i18n="table.teams.name">Team</th>
+          <th data-i18n="table.teams.coach">Coach</th>
+          <th data-i18n="table.teams.phone">Phone</th>
+          <th data-i18n="table.teams.players">Players</th>
+          <th data-i18n="table.teams.updated">Updated</th>
+          <th data-i18n="common.actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tblTeamsCatalog"></tbody>
+    </table>
+  </div>
+</div>
+<!-- Team Modal -->
+<div class="modal fade" id="teamModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="teams.modal.title">Team</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="teamForm" class="row g-3">
+          <input type="hidden" id="ttId"/>
+          <input type="hidden" id="teamIdHidden"/>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="teams.fields.tournament">Tournament</label>
+            <select id="teamTournamentId" class="form-select"></select>
+            <div class="form-text" data-i18n="teams.hint.tournamentOptional">Optional: leave empty to create team only.</div>
+          </div>
+
+          <div class="col-12 col-md-6 newTeamOnly">
+            <label class="form-label" data-i18n="teams.fields.sport">Sport</label>
+            <select id="teamSport" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6 d-flex align-items-end">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="chkCreateNewTeam">
+              <label class="form-check-label" for="chkCreateNewTeam" data-i18n="teams.fields.createNewTeam">Create new team</label>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6" id="existingTeamBlock">
+            <label class="form-label" data-i18n="teams.fields.existingTeam">Existing team</label>
+            <select id="existingTeamId" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="teams.fields.groupCode">Group</label>
+            <select id="ttGroupCode" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="teams.fields.seed">Seed</label>
+            <input id="ttSeed" type="number" class="form-control" min="1" placeholder="1">
+          </div>
+
+          <div class="col-12"><hr/></div>
+
+          <div class="col-12 col-md-6 newTeamOnly">
+            <label class="form-label" data-i18n="teams.fields.teamName">Team name</label>
+            <input id="teamName" type="text" class="form-control" placeholder="Team A">
+          </div>
+
+          <div class="col-12 col-md-6 newTeamOnly">
+            <label class="form-label" data-i18n="teams.fields.logoUrl">Logo URL</label>
+            <input id="teamLogoUrl" type="url" class="form-control" placeholder="https://...">
+          </div>
+
+          <div class="col-12 col-md-6 newTeamOnly">
+            <label class="form-label" data-i18n="teams.fields.managerName">Manager name</label>
+            <input id="teamManagerName" type="text" class="form-control" placeholder="Name">
+          </div>
+
+          <div class="col-12 col-md-6 newTeamOnly">
+            <label class="form-label" data-i18n="teams.fields.managerPhone">Manager phone</label>
+            <input id="teamManagerPhone" type="text" class="form-control" placeholder="+212...">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.cancel">Cancel</button>
+        <button class="btn btn-primary" id="btnTeamSave" type="button" data-i18n="common.save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Roster Modal -->
+<div class="modal fade" id="rosterModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <span data-i18n="common.roster">Roster</span> —
+          <span class="fw-semibold" id="rosterTeamName">Team</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card mb-3">
+        <div class="card-body">
+            <div class="row g-2 align-items-end">
+              <input type="hidden" id="playerId">
+              <input type="hidden" id="playerTeamId">
+
+              
+              <div class="col-12 col-md-3">
+                <label class="form-label" data-i18n="players.firstName">First name</label>
+                <input class="form-control" id="playerFirstName" type="text">
+              </div>
+              <div class="col-12 col-md-3">
+                <label class="form-label" data-i18n="players.lastName">Last name</label>
+                <input class="form-control" id="playerLastName" type="text">
+              </div>
+              <div class="col-12 col-md-2">
+                <label class="form-label" data-i18n="players.jerseyNumber">Jersey #</label>
+                <input class="form-control" id="playerJerseyNumber" type="number" min="0">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label" data-i18n="players.phone">Phone</label>
+                <input class="form-control" id="playerPhone" type="text">
+              </div>
+<div class="col-12 d-flex gap-2 justify-content-end">
+                <button class="btn btn-outline-secondary" id="btnPlayerClear" type="button" data-i18n="common.clear">Clear</button>
+                <button class="btn btn-primary" id="btnPlayerSave" type="button" data-i18n="common.save">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th data-i18n="players.firstName">First name</th>
+                <th data-i18n="players.lastName">Last name</th>
+                <th data-i18n="players.jerseyNumber">Jersey #</th>
+                <th data-i18n="players.phone">Phone</th>
+                <th data-i18n="common.actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tblRoster"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/vendor/libs/jquery/jquery.js"></script>
+<script src="assets/vendor/libs/popper/popper.js"></script>
+<script src="assets/vendor/js/bootstrap.js"></script>
+<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="assets/vendor/js/menu.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/include.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<!-- Team Tournaments Modal -->
+<div class="modal fade" id="teamTournamentsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <span data-i18n="teams.tournamentsModal.title">Participations</span>
+          <span class="text-muted">-</span>
+          <span id="teamTournamentsTeamName"></span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th data-i18n="teams.tournamentsModal.colTournament">Tournament</th>
+                <th data-i18n="table.tournaments.sport">Sport</th>
+                <th data-i18n="table.tournaments.format">Format</th>
+                <th data-i18n="table.tournaments.status">Status</th>
+                <th data-i18n="teams.tournamentsModal.colGroup">Group</th>
+                <th data-i18n="teams.tournamentsModal.colSeed">Seed</th>
+              </tr>
+            </thead>
+            <tbody id="tblTeamTournaments"></tbody>
+          </table>
+        </div>
+        <div id="teamTournamentsEmpty" class="text-muted small d-none" data-i18n="teams.tournamentsModal.empty">
+          No participations
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(async function() {
+  await GT_i18n.load(GT_i18n.currentLang());
+  GT_auth.requireAuth();
+  await GT_bootAppLayout();
+
+  const SHEET = GT_CONST.sheets;
+
+  const tbody = document.getElementById("tblTeams");
+  const filterSel = document.getElementById("teamsTournamentFilter");
+  const btnRefresh = document.getElementById("btnTeamsRefresh");
+  const btnAdd = document.getElementById("btnTeamsAdd");
+
+  const btnViewParticipants = document.getElementById("btnViewParticipants");
+  const btnViewCatalog = document.getElementById("btnViewCatalog");
+
+  const participantsWrap = document.getElementById("teamsParticipantsWrap");
+  const catalogWrap = document.getElementById("teamsCatalogWrap");
+  const controlsParticipants = document.getElementById("teamsControlsParticipants");
+  const controlsCatalog = document.getElementById("teamsControlsCatalog");
+
+  const sportFilterEl = document.getElementById("teamsSportFilter");
+  const searchEl = document.getElementById("teamsSearch");
+  const btnCatalogRefresh = document.getElementById("btnTeamsCatalogRefresh");
+  const catalogTbody = document.getElementById("tblTeamsCatalog");
+
+  let viewMode = "participants";
+
+  const teamModalEl = document.getElementById("teamModal");
+  const teamModal = teamModalEl ? new bootstrap.Modal(teamModalEl) : null;
+  const btnTeamSave = document.getElementById("btnTeamSave");
+
+  const rosterModalEl = document.getElementById("rosterModal");
+  const rosterModal = rosterModalEl ? new bootstrap.Modal(rosterModalEl) : null;
+  const rosterTeamNameEl = document.getElementById("rosterTeamName");
+  const rosterTbody = document.getElementById("tblRoster");
+
+  // team tournaments modal
+  const teamTournamentsModalEl = document.getElementById("teamTournamentsModal");
+  const teamTournamentsModal = teamTournamentsModalEl ? new bootstrap.Modal(teamTournamentsModalEl) : null;
+  const teamTournamentsTeamNameEl = document.getElementById("teamTournamentsTeamName");
+  const teamTournamentsTbody = document.getElementById("tblTeamTournaments");
+  const teamTournamentsEmptyEl = document.getElementById("teamTournamentsEmpty");
+
+
+  const ttIdEl = document.getElementById("ttId");
+  const teamIdHiddenEl = document.getElementById("teamIdHidden");
+  const teamTournamentIdEl = document.getElementById("teamTournamentId");
+  const teamSportEl = document.getElementById("teamSport");
+  const chkCreateNewTeamEl = document.getElementById("chkCreateNewTeam");
+  const existingTeamBlock = document.getElementById("existingTeamBlock");
+  const existingTeamIdEl = document.getElementById("existingTeamId");
+  const ttGroupCodeEl = document.getElementById("ttGroupCode");
+  const ttSeedEl = document.getElementById("ttSeed");
+
+  const teamNameEl = document.getElementById("teamName");
+  const teamLogoUrlEl = document.getElementById("teamLogoUrl");
+  const teamManagerNameEl = document.getElementById("teamManagerName");
+  const teamManagerPhoneEl = document.getElementById("teamManagerPhone");
+
+  // players form
+  const playerIdEl = document.getElementById("playerId");
+  const playerTeamIdEl = document.getElementById("playerTeamId");
+  const playerFirstNameEl = document.getElementById("playerFirstName");
+  const playerLastNameEl = document.getElementById("playerLastName");
+  const playerJerseyEl = document.getElementById("playerJerseyNumber");
+  const playerPhoneEl = document.getElementById("playerPhone");
+  const btnPlayerSave = document.getElementById("btnPlayerSave");
+  const btnPlayerClear = document.getElementById("btnPlayerClear");
+
+  let tournaments = [];
+  let teams = [];
+  let tournamentTeams = [];
+  let players = [];
+
+  // Helpers for "team catalogue per sport".
+  // These must be in the outer scope (not inside loadAll) because openAdd/openEdit use them.
+  function tournamentSport(tid) {
+    const t = tournaments.find(x => String(x.id) === String(tid));
+    return t ? String(t.sport || "").trim().toUpperCase() : "";
+  }
+
+  function teamsForTournamentSport(tid) {
+    // If a tournament is selected, filter teams by its sport.
+    // Otherwise, when creating a team, allow filtering by the selected sport in the modal.
+    const spTid = tournamentSport(tid);
+    const spSel = teamSportEl ? String(teamSportEl.value || "").trim().toUpperCase() : "";
+    const sp = spTid || spSel;
+    return sp ? teams.filter(tm => String(tm.sport || "").trim().toUpperCase() === sp) : teams;
+  }
+
+  function refillExistingTeamsForTid(tid, keepTeamId = null) {
+    const list = teamsForTournamentSport(tid);
+    const prev = keepTeamId !== null ? String(keepTeamId || "") : String(existingTeamIdEl?.value || "");
+    fillSelect(existingTeamIdEl, list, "id", t => t.name, "teams.selectTeam");
+    if (prev && list.some(x => String(x.id) === prev)) {
+      existingTeamIdEl.value = prev;
+    }
+    return list;
+  }
+
+  function safe(v) { return (v === null || v === undefined) ? "" : String(v); }
+  function esc(s) { return safe(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function toastOk(msg){ GT_ui.toast(msg, "success"); }
+  function toastErr(err){
+    const msg = (err && (err.message || err.error)) ? (err.message || err.error) : String(err);
+    GT_ui.toast(msg, "danger");
+  }
+
+  function fillSelect(selectEl, list, valueKey, labelFn, placeholderKey) {
+    const ph = placeholderKey ? GT_i18n.t(placeholderKey) : "";
+    selectEl.innerHTML = (placeholderKey ? `<option value="">${esc(ph)}</option>` : "") +
+      list.map(x => `<option value="${esc(x[valueKey])}">${esc(labelFn(x))}</option>`).join("");
+  }
+
+  function tournamentName(id){
+    const t = tournaments.find(x => String(x.id) === String(id));
+    return t ? t.name : id;
+  }
+
+  function teamById(id){
+    return teams.find(t => String(t.id) === String(id));
+  }
+
+  function playersCountMap(){
+    const map = {};
+    players.forEach(p => {
+      const tid = String(p.teamId || "");
+      if (!tid) return;
+      map[tid] = (map[tid] || 0) + 1;
+    });
+    return map;
+  }
+
+  function initGroupCodeSelect(selectEl, current) {
+    const opts = [`<option value="">—</option>`]
+      .concat(GT_CONST.groupCodes.map(g => `<option value="${g}">${g}</option>`));
+    selectEl.innerHTML = opts.join("");
+    if (current !== undefined && current !== null) selectEl.value = String(current);
+  }
+
+  function toggleLinkFields(hasTournament) {
+    ttGroupCodeEl.disabled = !hasTournament;
+    ttSeedEl.disabled = !hasTournament;
+  }
+
+  function toggleCreateNew(isNew) {
+    document.querySelectorAll(".newTeamOnly").forEach(el => el.style.display = isNew ? "" : "none");
+    existingTeamBlock.style.display = isNew ? "none" : "";
+  }
+
+  function renderParticipants() {
+    const tid = filterSel.value;
+    const mapCount = playersCountMap();
+
+    const ttRows = tid ? tournamentTeams.filter(tt => String(tt.tournamentId) === String(tid)) : tournamentTeams;
+
+    tbody.innerHTML = ttRows.map(tt => {
+      const team = teamById(tt.teamId) || {};
+      const count = mapCount[String(tt.teamId)] || 0;
+
+      return `
+        <tr>
+          <td class="text-muted">${esc(tournamentName(tt.tournamentId))}</td>
+          <td class="fw-semibold">${esc(team.name || "")}</td>
+          <td>${esc(tt.groupCode || "")}</td>
+          <td>${esc(tt.seed || "")}</td>
+          <td><span class="badge bg-label-info">${count}</span></td>
+          <td>${esc(team.coachName || "")}</td>
+          <td>${esc(team.phone || "")}</td>
+          <td class="text-muted">${esc(team.updatedAt || tt.updatedAt || "")}</td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" data-act="roster" data-team="${esc(tt.teamId)}" data-tt="${esc(tt.id)}">
+              <i class="bx bx-user"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" data-act="edit" data-tt="${esc(tt.id)}">
+              <i class="bx bx-edit-alt"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" data-act="remove" data-tt="${esc(tt.id)}">
+              <i class="bx bx-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    GT_i18n.apply(document);
+  }
+
+
+    function renderCatalog() {
+    if (!catalogTbody) return;
+
+    const q = (searchEl && searchEl.value) ? String(searchEl.value).trim().toLowerCase() : "";
+    const sp = (sportFilterEl && sportFilterEl.value) ? String(sportFilterEl.value).trim().toUpperCase() : "";
+
+    const mapCount = playersCountMap();
+    let list = teams.slice();
+
+    if (sp) list = list.filter(tm => String(tm.sport || "").trim().toUpperCase() === sp);
+
+    if (q) {
+      list = list.filter(tm => {
+        const hay = [tm.name, tm.coachName, tm.phone, tm.sport]
+          .filter(Boolean)
+          .map(x => String(x).toLowerCase())
+          .join(" ");
+        return hay.includes(q);
+      });
+    }
+
+    // stable sort: by sport then name
+    list.sort((a, b) => {
+      const sa = String(a.sport || "").toUpperCase();
+      const sb = String(b.sport || "").toUpperCase();
+      if (sa !== sb) return sa.localeCompare(sb);
+      return String(a.name || "").localeCompare(String(b.name || ""));
+    });
+
+    catalogTbody.innerHTML = list.map(tm => {
+      const sportVal = String(tm.sport || "").trim().toUpperCase();
+      const sportLabel = GT_i18n.t(`sport.${sportVal}`, null, true) || sportVal;
+
+      const count = mapCount[String(tm.id)] || 0;
+
+      return `
+        <tr>
+          <td class="text-muted">${esc(sportLabel)}</td>
+          <td class="fw-semibold">${esc(tm.name || "")}</td>
+          <td>${esc(tm.coachName || "")}</td>
+          <td>${esc(tm.phone || "")}</td>
+          <td><span class="badge bg-label-info">${count}</span></td>
+          <td class="text-muted">${esc(tm.updatedAt || "")}</td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" data-act="assign" data-team="${esc(tm.id)}" data-i18n-title="teams.actions.assign" title="Assign">
+              <i class="bx bx-link"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" data-act="teamTournaments" data-team="${esc(tm.id)}" data-i18n-title="teams.actions.tournaments" title="Tournaments">
+              <i class="bx bx-trophy"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" data-act="rosterTeam" data-team="${esc(tm.id)}" data-i18n-title="common.players" title="Roster">
+              <i class="bx bx-user"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" data-act="editTeam" data-team="${esc(tm.id)}" data-i18n-title="common.edit" title="Edit">
+              <i class="bx bx-edit"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    // Apply i18n tooltips (data-i18n-title) if present
+    GT_i18n.apply(catalogWrap);
+  }
+
+  function render() {
+    if (viewMode === "catalog") return renderCatalog();
+    return renderParticipants();
+  }
+
+  function setView(mode) {
+    viewMode = mode;
+    const isCatalog = mode === "catalog";
+
+    if (btnViewParticipants) btnViewParticipants.classList.toggle("active", !isCatalog);
+    if (btnViewCatalog) btnViewCatalog.classList.toggle("active", isCatalog);
+
+    if (controlsParticipants) controlsParticipants.classList.toggle("d-none", isCatalog);
+    if (controlsCatalog) controlsCatalog.classList.toggle("d-none", !isCatalog);
+
+    if (participantsWrap) participantsWrap.classList.toggle("d-none", isCatalog);
+    if (catalogWrap) catalogWrap.classList.toggle("d-none", !isCatalog);
+
+    render();
+  }
+
+  async function loadAll() {
+    const prevTid = filterSel ? String(filterSel.value || "") : "";
+    const prevSport = sportFilterEl ? String(sportFilterEl.value || "") : "";
+    const [tRes, teamRes, ttRes, pRes] = await Promise.all([
+      GT_api.list(SHEET.Tournaments),
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.TournamentTeams),
+      GT_api.list(SHEET.Players)
+    ]);
+
+    tournaments = tRes.rows || [];
+    teams = teamRes.rows || [];
+    tournamentTeams = ttRes.rows || [];
+    players = pRes.rows || [];
+
+    fillSelect(filterSel, tournaments, "id", t => t.name, "common.all");
+    if (prevTid && [...filterSel.options].some(o => o.value === prevTid)) filterSel.value = prevTid;
+    else filterSel.value = "";
+
+    // Tournament selection is optional in the modal (team catalogue is global).
+    fillSelect(teamTournamentIdEl, tournaments, "id", t => t.name, "teams.selectNoTournament");
+
+    // Sport lists (GT_CONST.sports can be either strings or objects like {value:"FOOTBALL"})
+    const SPORT_VALUES = (GT_CONST.sports || []).map(s => (typeof s === "string" ? s : (s && s.value))).filter(Boolean);
+
+    // Sport selection for creating/editing a team in the catalogue
+    if (teamSportEl) {
+      teamSportEl.innerHTML = `<option value="">${esc(GT_i18n.t("teams.selectSport"))}</option>` +
+        SPORT_VALUES.map(v => `<option value="${esc(v)}">${esc(GT_i18n.t(`sport.${v}`, null, true) || v)}</option>`).join("");
+    }
+    if (sportFilterEl) {
+      sportFilterEl.innerHTML = `<option value="">${esc(GT_i18n.t("common.all"))}</option>` +
+        SPORT_VALUES.map(v => `<option value="${esc(v)}">${esc(GT_i18n.t(`sport.${v}`, null, true) || v)}</option>`).join("");
+      if (prevSport && [...sportFilterEl.options].some(o => o.value === prevSport)) sportFilterEl.value = prevSport;
+    }
+
+    fillSelect(existingTeamIdEl, teams, "id", t => t.name, "teams.selectTeam");
+    initGroupCodeSelect(ttGroupCodeEl, "");
+
+    render();
+  }
+
+  function openAdd() {
+    ttIdEl.value = "";
+    if (teamIdHiddenEl) teamIdHiddenEl.value = "";
+
+    const isCatalog = viewMode === "catalog";
+
+    // In catalog view: create a team in the catalogue (no tournament link required)
+    if (isCatalog) {
+      teamTournamentIdEl.value = "";
+      toggleLinkFields(false);
+
+      chkCreateNewTeamEl.checked = true;
+      toggleCreateNew(true);
+
+      if (teamSportEl) teamSportEl.value = "";
+      existingTeamIdEl.value = "";
+      initGroupCodeSelect(ttGroupCodeEl, "");
+      ttSeedEl.value = "";
+
+      teamNameEl.value = "";
+      teamLogoUrlEl.value = "";
+      teamManagerNameEl.value = "";
+      teamManagerPhoneEl.value = "";
+
+      teamModal.show();
+      GT_i18n.apply(teamModalEl);
+      return;
+    }
+
+    // Participants view: link an existing team (or create + link) to the selected tournament
+    chkCreateNewTeamEl.checked = false;
+    toggleCreateNew(false);
+
+    const tid = filterSel.value || (tournaments[0] ? tournaments[0].id : "");
+    teamTournamentIdEl.value = tid || "";
+    toggleLinkFields(Boolean(teamTournamentIdEl.value));
+
+    // Preselect sport based on tournament (if any)
+    if (teamSportEl) {
+      const sp = tournamentSport(teamTournamentIdEl.value);
+      teamSportEl.value = sp || "";
+    }
+
+    const list = refillExistingTeamsForTid(tid);
+    existingTeamIdEl.value = list[0] ? list[0].id : "";
+    initGroupCodeSelect(ttGroupCodeEl, "");
+    ttSeedEl.value = "";
+
+    teamNameEl.value = "";
+    teamLogoUrlEl.value = "";
+    teamManagerNameEl.value = "";
+    teamManagerPhoneEl.value = "";
+
+    teamModal.show();
+    GT_i18n.apply(teamModalEl);
+  }
+
+  function openEdit(ttId) {
+    const tt = tournamentTeams.find(x => String(x.id) === String(ttId));
+    if (!tt) return;
+
+    ttIdEl.value = tt.id;
+    chkCreateNewTeamEl.checked = false;
+    toggleCreateNew(false);
+
+    teamTournamentIdEl.value = tt.tournamentId;
+    toggleLinkFields(Boolean(teamTournamentIdEl.value));
+    if (teamSportEl) {
+      const team = teamById(tt.teamId) || {};
+      const sp = String(team.sport || tournamentSport(tt.tournamentId) || "").trim().toUpperCase();
+      teamSportEl.value = sp;
+    }
+    const list = refillExistingTeamsForTid(tt.tournamentId);
+    existingTeamIdEl.value = tt.teamId;
+
+    initGroupCodeSelect(ttGroupCodeEl, tt.groupCode || "");
+    ttSeedEl.value = tt.seed || "";
+
+    // team fields (catalogue)
+    const team = teamById(tt.teamId) || {};
+    if (teamSportEl) teamSportEl.value = String(team.sport || "").trim().toUpperCase();
+    teamNameEl.value = team.name || "";
+    teamLogoUrlEl.value = team.logoUrl || "";
+    teamManagerNameEl.value = team.coachName || "";
+    teamManagerPhoneEl.value = team.phone || "";
+
+    teamModal.show();
+    GT_i18n.apply(teamModalEl);
+  }
+
+
+  function openEditTeam(teamId) {
+    const team = teamById(teamId);
+    if (!team) return;
+
+    ttIdEl.value = "";
+    if (teamIdHiddenEl) teamIdHiddenEl.value = team.id;
+
+    teamTournamentIdEl.value = "";
+    toggleLinkFields(false);
+
+    chkCreateNewTeamEl.checked = true;
+    toggleCreateNew(true);
+
+    if (teamSportEl) teamSportEl.value = String(team.sport || "").trim().toUpperCase();
+    initGroupCodeSelect(ttGroupCodeEl, "");
+    ttSeedEl.value = "";
+
+    teamNameEl.value = team.name || "";
+    teamLogoUrlEl.value = team.logoUrl || "";
+    teamManagerNameEl.value = team.coachName || "";
+    teamManagerPhoneEl.value = team.phone || "";
+
+    teamModal.show();
+    GT_i18n.apply(teamModalEl);
+  }
+
+    function openTeamTournaments(teamId) {
+    if (!teamTournamentsModal || !teamTournamentsTbody) return;
+
+    const team = teams.find(t => String(t.id) === String(teamId));
+    if (teamTournamentsTeamNameEl) teamTournamentsTeamNameEl.textContent = team ? (team.name || "") : "";
+
+    const links = (tournamentTeams || []).filter(tt => String(tt.teamId) === String(teamId));
+    if (!links.length) {
+      teamTournamentsTbody.innerHTML = "";
+      if (teamTournamentsEmptyEl) teamTournamentsEmptyEl.classList.remove("d-none");
+      GT_i18n.apply(teamTournamentsModalEl);
+      teamTournamentsModal.show();
+      return;
+    }
+    if (teamTournamentsEmptyEl) teamTournamentsEmptyEl.classList.add("d-none");
+
+    const rows = links.map(tt => {
+      const t = tournaments.find(x => String(x.id) === String(tt.tournamentId));
+      const tName = t ? (t.name || "") : tt.tournamentId;
+      const sportVal = t ? String(t.sport || "").trim().toUpperCase() : "";
+      const sportLabel = sportVal ? (GT_i18n.t(`sport.${sportVal}`, null, true) || sportVal) : "";
+      const fmt = t ? (t.format || "") : "";
+      const st = t ? (t.status || "") : "";
+      const groupCode = tt.groupCode || "";
+      const seed = tt.seed || "";
+      return `
+        <tr>
+          <td class="fw-semibold">${esc(tName)}</td>
+          <td class="text-muted">${esc(sportLabel)}</td>
+          <td>${GT_ui.formatChip(fmt)}</td>
+          <td>${GT_ui.statusBadge(st)}</td>
+          <td>${esc(groupCode)}</td>
+          <td>${esc(seed)}</td>
+        </tr>
+      `;
+    });
+
+    teamTournamentsTbody.innerHTML = rows.join("");
+    GT_i18n.apply(teamTournamentsModalEl);
+    teamTournamentsModal.show();
+  }function openAssignTeam(teamId) {
+    const team = teamById(teamId);
+    if (!team) return;
+
+    ttIdEl.value = "";
+    if (teamIdHiddenEl) teamIdHiddenEl.value = "";
+
+    chkCreateNewTeamEl.checked = false;
+    toggleCreateNew(false);
+
+    // prefer currently selected tournament filter, otherwise leave empty and let user pick
+    const tid = filterSel.value || "";
+    teamTournamentIdEl.value = tid;
+    toggleLinkFields(Boolean(teamTournamentIdEl.value));
+
+    if (teamSportEl) teamSportEl.value = String(team.sport || "").trim().toUpperCase();
+
+    refillExistingTeamsForTid(teamTournamentIdEl.value);
+    existingTeamIdEl.value = team.id;
+
+    initGroupCodeSelect(ttGroupCodeEl, "");
+    ttSeedEl.value = "";
+
+    teamNameEl.value = team.name || "";
+    teamLogoUrlEl.value = team.logoUrl || "";
+    teamManagerNameEl.value = team.coachName || "";
+    teamManagerPhoneEl.value = team.phone || "";
+
+    teamModal.show();
+    GT_i18n.apply(teamModalEl);
+  }
+
+  
+  async function saveTeamAndLink() {
+    const isNew = chkCreateNewTeamEl.checked;
+    const tournamentId = (teamTournamentIdEl && teamTournamentIdEl.value) ? String(teamTournamentIdEl.value) : "";
+
+    const groupCode = ttGroupCodeEl.value || "";
+    const seed = ttSeedEl.value ? Number(ttSeedEl.value) : "";
+
+    let teamId = isNew ? "" : String(existingTeamIdEl.value || "");
+
+    // Create or update a team in the catalogue
+    if (isNew) {
+      const editTeamId = teamIdHiddenEl ? String(teamIdHiddenEl.value || "") : "";
+      const t = tournaments.find(x => String(x.id) === String(tournamentId));
+      const sport = (t && t.sport)
+        ? String(t.sport).trim().toUpperCase()
+        : String(teamSportEl ? (teamSportEl.value || "") : "").trim().toUpperCase();
+
+      const payload = {
+        id: editTeamId || undefined,
+        sport: sport || null,
+        name: teamNameEl.value.trim(),
+        coachName: teamManagerNameEl.value.trim() || null,
+        phone: teamManagerPhoneEl.value.trim() || null
+      };
+      if (!payload.sport) throw new Error(GT_i18n.t("teams.errors.sportRequired", null, true) || "Sport required");
+      if (!payload.name) throw new Error(GT_i18n.t("teams.errors.nameRequired", null, true) || "Team name required");
+
+      const r = await GT_api.upsert(SHEET.Teams, payload);
+      teamId = editTeamId || r.id || r.keyVal || "";
+    }
+
+    if (!teamId) throw new Error("Team required");
+
+    // Link team to tournament only if a tournament is selected.
+    if (tournamentId) {
+      // Prevent duplicates inside the same tournament: (tournamentId + teamId)
+      const existing = tournamentTeams.find(x => String(x.tournamentId) === String(tournamentId) && String(x.teamId) === String(teamId));
+      const linkId = ttIdEl.value || (existing ? existing.id : undefined);
+
+      const ttPayload = {
+        id: linkId || undefined,
+        tournamentId,
+        teamId,
+        groupCode: groupCode || null,
+        seed: seed || null
+      };
+      await GT_api.upsert(SHEET.TournamentTeams, ttPayload);
+    }
+
+    teamModal.hide();
+    toastOk(GT_i18n.t("common.saved"));
+
+    // Refresh caches (local filtering is used on the page)
+    const [teamRes, ttRes] = await Promise.all([
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.TournamentTeams)
+    ]);
+    teams = teamRes.rows || [];
+    tournamentTeams = ttRes.rows || [];
+
+    // Refresh selects
+    fillSelect(existingTeamIdEl, teams, "id", t => t.name, "teams.selectTeam");
+
+    render();
+  }
+
+  async function removeLink(ttId) {
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("teams.confirmRemoveLink"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+    await GT_api.remove(SHEET.TournamentTeams, ttId);
+    toastOk(GT_i18n.t("common.deleted"));
+    const tid = filterSel.value;
+    const ttRes = await GT_api.list(SHEET.TournamentTeams);
+    tournamentTeams = ttRes.rows || [];
+    render();
+  }
+
+  function clearPlayerForm() {
+    playerIdEl.value = "";
+    playerFirstNameEl.value = "";
+    playerLastNameEl.value = "";
+    playerJerseyEl.value = "";
+    playerPhoneEl.value = "";
+  }
+
+  function renderRoster(teamId) {
+    const list = players.filter(p => String(p.teamId) === String(teamId));
+    rosterTbody.innerHTML = list.map(p => `
+      <tr>
+        <td>${esc(p.firstName || "")}</td>
+        <td>${esc(p.lastName || "")}</td>
+        <td>${esc(p.jerseyNumber || "")}</td>
+        <td>${esc(p.phone || "")}</td>
+        <td class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-secondary" data-act="pedit" data-id="${esc(p.id)}"><i class="bx bx-edit-alt"></i></button>
+          <button class="btn btn-sm btn-outline-danger" data-act="pdel" data-id="${esc(p.id)}"><i class="bx bx-trash"></i></button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function openRoster(teamId) {
+    const team = teamById(teamId) || {};
+    rosterTeamNameEl.textContent = team.name || "";
+    playerTeamIdEl.value = teamId;
+    clearPlayerForm();
+    renderRoster(teamId);
+    rosterModal.show();
+    GT_i18n.apply(rosterModalEl);
+  }
+
+  async function savePlayer() {
+    const teamId = playerTeamIdEl.value;
+    const payload = {
+      id: playerIdEl.value || undefined,
+      tournamentId: filterSel.value || undefined,
+      teamId,
+      firstName: playerFirstNameEl.value.trim(),
+      lastName: playerLastNameEl.value.trim(),
+      jerseyNumber: playerJerseyEl.value ? Number(playerJerseyEl.value) : null,
+      phone: playerPhoneEl.value.trim()
+    };
+    if (!payload.firstName && !payload.lastName) throw new Error("Player name required");
+    await GT_api.upsert(SHEET.Players, payload);
+    // reload players once
+    const pRes = await GT_api.list(SHEET.Players);
+    players = pRes.rows || [];
+    clearPlayerForm();
+    renderRoster(teamId);
+    render(); // update counts
+    toastOk(GT_i18n.t("common.saved"));
+  }
+
+  async function deletePlayer(id) {
+    const teamId = playerTeamIdEl.value;
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("teams.confirmDeletePlayer"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+    await GT_api.remove(SHEET.Players, id);
+    const pRes = await GT_api.list(SHEET.Players);
+    players = pRes.rows || [];
+    renderRoster(teamId);
+    render();
+    toastOk(GT_i18n.t("common.deleted"));
+  }
+
+  function editPlayer(id) {
+    const p = players.find(x => String(x.id) === String(id));
+    if (!p) return;
+    playerIdEl.value = p.id;
+    playerFirstNameEl.value = p.firstName || "";
+    playerLastNameEl.value = p.lastName || "";
+    playerJerseyEl.value = p.jerseyNumber || "";
+    playerPhoneEl.value = p.phone || "";
+  }
+
+  // events
+  chkCreateNewTeamEl.addEventListener("change", () => toggleCreateNew(chkCreateNewTeamEl.checked));
+
+  if (teamSportEl) {
+    teamSportEl.addEventListener("change", () => {
+      // When no tournament is selected, allow filtering the existing teams list by sport
+      if (!chkCreateNewTeamEl.checked) {
+      const keep = existingTeamIdEl ? existingTeamIdEl.value : "";
+      refillExistingTeamsForTid(teamTournamentIdEl.value, keep);
+    }
+    });
+  }
+
+  teamTournamentIdEl.addEventListener("change", () => {
+    toggleLinkFields(Boolean(teamTournamentIdEl.value));
+    // Keep sport in sync with selected tournament (if any)
+    if (teamSportEl) {
+      const sp = tournamentSport(teamTournamentIdEl.value);
+      if (sp) teamSportEl.value = sp;
+    }
+    if (!chkCreateNewTeamEl.checked) {
+      const keep = existingTeamIdEl ? existingTeamIdEl.value : "";
+      refillExistingTeamsForTid(teamTournamentIdEl.value, keep);
+    }
+  });
+
+  btnAdd.addEventListener("click", () => openAdd());
+  btnRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingText: GT_i18n.t("common.loading") }).catch(toastErr));
+  if (btnCatalogRefresh) btnCatalogRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnCatalogRefresh, loadAll, { loadingText: GT_i18n.t("common.loading") }).catch(toastErr));
+
+  if (btnViewParticipants) btnViewParticipants.addEventListener("click", () => setView("participants"));
+  if (btnViewCatalog) btnViewCatalog.addEventListener("click", () => setView("catalog"));
+
+  if (sportFilterEl) sportFilterEl.addEventListener("change", () => render());
+  if (searchEl) searchEl.addEventListener("input", () => render());
+
+  filterSel.addEventListener("change", () => { render(); });
+btnTeamSave.addEventListener("click", () =>
+    GT_ui.withOverlaySpinner(btnTeamSave, saveTeamAndLink, { loadingText: GT_i18n.t("common.saving") })
+      .catch(toastErr)
+  );
+
+  tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    if (act === "edit") openEdit(btn.getAttribute("data-tt"));
+    if (act === "remove") GT_ui.withOverlaySpinner(btn, () => removeLink(btn.getAttribute("data-tt")), { loadingText: GT_i18n.t("common.deleting") }).catch(toastErr);
+    if (act === "roster") openRoster(btn.getAttribute("data-team"));
+  });
+
+
+  if (catalogTbody) catalogTbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const teamId = btn.getAttribute("data-team");
+    if (act === "assign") openAssignTeam(teamId);
+    if (act === "editTeam") openEditTeam(teamId);
+    if (act === "rosterTeam") openRoster(teamId);
+    if (act === "teamTournaments") openTeamTournaments(teamId);
+  });
+
+  btnPlayerClear.addEventListener("click", clearPlayerForm);
+  btnPlayerSave.addEventListener("click", () =>
+    GT_ui.withOverlaySpinner(btnPlayerSave, savePlayer, { loadingText: GT_i18n.t("common.saving") }).catch(toastErr)
+  );
+
+  rosterTbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if (act === "pedit") editPlayer(id);
+    if (act === "pdel") GT_ui.withOverlaySpinner(btn, () => deletePlayer(id), { loadingText: GT_i18n.t("common.deleting") }).catch(toastErr);
+  });
+
+  // initial load
+  setView("participants");
+  await GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingText: GT_i18n.t("common.loading") });
+})();
+</script>

@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html class="light-style layout-menu-fixed" data-assets-path="assets/" data-template="vertical-menu-template-free" data-theme="theme-default" dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Tournaments</title>
+<meta content="" name="description"/>
+<!-- Favicon -->
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons. Uncomment required icon fonts -->
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<!-- Core CSS -->
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+<!-- Page CSS -->
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="assets/js/config.js"></script>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+<div id="gtSidebarHost"></div>
+<div class="layout-page">
+<div id="gtTopbarHost"></div>
+<div class="content-wrapper">
+<div class="container-xxl flex-grow-1 container-p-y">
+<h4 class="fw-bold py-3 mb-4">
+<span class="text-muted fw-light" data-i18n="nav.tournaments">Tournois</span>
+</h4>
+<div class="card">
+<div class="card-header d-flex flex-wrap gap-2 align-items-center justify-content-between">
+<div class="fw-semibold" data-i18n="table.tournaments.title">Tournois</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-primary" id="btnRefresh">
+<i class="bx bx-refresh me-2"></i><span data-i18n="common.refresh">Actualiser</span>
+</button>
+<button class="btn btn-primary" id="btnAdd">
+<i class="bx bx-plus me-2"></i><span data-i18n="common.add">Ajouter</span>
+</button>
+</div>
+</div>
+<div class="table-responsive">
+<table class="table">
+<thead>
+<tr>
+<th data-i18n="table.col.name">Nom</th>
+<th data-i18n="table.col.sport">Sport</th>
+<th data-i18n="table.col.format">Format</th>
+<th data-i18n="table.col.status">Statut</th>
+<th data-i18n="table.col.startDate">Début</th>
+<th data-i18n="table.col.endDate">Fin</th>
+<th data-i18n="table.col.location">Lieu</th>
+<th data-i18n="common.actions">Actions</th>
+</tr>
+</thead>
+<tbody id="tblTournaments"></tbody>
+</table>
+</div>
+</div>
+
+<!-- Tournament Modal -->
+<div class="modal fade" id="tournamentModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="tournament.modal.title">Tournament</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="tournamentForm" class="row g-3">
+          <input type="hidden" id="tournamentId" />
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.name">Name</label>
+            <input id="tournamentName" type="text" class="form-control" data-i18n-placeholder="tournament.placeholders.name" placeholder="Tournament name">
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.status">Status</label>
+            <select id="tournamentStatus" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.sport">Sport</label>
+            <select id="tournamentSport" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.format">Format</label>
+            <select id="tournamentFormat" class="form-select"></select>
+            <div class="form-text" id="formatHint"></div>
+          
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.teamsCount">Teams count</label>
+            <input id="tournamentTeamsCount" type="number" min="2" step="1" class="form-control" data-i18n-placeholder="tournament.placeholders.teamsCount" placeholder="e.g. 16">
+            <div class="form-text" id="teamsCountHint"></div>
+          </div>
+
+          <!-- Format configuration (saved in rulesJson) -->
+          <div class="col-12" id="formatConfigWrap">
+
+            <div class="row g-3" id="configChampionnat" style="display:none;">
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.legs">Legs</label>
+                <select id="championnatLegs" class="form-select">
+                  <option value="2">2</option>
+                  <option value="1">1</option>
+                </select>
+                <div class="form-text" id="championnatRoundsHint"></div>
+              </div>
+            </div>
+
+            <div class="row g-3" id="configGroupsFinals" style="display:none;">
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.groupsCount">Groups count</label>
+                <input id="groupsCount" type="number" min="2" step="1" class="form-control" data-i18n-placeholder="tournament.placeholders.groupsCount" placeholder="e.g. 4">
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.qualifiedPerGroup">Qualified per group</label>
+                <input id="qualifiedPerGroup" type="number" min="1" step="1" class="form-control" data-i18n-placeholder="tournament.placeholders.qualifiedPerGroup" placeholder="e.g. 2">
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.legs">Legs</label>
+                <select id="groupsLegs" class="form-select">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.pairing">Pairing</label>
+                <select id="pairingRule" class="form-select">
+                  <option value="CROSS">CROSS</option>
+                </select>
+                <div class="form-text" data-i18n="tournament.fields.pairingHint">Example: A1 vs B2, B1 vs A2...</div>
+              </div>
+              <div class="col-12">
+                <div class="alert alert-info mb-0" id="groupsPreview"></div>
+              </div>
+            </div>
+
+            <div class="row g-3" id="configKnockout" style="display:none;">
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.byes">Byes</label>
+                <select id="knockoutByes" class="form-select">
+                  <option value="AUTO">AUTO</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="tournament.fields.thirdPlace">Third-place match</label>
+                <select id="knockoutThirdPlace" class="form-select">
+                  <option value="false">false</option>
+                  <option value="true">true</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+</div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.startDate">Start date</label>
+            <input id="tournamentStartDate" type="date" class="form-control">
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="tournament.fields.endDate">End date</label>
+            <input id="tournamentEndDate" type="date" class="form-control">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.cancel">Cancel</button>
+        <button class="btn btn-primary" id="btnTournamentSave" type="button" data-i18n="common.save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Generate Modal -->
+<div class="modal fade" id="generateModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="tournament.generateTitle">Generate groups & matches</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="genTournamentId">
+        <div class="mb-2 text-muted" data-i18n="tournament.generateSubtitle">This will create groups and/or matches based on the tournament format.</div>
+
+        <div class="alert alert-warning d-none" id="genWarn"></div>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <div id="genFormatPreview"></div>
+          </div>
+
+          <div class="col-12 col-md-6" id="genGroupsBlock">
+            <label class="form-label" data-i18n="tournament.groupsCount">Number of groups</label>
+            <input class="form-control" id="genGroupsCount" type="number" min="2" max="8" value="2">
+          </div>
+
+          <div class="col-12 col-md-6" id="genDoubleRoundBlock">
+            <div class="form-check mt-4">
+              <input class="form-check-input" type="checkbox" id="genDoubleRound">
+              <label class="form-check-label" for="genDoubleRound" data-i18n="tournament.doubleRound">Double round (home/away)</label>
+            </div>
+          </div>
+
+          <div class="col-12" id="genFinalBlock">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="genCreateFinal" checked>
+              <label class="form-check-label" for="genCreateFinal" data-i18n="tournament.createFinalPlaceholder">Create final placeholder</label>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="genRegen">
+              <label class="form-check-label" for="genRegen" data-i18n="tournament.confirmRegen">Regenerate (delete existing matches)</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.cancel">Cancel</button>
+        <button class="btn btn-outline-primary d-none" id="btnGenerateFinals" type="button" data-i18n="tournament.generateFinals">Generate Finals</button>
+        <button class="btn btn-primary" id="btnGenerateRun" type="button" data-i18n="common.generate">Generate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Participants Modal -->
+<div class="modal fade" id="participantsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <span data-i18n="common.participants">Participants</span> —
+          <span class="fw-semibold" id="ptTournamentName">Tournament</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="ptId">
+        <input type="hidden" id="ptTournamentId">
+
+        <div class="row g-2 align-items-end mb-3">
+          <div class="col-12 col-md-5">
+            <label class="form-label" data-i18n="teams.fields.existingTeam">Existing team</label>
+            <select id="ptTeamId" class="form-select"></select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label" data-i18n="teams.fields.groupCode">Group</label>
+            <select id="ptGroupCode" class="form-select"></select>
+          </div>
+          <div class="col-6 col-md-2">
+            <label class="form-label" data-i18n="teams.fields.seed">Seed</label>
+            <input id="ptSeed" type="number" class="form-control" min="1" placeholder="1">
+          </div>
+          <div class="col-12 col-md-2 d-flex gap-2 justify-content-end">
+            <button class="btn btn-outline-secondary" id="btnPtClear" type="button" data-i18n="common.clear">Clear</button>
+            <button class="btn btn-primary" id="btnPtSave" type="button" data-i18n="common.save">Save</button>
+          </div>
+        </div>
+
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th data-i18n="table.teams.name">Team</th>
+                <th data-i18n="table.tournaments.sport">Sport</th>
+                <th data-i18n="table.teams.group">Group</th>
+                <th data-i18n="table.teams.seed">Seed</th>
+                <th data-i18n="common.actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tblParticipants"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/vendor/libs/jquery/jquery.js"></script>
+<script src="assets/vendor/libs/popper/popper.js"></script>
+<script src="assets/vendor/js/bootstrap.js"></script>
+<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="assets/vendor/js/menu.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/include.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+(async function() {
+  await GT_i18n.load(GT_i18n.currentLang());
+  GT_auth.requireAuth();
+  await GT_bootAppLayout();
+
+  const SHEET = GT_CONST.sheets;
+
+  const tbody = document.getElementById("tblTournaments");
+  const btnRefresh = document.getElementById("btnTournamentsRefresh") || document.getElementById("btnRefresh");
+  const btnAdd = document.getElementById("btnTournamentsAdd") || document.getElementById("btnAdd");
+
+  const modalEl = document.getElementById("tournamentModal");
+  const modal = new bootstrap.Modal(modalEl);
+  const btnSave = document.getElementById("btnTournamentSave");
+
+  const idEl = document.getElementById("tournamentId");
+  const nameEl = document.getElementById("tournamentName");
+  const sportEl = document.getElementById("tournamentSport");
+  const formatEl = document.getElementById("tournamentFormat");
+  const statusEl = document.getElementById("tournamentStatus");
+  const startEl = document.getElementById("tournamentStartDate");
+  const endEl = document.getElementById("tournamentEndDate");
+
+  const teamsCountEl = document.getElementById("tournamentTeamsCount");
+  const teamsCountHint = document.getElementById("teamsCountHint");
+
+  const cfgChampionnat = document.getElementById("configChampionnat");
+  const championnatLegsEl = document.getElementById("championnatLegs");
+  const championnatRoundsHint = document.getElementById("championnatRoundsHint");
+
+  const cfgGroupsFinals = document.getElementById("configGroupsFinals");
+  const groupsCountEl = document.getElementById("groupsCount");
+  const qualifiedPerGroupEl = document.getElementById("qualifiedPerGroup");
+  const groupsLegsEl = document.getElementById("groupsLegs");
+  const pairingRuleEl = document.getElementById("pairingRule");
+  const groupsPreviewEl = document.getElementById("groupsPreview");
+
+  const cfgKnockout = document.getElementById("configKnockout");
+  const knockoutByesEl = document.getElementById("knockoutByes");
+  const knockoutThirdPlaceEl = document.getElementById("knockoutThirdPlace");
+
+  const formatHint = document.getElementById("formatHint");
+
+  const genEl = document.getElementById("generateModal");
+  const genModal = new bootstrap.Modal(genEl);
+  const genTournamentIdEl = document.getElementById("genTournamentId");
+  const genWarnEl = document.getElementById("genWarn");
+  const genPreviewEl = document.getElementById("genFormatPreview");
+  const genGroupsBlock = document.getElementById("genGroupsBlock");
+  const genGroupsCountEl = document.getElementById("genGroupsCount");
+  const genDoubleRoundBlock = document.getElementById("genDoubleRoundBlock");
+  const genDoubleRoundEl = document.getElementById("genDoubleRound");
+  const genFinalBlock = document.getElementById("genFinalBlock");
+  const genCreateFinalEl = document.getElementById("genCreateFinal");
+  const genRegenEl = document.getElementById("genRegen");
+  const btnGenerateRun = document.getElementById("btnGenerateRun");
+  const btnGenerateFinals = document.getElementById("btnGenerateFinals");
+
+
+  // participants modal
+  const ptEl = document.getElementById("participantsModal");
+  const ptModal = ptEl ? new bootstrap.Modal(ptEl) : null;
+  const ptTournamentNameEl = document.getElementById("ptTournamentName");
+  const ptIdEl = document.getElementById("ptId");
+  const ptTournamentIdEl = document.getElementById("ptTournamentId");
+  const ptTeamIdEl = document.getElementById("ptTeamId");
+  const ptGroupCodeEl = document.getElementById("ptGroupCode");
+  const ptSeedEl = document.getElementById("ptSeed");
+  const btnPtSave = document.getElementById("btnPtSave");
+  const btnPtClear = document.getElementById("btnPtClear");
+  const tblParticipants = document.getElementById("tblParticipants");
+
+  let teamsCache = [];
+  let participantsCache = [];
+
+  let tournaments = [];
+
+  function safe(v) { return (v === null || v === undefined) ? "" : String(v); }
+  function esc(s) { return safe(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function toastOk(msg){ GT_ui.toast(msg, "success"); }
+  function toastErr(err){
+    if (err && err.canceled) return;
+    if (!err) { GT_ui.toast("-", "danger"); return; }
+    const msg = (err && (err.message || err.error)) ? (err.message || err.error)
+      : (typeof err === "object" ? JSON.stringify(err) : String(err));
+    GT_ui.toast(msg, "danger");
+  }
+
+
+  function initGroupCodeSelect(selectEl, current) {
+    const opts = [`<option value="">—</option>`]
+      .concat(GT_CONST.groupCodes.map(g => `<option value="${esc(g)}">${esc(g)}</option>`));
+    selectEl.innerHTML = opts.join("");
+    if (current !== undefined && current !== null) selectEl.value = String(current);
+  }
+
+  function teamById(id) {
+    return teamsCache.find(t => String(t.id) === String(id));
+  }
+
+  async function ensureTeamsCache() {
+    if (teamsCache && teamsCache.length) return;
+    const r = await GT_api.list(SHEET.Teams);
+    teamsCache = (r.rows || []).filter(x => x.id);
+  }
+
+  function renderParticipants() {
+    if (!tblParticipants) return;
+    const tid = String(ptTournamentIdEl.value || "");
+    const t = tournaments.find(x => String(x.id) === tid) || {};
+    const sp = String(t.sport || "").trim().toUpperCase();
+
+    const list = participantsCache.slice();
+    tblParticipants.innerHTML = list.map(p => {
+      const team = teamById(p.teamId) || {};
+      return `
+        <tr>
+          <td class="fw-semibold">${esc(team.name || "")}</td>
+          <td class="text-muted">${esc(String(team.sport || sp || ""))}</td>
+          <td>${esc(p.groupCode || "")}</td>
+          <td>${esc(p.seed || "")}</td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-secondary" data-act="editP" data-id="${esc(p.id)}"><i class="bx bx-edit-alt"></i></button>
+            <button class="btn btn-sm btn-outline-danger" data-act="delP" data-id="${esc(p.id)}"><i class="bx bx-trash"></i></button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+    GT_i18n.apply(document);
+  }
+
+  function fillParticipantsTeamSelect(tournamentId) {
+    const t = tournaments.find(x => String(x.id) === String(tournamentId)) || {};
+    const sp = String(t.sport || "").trim().toUpperCase();
+    const list = sp ? teamsCache.filter(tm => String(tm.sport || "").trim().toUpperCase() === sp) : teamsCache.slice();
+    ptTeamIdEl.innerHTML = `<option value="">${esc(GT_i18n.t("teams.selectTeam"))}</option>` +
+      list.map(tm => `<option value="${esc(tm.id)}">${esc(tm.name)}</option>`).join("");
+  }
+
+  async function loadParticipants(tournamentId) {
+    ptTournamentIdEl.value = tournamentId;
+    const t = tournaments.find(x => String(x.id) === String(tournamentId)) || {};
+    if (ptTournamentNameEl) ptTournamentNameEl.textContent = t.name || tournamentId;
+
+    await ensureTeamsCache();
+    fillParticipantsTeamSelect(tournamentId);
+    initGroupCodeSelect(ptGroupCodeEl, "");
+
+    const r = await GT_api.list(SHEET.TournamentTeams, "tournamentId", tournamentId);
+    participantsCache = (r.rows || []).filter(x => x.id);
+
+    clearParticipantForm();
+    renderParticipants();
+    GT_i18n.apply(ptEl);
+  }
+
+  function clearParticipantForm() {
+    ptIdEl.value = "";
+    if (ptTeamIdEl) ptTeamIdEl.value = "";
+    if (ptGroupCodeEl) ptGroupCodeEl.value = "";
+    if (ptSeedEl) ptSeedEl.value = "";
+    if (ptTeamIdEl) ptTeamIdEl.disabled = false;
+  }
+
+  async function openParticipantsModal(tournamentId) {
+    if (!ptModal) return;
+    await loadParticipants(tournamentId);
+    ptModal.show();
+  }
+
+  async function saveParticipant() {
+    const tournamentId = String(ptTournamentIdEl.value || "");
+    const teamId = String(ptTeamIdEl.value || "");
+    if (!tournamentId) throw new Error("Tournament required");
+    if (!teamId) throw new Error("Team required");
+
+    const existing = participantsCache.find(x => String(x.teamId) === teamId);
+    const id = ptIdEl.value || (existing ? existing.id : undefined);
+
+    const payload = {
+      id: id || undefined,
+      tournamentId,
+      teamId,
+      groupCode: (ptGroupCodeEl.value || "") || null,
+      seed: ptSeedEl.value ? Number(ptSeedEl.value) : null
+    };
+    await GT_api.upsert(SHEET.TournamentTeams, payload);
+    await loadParticipants(tournamentId);
+    toastOk(GT_i18n.t("common.saved"));
+  }
+
+  async function deleteParticipant(id) {
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("common.confirmDelete"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+    await GT_api.remove(SHEET.TournamentTeams, id);
+    toastOk(GT_i18n.t("common.deleted"));
+    await loadParticipants(String(ptTournamentIdEl.value || ""));
+  }
+
+  function editParticipant(id) {
+    const p = participantsCache.find(x => String(x.id) === String(id));
+    if (!p) return;
+    ptIdEl.value = p.id;
+    ptTeamIdEl.value = p.teamId;
+    ptTeamIdEl.disabled = true;
+    initGroupCodeSelect(ptGroupCodeEl, p.groupCode || "");
+    ptSeedEl.value = p.seed || "";
+  }
+
+
+  function uuid4() {
+    // not crypto-perfect, but fine for IDs in dev sheets
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      const v = c === "x" ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function fillSelect(selectEl, items, valueKey) {
+    selectEl.innerHTML = (items || []).map(x => {
+      const v = x[valueKey || "value"];
+      return `<option value="${esc(v)}">${esc(v)}</option>`;
+    }).join("");
+  }
+
+  function setSelectValueSafe(selectEl, rawValue, fallbackValue) {
+    const v = (rawValue == null ? "" : String(rawValue)).trim();
+    const normalized = v.toUpperCase();
+    // try exact match
+    if ([...selectEl.options].some(o => o.value === v)) {
+      selectEl.value = v;
+      return;
+    }
+    // try normalized match
+    const opt = [...selectEl.options].find(o => String(o.value).toUpperCase() === normalized);
+    if (opt) {
+      selectEl.value = opt.value;
+      return;
+    }
+    // fallback
+    if (fallbackValue && [...selectEl.options].some(o => o.value === fallbackValue)) {
+      selectEl.value = fallbackValue;
+      return;
+    }
+    // default first option
+    if (selectEl.options.length) selectEl.value = selectEl.options[0].value;
+  }
+
+  function render() {
+    tbody.innerHTML = tournaments.map(t => `
+      <tr>
+        <td class="fw-semibold">${esc(t.name)}</td>
+        <td>${esc(t.sport || "")}</td>
+        <td>${GT_ui.formatChip(t.format)}</td>
+        <td>${GT_ui.statusBadge(t.status)}</td>
+        <td class="text-muted">${esc(GT_ui.formatDateTime(t.startDate || ""))}</td>
+        <td class="text-muted">${esc(GT_ui.formatDateTime(t.endDate || ""))}</td>
+        <td class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-primary" data-act="participants" data-id="${esc(t.id)}" data-i18n-title="common.participants" title="Participants"><i class="bx bx-group"></i></button>
+          <button class="btn btn-sm btn-outline-primary" data-act="generate" data-id="${esc(t.id)}"><i class="bx bx-cog"></i></button>
+          <button class="btn btn-sm btn-outline-secondary" data-act="edit" data-id="${esc(t.id)}"><i class="bx bx-edit-alt"></i></button>
+          <button class="btn btn-sm btn-outline-danger" data-act="del" data-id="${esc(t.id)}"><i class="bx bx-trash"></i></button>
+        </td>
+      </tr>
+    `).join("");
+    GT_i18n.apply(document);
+  }
+
+  async function load() {
+    const r = await GT_api.list(SHEET.Tournaments);
+    tournaments = (r.rows || []).filter(x => x.id);
+    render();
+  }
+
+  function openAdd() {
+    idEl.value = "";
+    nameEl.value = "";
+    startEl.value = "";
+    endEl.value = "";
+
+    fillSelect(sportEl, GT_CONST.sports, "value");
+    fillSelect(formatEl, GT_CONST.formats, "value");
+    fillSelect(statusEl, GT_CONST.tournamentStatuses, "value");
+
+    statusEl.value = "DRAFT";
+    sportEl.value = "FOOTBALL";
+    formatEl.value = "CHAMPIONNAT";
+
+    // defaults for settings
+    if (teamsCountEl) teamsCountEl.value = "";
+    applyRulesToUI({ format: formatEl.value });
+
+    // Apply defaults for the selected sport/format.
+    applyRulesToUI({ sport: sportEl.value, format: formatEl.value });
+    modal.show();
+    GT_i18n.apply(modalEl);
+  }
+
+  function openEdit(id) {
+    const t = tournaments.find(x => String(x.id) === String(id));
+    if (!t) return;
+    idEl.value = t.id;
+    nameEl.value = t.name || "";
+    startEl.value = (t.startDate || "").slice(0,10);
+    endEl.value = (t.endDate || "").slice(0,10);
+
+    fillSelect(sportEl, GT_CONST.sports, "value");
+    fillSelect(formatEl, GT_CONST.formats, "value");
+    fillSelect(statusEl, GT_CONST.tournamentStatuses, "value");
+
+    setSelectValueSafe(sportEl, t.sport, "FOOTBALL");
+    setSelectValueSafe(formatEl, t.format, "CHAMPIONNAT");
+    setSelectValueSafe(statusEl, t.status, "DRAFT");
+
+    applyRulesToUI(t);
+    modal.show();
+    GT_i18n.apply(modalEl);
+  }
+
+  function norm(v) { return String(v ?? "").trim().toUpperCase(); }
+  function safeInt(v) {
+    const n = parseInt(String(v ?? "").trim(), 10);
+    return Number.isFinite(n) ? n : null;
+  }
+  function pointsForSport(sport) {
+    const s = norm(sport);
+    if (s === "FOOTBALL") return { win: 3, draw: 1, loss: 0, allowDraw: true };
+    // Basketball/Handball (common tournament rule): WIN=2, LOSS=1, no draw
+    if (s === "BASKETBALL" || s === "HANDBALL") return { win: 2, draw: 0, loss: 1, allowDraw: false };
+    return { win: 3, draw: 1, loss: 0, allowDraw: true };
+  }
+
+  function updateFormatHint() {
+    formatHint.innerHTML = GT_ui.formatPreviewCard(formatEl.value);
+    GT_i18n.apply(formatHint);
+
+    const fmt = norm(formatEl.value);
+
+    if (cfgChampionnat) cfgChampionnat.style.display = (fmt === "CHAMPIONNAT") ? "" : "none";
+    if (cfgGroupsFinals) cfgGroupsFinals.style.display = (fmt === "GROUPS_FINALS") ? "" : "none";
+    if (cfgKnockout) cfgKnockout.style.display = (fmt === "KNOCKOUT") ? "" : "none";
+
+    const teams = safeInt(teamsCountEl?.value);
+
+    if (teamsCountHint) {
+      teamsCountHint.textContent = teams
+        ? GT_i18n.t("tournament.hints.teamsCountOk", { n: teams })
+        : GT_i18n.t("tournament.hints.teamsCountHelp");
+    }
+
+    if (fmt === "CHAMPIONNAT" && championnatLegsEl && championnatRoundsHint) {
+      const legs = safeInt(championnatLegsEl.value) || 2;
+      const rounds = teams ? (teams - 1) * legs : null;
+      championnatRoundsHint.textContent = rounds
+        ? GT_i18n.t("tournament.hints.roundsCount", { n: rounds })
+        : GT_i18n.t("tournament.hints.roundsNeedTeams");
+    }
+
+    if (fmt === "GROUPS_FINALS" && groupsPreviewEl) {
+      const g = safeInt(groupsCountEl?.value);
+      const q = safeInt(qualifiedPerGroupEl?.value);
+      const teamsPerGroup = (teams && g) ? Math.floor(teams / g) : null;
+      const totalQualified = (g && q) ? g * q : null;
+
+      const parts = [];
+      if (teamsPerGroup) parts.push(GT_i18n.t("tournament.hints.teamsPerGroup", { n: teamsPerGroup }));
+      if (totalQualified) parts.push(GT_i18n.t("tournament.hints.totalQualified", { n: totalQualified }));
+      parts.push(GT_i18n.t("tournament.hints.pairingCrossExample"));
+
+      groupsPreviewEl.textContent = parts.join(" · ");
+    }
+  }
+
+  function buildRulesObject() {
+    const teams = safeInt(teamsCountEl?.value);
+    const sport = norm(sportEl?.value);
+    const fmt = norm(formatEl?.value);
+    const points = pointsForSport(sport);
+
+    if (fmt === "CHAMPIONNAT") {
+      const legs = safeInt(championnatLegsEl?.value) || 2;
+      return { teamsCount: teams, roundRobin: { legs }, points };
+    }
+
+    if (fmt === "GROUPS_FINALS") {
+      const groupsCount = safeInt(groupsCountEl?.value) || 2;
+      const qualifiedPerGroup = safeInt(qualifiedPerGroupEl?.value) || 2;
+      const legs = safeInt(groupsLegsEl?.value) || 1;
+
+      return {
+        teamsCount: teams,
+        groups: { count: groupsCount, teamsPerGroup: (teams && groupsCount) ? Math.floor(teams / groupsCount) : null, seeding: "RANDOM" },
+        qualification: { qualifiedPerGroup, pairing: "CROSS" },
+        groupStage: { legs },
+        finalStage: { enabled: true },
+        points
+      };
+    }
+
+    if (fmt === "KNOCKOUT") {
+      const thirdPlaceMatch = String(knockoutThirdPlaceEl?.value || "false") === "true";
+      return { teamsCount: teams, knockout: { byes: "AUTO", thirdPlaceMatch }, points };
+    }
+
+    return { teamsCount: teams, points };
+  }
+
+  function applyRulesToUI(t) {
+    // teamsCount
+    const teamsCountFromColumn = safeInt(t?.teamsCount);
+    let rules = null;
+    try { rules = t?.rulesJson ? JSON.parse(t.rulesJson) : null; } catch (_) { rules = null; }
+
+    const teamsCount = teamsCountFromColumn ?? safeInt(rules?.teamsCount) ?? null;
+    if (teamsCountEl) teamsCountEl.value = teamsCount ? String(teamsCount) : "";
+
+    // defaults
+    if (championnatLegsEl) championnatLegsEl.value = "2";
+    if (groupsCountEl) groupsCountEl.value = "4";
+    if (qualifiedPerGroupEl) qualifiedPerGroupEl.value = "2";
+    if (groupsLegsEl) groupsLegsEl.value = "1";
+    if (pairingRuleEl) pairingRuleEl.value = "CROSS";
+    if (knockoutThirdPlaceEl) knockoutThirdPlaceEl.value = "false";
+    if (knockoutByesEl) knockoutByesEl.value = "AUTO";
+
+    const fmt = norm(t?.format || formatEl?.value);
+
+    if (rules && fmt === "CHAMPIONNAT" && rules.roundRobin?.legs && championnatLegsEl) {
+      championnatLegsEl.value = String(rules.roundRobin.legs);
+    }
+    if (rules && fmt === "GROUPS_FINALS") {
+      if (rules.groups?.count && groupsCountEl) groupsCountEl.value = String(rules.groups.count);
+      if (rules.qualification?.qualifiedPerGroup && qualifiedPerGroupEl) qualifiedPerGroupEl.value = String(rules.qualification.qualifiedPerGroup);
+      if (rules.groupStage?.legs && groupsLegsEl) groupsLegsEl.value = String(rules.groupStage.legs);
+    }
+    if (rules && fmt === "KNOCKOUT" && knockoutThirdPlaceEl) {
+      knockoutThirdPlaceEl.value = String(!!rules.knockout?.thirdPlaceMatch);
+    }
+
+    updateFormatHint();
+  }
+
+  async function save() {
+    const teamsCount = safeInt(teamsCountEl?.value);
+    if (!teamsCount || teamsCount < 2) throw new Error(GT_i18n.t("tournament.errors.teamsCountRequired"));
+
+    const fmt = norm(formatEl.value);
+
+    if (fmt === "GROUPS_FINALS") {
+      const g = safeInt(groupsCountEl?.value);
+      const q = safeInt(qualifiedPerGroupEl?.value);
+      if (!g || g < 2) throw new Error(GT_i18n.t("tournament.errors.groupsCountRequired"));
+      if (!q || q < 1) throw new Error(GT_i18n.t("tournament.errors.qualifiedPerGroupRequired"));
+    }
+
+    const rulesObj = buildRulesObject();
+
+    const payload = {
+      id: idEl.value || undefined,
+      name: nameEl.value.trim(),
+      sport: sportEl.value,
+      format: formatEl.value,
+      status: statusEl.value,
+      teamsCount,
+      rulesJson: JSON.stringify(rulesObj),
+      startDate: startEl.value ? startEl.value : null,
+      endDate: endEl.value ? endEl.value : null
+    };
+    if (!payload.name) throw new Error(GT_i18n.t("common.required"));
+
+    await GT_api.upsert(SHEET.Tournaments, payload);
+    modal.hide();
+    toastOk(GT_i18n.t("common.saved"));
+    await load();
+  }
+
+  async function del(id) {
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("common.confirmDelete"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+    await GT_api.remove(SHEET.Tournaments, id);
+    toastOk(GT_i18n.t("common.deleted"));
+    await load();
+  }
+
+  function openGenerate(id) {
+    const t = tournaments.find(x => String(x.id) === String(id));
+    if (!t) return;
+
+    genTournamentIdEl.value = t.id;
+    genWarnEl.classList.add("d-none");
+    genWarnEl.textContent = "";
+    genRegenEl.checked = true; // safer default
+
+    const format = norm(t.format);
+
+    let rules = {};
+    try { rules = t.rulesJson ? JSON.parse(t.rulesJson) : {}; } catch (_) { rules = {}; }
+
+    // reflect saved rules in the modal (do not translate data values)
+    const legsChamp = Number(rules?.roundRobin?.legs || 2);
+    const legsGroup = Number(rules?.groupStage?.legs || 1);
+    const groupsCount = Number(rules?.groups?.count || 2);
+    const qPerGroup = Number(rules?.qualification?.qualifiedPerGroup || 2);
+
+    // reset visibility
+    genGroupsBlock.classList.add("d-none");
+    genDoubleRoundBlock.classList.add("d-none");
+    genFinalBlock.classList.add("d-none");
+
+    if (format === "GROUPS_FINALS") {
+      genGroupsBlock.classList.remove("d-none");
+      genDoubleRoundBlock.classList.remove("d-none");
+      genFinalBlock.classList.remove("d-none");
+
+      genGroupsCountEl.value = groupsCount;
+      genGroupsCountEl.disabled = true;
+
+      genDoubleRoundEl.checked = (legsGroup === 2);
+      genDoubleRoundEl.disabled = true;
+
+      genCreateFinalEl.checked = !!rules?.finalStage?.enabled;
+      genCreateFinalEl.disabled = true;
+
+      genPreviewEl.innerHTML = GT_ui.formatPreviewCard(t.format) +
+        `<div class="mt-2 small text-muted">teamsCount=${esc(rules?.teamsCount || t.teamsCount || "")} · groups=${groupsCount} · qualified/group=${qPerGroup} · pairing=CROSS · legs=${legsGroup}</div>`;
+    } else if (format === "CHAMPIONNAT") {
+      genDoubleRoundBlock.classList.remove("d-none");
+      genDoubleRoundEl.checked = (legsChamp === 2);
+      genDoubleRoundEl.disabled = true;
+
+      genPreviewEl.innerHTML = GT_ui.formatPreviewCard(t.format) +
+        `<div class="mt-2 small text-muted">teamsCount=${esc(rules?.teamsCount || t.teamsCount || "")} · legs=${legsChamp}</div>`;
+    } else if (format === "KNOCKOUT") {
+      genFinalBlock.classList.remove("d-none");
+      genCreateFinalEl.checked = true;
+      genCreateFinalEl.disabled = true;
+
+      genPreviewEl.innerHTML = GT_ui.formatPreviewCard(t.format) +
+        `<div class="mt-2 small text-muted">teamsCount=${esc(rules?.teamsCount || t.teamsCount || "")} · byes=AUTO</div>`;
+    } else {
+      genPreviewEl.innerHTML = GT_ui.formatPreviewCard(t.format);
+    }
+
+    
+    // Finals generation from standings (GROUPS_FINALS only)
+    if (btnGenerateFinals) {
+      const finalsEnabled = (format === "GROUPS_FINALS") && (rules?.finalStage?.enabled !== false);
+      btnGenerateFinals.classList.toggle("d-none", !finalsEnabled);
+    }
+if (!t.rulesJson) {
+      genWarnEl.textContent = GT_i18n.t("tournament.rulesMissing") || "Tournament rules are missing. Please set Teams count / format settings first.";
+      genWarnEl.classList.remove("d-none");
+    }
+
+    genModal.show();
+  }
+
+  function circlePairs(teamIds) {
+    // returns rounds: [ [ [home,away], ... ], ... ]
+    const list = teamIds.slice();
+    if (list.length % 2 === 1) list.push(null);
+    const n = list.length;
+    const rounds = n - 1;
+    const half = n / 2;
+    const arr = list.slice();
+
+    const out = [];
+    for (let r = 0; r < rounds; r++) {
+      const pairs = [];
+      for (let i = 0; i < half; i++) {
+        const a = arr[i];
+        const b = arr[n - 1 - i];
+        if (a && b) pairs.push([a, b]);
+      }
+      out.push(pairs);
+      // rotate
+      const fixed = arr[0];
+      const rest = arr.slice(1);
+      rest.unshift(rest.pop());
+      arr.splice(0, n, fixed, ...rest);
+    }
+    return out;
+  }
+
+  function makeMatch(tournamentId, stage, groupName, homeTeamId, awayTeamId, startTime, status) {
+    return {
+      id: "m-" + uuid4(),
+      tournamentId: String(tournamentId),
+      stage: stage || null,
+      groupName: groupName || null,
+      homeTeamId: homeTeamId || null,
+      awayTeamId: awayTeamId || null,
+      venueId: null,
+      refereeId: null,
+      startTime: startTime || null,
+      status: status || "SCHEDULED"
+    };
+  }
+
+  async function clearExistingMatches(tournamentId) {
+    const mRes = await GT_api.list(SHEET.Matches, "tournamentId", tournamentId);
+    const ms = (mRes.rows || []).filter(x => x.id);
+
+    // remove results for those matches
+    for (const m of ms) {
+      try { await GT_api.removeWhere(SHEET.Results, "matchId", m.id); } catch (_) {}
+    }
+    await GT_api.removeWhere(SHEET.Matches, "tournamentId", tournamentId);
+  }
+
+  async function runGenerate() {
+    const tournamentId = genTournamentIdEl.value;
+    const t = tournaments.find(x => String(x.id) === String(tournamentId));
+    if (!t) throw new Error("Tournament not found");
+
+    genWarnEl.classList.add("d-none");
+    genWarnEl.textContent = "";
+
+    const format = norm(t.format);
+
+    // parse rules (saved in tournaments.rulesJson)
+    let rules = {};
+    try { rules = t.rulesJson ? JSON.parse(t.rulesJson) : {}; } catch (_) { rules = {}; }
+
+    const ttRes = await GT_api.list(SHEET.TournamentTeams, "tournamentId", tournamentId);
+    const ttsAll = (ttRes.rows || []).filter(x => x.id && x.teamId);
+
+    if (!ttsAll.length) {
+      genWarnEl.textContent = GT_i18n.t("tournament.noTeamsLinked") || "No teams linked to this tournament yet.";
+      genWarnEl.classList.remove("d-none");
+      return;
+    }
+
+    // fetch teams for updating groupName
+    const teamRes = await GT_api.list(SHEET.Teams);
+    const allTeams = (teamRes.rows || []).filter(x => x.id);
+    const teamById = new Map(allTeams.map(x => [String(x.id), x]));
+
+    // If not regenerating, block if matches exist
+    if (genRegenEl.checked) {
+      await clearExistingMatches(tournamentId);
+    } else {
+      const mRes = await GT_api.list(SHEET.Matches, "tournamentId", tournamentId);
+      if ((mRes.rows || []).length) {
+        genWarnEl.textContent = GT_i18n.t("tournament.matchesExistEnableRegen") || "Matches already exist. Enable 'Regenerate' to delete and recreate.";
+        genWarnEl.classList.remove("d-none");
+        return;
+      }
+    }
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function nextPow2(n) {
+      let p = 1;
+      while (p < n) p *= 2;
+      return p;
+    }
+
+    function stageNameForBracketSize(size) {
+      if (size === 2) return "FINAL";
+      if (size === 4) return "SF";
+      if (size === 8) return "QF";
+      if (size === 16) return "R16";
+      if (size === 32) return "R32";
+      return "KO";
+    }
+
+    const matches = [];
+    const ttUpdates = [];
+
+    const baseTTs = ttsAll.filter(tt => teamById.has(String(tt.teamId)));
+    const teamIds = baseTTs.map(tt => String(tt.teamId));
+
+    if (format === "GROUPS_FINALS") {
+      const groupsCount = Number(rules?.groups?.count || genGroupsCountEl.value || 2);
+      const qualifiedPerGroup = Number(rules?.qualification?.qualifiedPerGroup || 2);
+      const legs = Number(rules?.groupStage?.legs || (genDoubleRoundEl.checked ? 2 : 1) || 1);
+
+      const codes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").slice(0, Math.max(2, groupsCount));
+      const shuffledTTs = shuffle(baseTTs);
+
+      // assign group codes (RANDOM)
+      shuffledTTs.forEach((tt, idx) => {
+        const code = codes[idx % groupsCount];
+        const updTT = { ...tt, groupCode: code };
+        ttUpdates.push(updTT);
+      });
+
+      // build teams per group
+      const byGroup = {};
+      for (const tt of shuffledTTs) {
+        const code = ttUpdates.find(u => u.id === tt.id)?.groupCode || tt.groupCode || codes[0];
+        byGroup[code] = byGroup[code] || [];
+        byGroup[code].push(String(tt.teamId));
+      }
+
+      // generate round-robin inside each group
+      Object.keys(byGroup).forEach((code) => {
+        const ids = byGroup[code];
+        const rounds = circlePairs(ids);
+        rounds.forEach((pairs) => {
+          pairs.forEach(([a, b]) => {
+            matches.push(makeMatch(tournamentId, "GROUP", code, a, b, null, "SCHEDULED"));
+            if (legs === 2) {
+              matches.push(makeMatch(tournamentId, "GROUP", code, b, a, null, "SCHEDULED"));
+            }
+          });
+        });
+      });
+
+      // finals placeholders (CROSS, mainly for qualifiedPerGroup=2)
+      if (rules?.finalStage?.enabled) {
+        const totalQualified = groupsCount * qualifiedPerGroup;
+        const bracket = nextPow2(totalQualified);
+        const firstStage = stageNameForBracketSize(bracket);
+
+        const pairing = String(rules?.qualification?.pairing || "CROSS").toUpperCase();
+        if (pairing === "CROSS" && qualifiedPerGroup === 2 && groupsCount % 2 === 0) {
+          for (let i = 0; i < groupsCount; i += 2) {
+            const A = codes[i];
+            const B = codes[i + 1];
+            matches.push(makeMatch(tournamentId, firstStage, `${A}1 vs ${B}2`, null, null, null, "SCHEDULED"));
+            matches.push(makeMatch(tournamentId, firstStage, `${B}1 vs ${A}2`, null, null, null, "SCHEDULED"));
+          }
+        } else {
+          const count = Math.floor(totalQualified / 2);
+          for (let i = 0; i < count; i++) {
+            matches.push(makeMatch(tournamentId, firstStage, `Slot ${i + 1}`, null, null, null, "SCHEDULED"));
+          }
+        }
+
+        // next rounds placeholders
+        let size = bracket;
+        while (size > 2) {
+          const next = Math.floor(size / 2);
+          const st = stageNameForBracketSize(next);
+          const count = Math.floor(next / 2);
+          for (let i = 0; i < count; i++) {
+            matches.push(makeMatch(tournamentId, st, `Slot ${i + 1}`, null, null, null, "SCHEDULED"));
+          }
+          size = next;
+        }
+      }
+    } else if (format === "CHAMPIONNAT") {
+      const legs = Number(rules?.roundRobin?.legs || (genDoubleRoundEl.checked ? 2 : 1) || 2);
+
+      const rounds = circlePairs(teamIds);
+      rounds.forEach((pairs) => {
+        pairs.forEach(([a, b]) => {
+          matches.push(makeMatch(tournamentId, "LEAGUE", null, a, b, null, "SCHEDULED"));
+          if (legs === 2) {
+            matches.push(makeMatch(tournamentId, "LEAGUE", null, b, a, null, "SCHEDULED"));
+          }
+        });
+      });
+    } else if (format === "KNOCKOUT") {
+      const shuffled = shuffle(teamIds);
+      const n = shuffled.length;
+      const bracket = nextPow2(n);
+      const firstStage = stageNameForBracketSize(bracket);
+
+      // fill as many pairings as we can
+      let created = 0;
+      for (let i = 0; i + 1 < n; i += 2) {
+        matches.push(makeMatch(tournamentId, firstStage, null, shuffled[i], shuffled[i + 1], null, "SCHEDULED"));
+        created++;
+      }
+      // placeholders for missing slots (byes)
+      const totalFirst = Math.floor(bracket / 2);
+      for (let i = created; i < totalFirst; i++) {
+        matches.push(makeMatch(tournamentId, firstStage, `Slot ${i + 1}`, null, null, null, "SCHEDULED"));
+      }
+
+      // next rounds placeholders
+      let size = bracket;
+      while (size > 2) {
+        const next = Math.floor(size / 2);
+        const st = stageNameForBracketSize(next);
+        const count = Math.floor(next / 2);
+        for (let i = 0; i < count; i++) {
+          matches.push(makeMatch(tournamentId, st, `Slot ${i + 1}`, null, null, null, "SCHEDULED"));
+        }
+        size = next;
+      }
+    } else {
+      genWarnEl.textContent = "Unsupported format: " + format;
+      genWarnEl.classList.remove("d-none");
+      return;
+    }
+
+    // persist
+    if (ttUpdates.length) await GT_api.bulkUpsert(SHEET.TournamentTeams, ttUpdates);
+    let savedCount = 0;
+    if (matches.length) {
+      const mSave = await GT_api.bulkUpsert(SHEET.Matches, matches);
+      savedCount = Number(mSave.inserted || 0) + Number(mSave.updated || 0);
+    }
+
+    toastOk(`Generated ${savedCount || matches.length} matches`);
+    genModal.hide();
+    await load();
+  }
+
+
+
+  function gt_nextPow2(n){ let p=1; while(p<n) p*=2; return p; }
+  function gt_stageNameForBracketSize(size){
+    if (size === 2) return "F";
+    if (size === 4) return "SF";
+    if (size === 8) return "QF";
+    if (size === 16) return "R16";
+    if (size === 32) return "R32";
+    return "KO";
+  }
+
+  function gt_pointsRulesForSport(sport, rules){
+    const s = norm(sport);
+    const p = rules?.points || null;
+    if (p && typeof p.win === "number") return { win: p.win, draw: (p.draw ?? 0), loss: (p.loss ?? 0), allowDraw: p.allowDraw !== false };
+    if (s === "FOOTBALL") return { win: 3, draw: 1, loss: 0, allowDraw: true };
+    return { win: 2, draw: 0, loss: 1, allowDraw: false };
+  }
+
+  function gt_computeGroupStandings({ tournamentId, sport, rules, teamById, tts, matches, resultsByMatchId }){
+    const pts = gt_pointsRulesForSport(sport, rules);
+    const groups = Array.from(new Set(tts.map(tt => norm(tt.groupCode || tt.groupName || "")).filter(Boolean))).sort();
+    const byGroup = new Map();
+
+    for (const g of groups){
+      const teamIds = tts.filter(tt => norm(tt.groupCode || tt.groupName || "") === g).map(tt => String(tt.teamId));
+      const stats = new Map(teamIds.map(id => [id, { teamId:id, played:0, win:0, draw:0, loss:0, for:0, against:0, diff:0, points:0 }]));
+      const gMatches = matches.filter(m => norm(m.stage)==="GROUP" && norm(m.groupName||"")===g && norm(m.status)==="FINISHED" && resultsByMatchId.has(String(m.id)));
+      for (const m of gMatches){
+        const res = resultsByMatchId.get(String(m.id));
+        const hs = Number(res.homeScore);
+        const as = Number(res.awayScore);
+        if (!Number.isFinite(hs) || !Number.isFinite(as)) continue;
+        const h = String(m.homeTeamId||"");
+        const a = String(m.awayTeamId||"");
+        if (!stats.has(h) || !stats.has(a)) continue;
+        const home = stats.get(h), away = stats.get(a);
+        home.played++; away.played++;
+        home.for += hs; home.against += as;
+        away.for += as; away.against += hs;
+
+        if (hs > as){
+          home.win++; away.loss++;
+          home.points += pts.win;
+          away.points += pts.loss;
+        } else if (hs < as){
+          away.win++; home.loss++;
+          away.points += pts.win;
+          home.points += pts.loss;
+        } else {
+          home.draw++; away.draw++;
+          home.points += pts.draw;
+          away.points += pts.draw;
+        }
+      }
+      const rows = Array.from(stats.values()).map(s => ({...s, diff: s.for - s.against}));
+      rows.sort((a,b)=>{
+        if (b.points!==a.points) return b.points-a.points;
+        if (b.diff!==a.diff) return b.diff-a.diff;
+        if (b.for!==a.for) return b.for-a.for;
+        const an = (teamById.get(a.teamId)?.name || "");
+        const bn = (teamById.get(b.teamId)?.name || "");
+        return an.localeCompare(bn);
+      });
+      byGroup.set(g, rows);
+    }
+    return byGroup;
+  }
+
+  async function runGenerateFinals(){
+    const tournamentId = genTournamentIdEl.value;
+    const t = tournaments.find(x => String(x.id) === String(tournamentId));
+    if (!t) throw new Error("Tournament not found");
+
+    const format = norm(t.format);
+    if (format !== "GROUPS_FINALS") {
+      GT_ui.toast({ type:"warning", text: "Finals generation is only for GROUPS_FINALS" });
+      return;
+    }
+
+    let rules = {};
+    try { rules = t.rulesJson ? JSON.parse(t.rulesJson) : {}; } catch (_) { rules = {}; }
+    if (rules?.finalStage?.enabled === false) {
+      GT_ui.toast({ type:"warning", text: "Final stage disabled in rules" });
+      return;
+    }
+
+    const qualifiedPerGroup = Number(rules?.qualification?.qualifiedPerGroup || 2);
+
+    const [ttRes, teamsRes, matchesRes, resultsRes] = await Promise.all([
+      GT_api.list(SHEET.TournamentTeams, "tournamentId", tournamentId),
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.Matches, "tournamentId", tournamentId),
+      GT_api.list(SHEET.Results)
+    ]);
+
+    const tts = (ttRes.rows || []).filter(x => x.id && x.teamId);
+    const teams = (teamsRes.rows || []).filter(x => x.id);
+    const teamById = new Map(teams.map(x => [String(x.id), x]));
+    const matches = (matchesRes.rows || []).filter(m => m.id);
+    const resultsByMatchId = new Map((resultsRes.rows || []).filter(r => r.matchId).map(r => [String(r.matchId), r]));
+
+    const groups = Array.from(new Set(tts.map(tt => norm(tt.groupCode || tt.groupName || "")).filter(Boolean))).sort();
+    if (!groups.length) {
+      GT_ui.toast({ type:"warning", text: "No group codes found. Generate groups first." });
+      return;
+    }
+    if (groups.length % 2 !== 0) {
+      GT_ui.toast({ type:"warning", text: "Groups count must be even for CROSS pairing." });
+      return;
+    }
+
+    const standingsByGroup = gt_computeGroupStandings({ tournamentId, sport: t.sport, rules, teamById, tts, matches, resultsByMatchId });
+
+    // Build qualifiers A1, A2, ...
+    const qualifiers = new Map(); // group -> [{teamId, pos}]
+    for (const g of groups){
+      const rows = standingsByGroup.get(g) || [];
+      qualifiers.set(g, rows.slice(0, Math.max(1, qualifiedPerGroup)).map((r, idx) => ({ teamId: r.teamId, pos: idx+1 })));
+    }
+
+    // Pairings CROSS: (A,B), (C,D)...
+    const pairings = [];
+    for (let i=0; i<groups.length; i+=2){
+      const A = groups[i], B = groups[i+1];
+      const Aq = qualifiers.get(A) || [];
+      const Bq = qualifiers.get(B) || [];
+      if (Aq.length < 2 || Bq.length < 2) {
+        GT_ui.toast({ type:"warning", text: "Not enough ranked teams (need at least top 2 in each group)." });
+        return;
+      }
+      // A1 vs B2, B1 vs A2
+      pairings.push({ label: `${A}1 vs ${B}2`, home: Aq[0].teamId, away: Bq[1].teamId });
+      pairings.push({ label: `${B}1 vs ${A}2`, home: Bq[0].teamId, away: Aq[1].teamId });
+    }
+
+    const totalQualified = pairings.length * 2;
+    const bracket = gt_nextPow2(totalQualified);
+    const firstStage = gt_stageNameForBracketSize(bracket);
+
+    // Remove old KO matches for this tournament
+    const KO_STAGES = new Set(["R32","R16","QF","SF","F","KO"]);
+    const oldKo = matches.filter(m => KO_STAGES.has(norm(m.stage)));
+    for (const m of oldKo){
+      await GT_api.remove(SHEET.Matches, m.id);
+    }
+
+    const newMatches = [];
+    pairings.forEach((p, idx) => {
+      newMatches.push(makeMatch(tournamentId, firstStage, p.label, p.home, p.away, null, "SCHEDULED"));
+    });
+
+    // placeholders for next rounds
+    let size = bracket;
+    let roundIdx = 1;
+    while (size > 2){
+      const next = Math.floor(size/2);
+      const st = gt_stageNameForBracketSize(next);
+      const count = Math.floor(next/2);
+      for (let i=0; i<count; i++){
+        const label = (st === "F") ? `Final` : `Slot ${roundIdx}-${i+1}`;
+        newMatches.push(makeMatch(tournamentId, st, label, null, null, null, "SCHEDULED"));
+      }
+      size = next;
+      roundIdx++;
+    }
+
+    await GT_api.bulkUpsert(SHEET.Matches, newMatches);
+    await loadAll(); // refresh tournaments page lists
+    GT_ui.toast({ type:"success", textKey: "tournament.finalsGenerated" });
+  }
+
+  // events
+  if (btnRefresh) btnRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnRefresh, load, { loadingTextKey: "common.loading" }).catch(toastErr));
+  if (btnAdd) btnAdd.addEventListener("click", openAdd);
+  if (btnSave) btnSave.addEventListener("click", () => GT_ui.withOverlaySpinner(btnSave, save, { loadingTextKey: "common.saving" }).catch(toastErr));
+  if (formatEl) formatEl.addEventListener("change", updateFormatHint);
+  if (sportEl) sportEl.addEventListener("change", updateFormatHint);
+  if (teamsCountEl) teamsCountEl.addEventListener("input", updateFormatHint);
+  if (championnatLegsEl) championnatLegsEl.addEventListener("change", updateFormatHint);
+  if (groupsCountEl) groupsCountEl.addEventListener("input", updateFormatHint);
+  if (qualifiedPerGroupEl) qualifiedPerGroupEl.addEventListener("input", updateFormatHint);
+  if (groupsLegsEl) groupsLegsEl.addEventListener("change", updateFormatHint);
+  if (pairingRuleEl) pairingRuleEl.addEventListener("change", updateFormatHint);
+
+
+  tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if (act === "edit") openEdit(id);
+    if (act === "del") GT_ui.withOverlaySpinner(btn, () => del(id), { loadingTextKey: "common.deleting" }).catch(toastErr);
+    if (act === "generate") openGenerate(id);
+    if (act === "participants") GT_ui.withOverlaySpinner(btn, () => openParticipantsModal(id), { loadingTextKey: "common.loading" }).catch(toastErr);
+  });
+
+  if (btnGenerateFinals) btnGenerateFinals.addEventListener("click", () => GT_ui.withOverlaySpinner(btnGenerateFinals, runGenerateFinals, { loadingTextKey: "common.loading" }).catch(toastErr));
+
+  if (btnGenerateRun) btnGenerateRun.addEventListener("click", () => GT_ui.withOverlaySpinner(btnGenerateRun, runGenerate, { loadingTextKey: "common.loading" }).catch(toastErr));
+
+  if (btnPtClear) btnPtClear.addEventListener("click", clearParticipantForm);
+  if (btnPtSave) btnPtSave.addEventListener("click", () => GT_ui.withOverlaySpinner(btnPtSave, saveParticipant, { loadingTextKey: "common.saving" }).catch(toastErr));
+  if (tblParticipants) tblParticipants.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if (act === "editP") editParticipant(id);
+    if (act === "delP") GT_ui.withOverlaySpinner(btn, () => deleteParticipant(id), { loadingTextKey: "common.deleting" }).catch(toastErr);
+  });
+
+  await GT_ui.withOverlaySpinner(btnRefresh, load, { loadingTextKey: "common.loading" });
+})();
+</script>

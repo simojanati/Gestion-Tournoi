@@ -1,0 +1,415 @@
+{
+  "app": {
+    "title": "Gestion Tournoi"
+  },
+  "common": {
+    "actions": "Actions",
+    "add": "Ajouter",
+    "all": "Tous",
+    "auto": "Auto",
+    "cancel": "Annuler",
+    "catalog": "Catalogue",
+    "clear": "Vider",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "confirmDelete": "Voulez-vous vraiment supprimer ?",
+    "delete": "Supprimer",
+    "deleted": "Supprimé",
+    "deleting": "Suppression...",
+    "edit": "Modifier",
+    "filterTournament": "Tournoi",
+    "generate": "Générer",
+    "invalidTeams": "Les équipes domicile et extérieur doivent être différentes.",
+    "loading": "Chargement...",
+    "participants": "Participants",
+    "players": "Joueurs",
+    "refresh": "Actualiser",
+    "required": "Champs obligatoires manquants.",
+    "roster": "Effectif",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "saving": "Enregistrement...",
+    "search": "Rechercher",
+    "sync": "Synchroniser",
+    "tbd": "À définir",
+    "update": "Mettre à jour",
+    "vs": "vs",
+    "noData": "Aucune donnée",
+    "back": "Retour",
+    "show": "Afficher",
+    "hide": "Masquer"
+  },
+  "events": {
+    "add": "Ajouter un événement",
+    "applyScore": "Appliquer le score",
+    "autoScore": "Score auto",
+    "autoScoreNA": "Score auto: -",
+    "clock": "Chrono",
+    "clockPlaceholder": "05:32",
+    "fields": {
+      "clock": "Chrono",
+      "minute": "Minute",
+      "notes": "Notes",
+      "period": "Période",
+      "player": "Joueur",
+      "playerIn": "Joueur entrant",
+      "points": "Points",
+      "team": "Équipe",
+      "time": "Temps",
+      "type": "Type",
+      "value": "Valeur"
+    },
+    "minute": "Minute",
+    "minutePlaceholder": "0",
+    "noEvents": "Aucun événement pour le moment.",
+    "notes": "Notes",
+    "notesPlaceholder": "Notes optionnelles...",
+    "period": {
+      "ET1": "P1",
+      "ET2": "P2",
+      "H1": "MT1",
+      "H2": "MT2",
+      "OT": "Prol.",
+      "P1": "P1",
+      "P2": "P2",
+      "PEN": "TAB",
+      "Q1": "QT1",
+      "Q2": "QT2",
+      "Q3": "QT3",
+      "Q4": "QT4"
+    },
+    "player": "Joueur",
+    "playerIn": "Joueur entrant",
+    "points": "Points",
+    "scoreApplied": "Score appliqué",
+    "team": "Équipe",
+    "time": "Temps",
+    "timeline": "Chronologie",
+    "type": {
+      "2MIN_SUSPENSION": "Exclusion 2 min",
+      "7M_GOAL": "But 7m",
+      "7M_MISSED": "7m raté",
+      "EJECTION": "Exclusion",
+      "EVENT": "Événement",
+      "FOUL": "Faute",
+      "GOAL": "But",
+      "OWN_GOAL": "Csc",
+      "PENALTY_GOAL": "But sur penalty",
+      "PENALTY_MISSED": "Penalty raté",
+      "RED_CARD": "Carton rouge",
+      "SCORE": "Panier",
+      "SECOND_YELLOW": "Deuxième jaune",
+      "SUBSTITUTION": "Remplacement",
+      "TECHNICAL": "Technique",
+      "TIMEOUT": "Temps mort",
+      "YELLOW_CARD": "Carton jaune"
+    },
+    "value": "Valeur"
+  },
+  "format": {
+    "CHAMPIONNAT": "Championnat",
+    "GROUPS_FINALS": "Groupes + Finales",
+    "GROUPS_KO": "Groupes + Élimination",
+    "KNOCKOUT": "Élimination directe",
+    "KO": "Élimination directe",
+    "LEAGUE": "Championnat"
+  },
+  "format_desc": {
+    "CHAMPIONNAT": "Chaque équipe joue toutes les autres (aller/retour).",
+    "GROUPS_FINALS": "Groupes d'abord, puis phases finales.",
+    "GROUPS_KO": "Phase de groupes puis phases finales",
+    "KNOCKOUT": "Tableau à élimination directe.",
+    "KO": "Tableau à élimination directe",
+    "LEAGUE": "Aller simple: chacun joue contre chacun"
+  },
+  "format_tip": {
+    "CHAMPIONNAT": "Idéal pour peu d'équipes, classement final décide.",
+    "GROUPS_FINALS": "Idéal pour groupes + finales excitantes.",
+    "GROUPS_KO": "Génère les groupes, les matchs de groupes et une finale (placeholder).",
+    "KNOCKOUT": "Rapide, une défaite élimine.",
+    "KO": "Génère le tableau KO (avec byes si besoin).",
+    "LEAGUE": "Génère les journées et les matchs du championnat."
+  },
+  "login": {
+    "btn": "Se connecter",
+    "email": "Email",
+    "invalid": "Email ou mot de passe invalide",
+    "password": "Mot de passe",
+    "title": "Connexion"
+  },
+  "matches": {
+    "addTitle": "Ajouter un match",
+    "away": "Équipe extérieur",
+    "awayScore": "Score extérieur",
+    "editTitle": "Modifier le match",
+    "events": "Events",
+    "group": "Groupe",
+    "home": "Équipe domicile",
+    "homeScore": "Score domicile",
+    "modal": {
+      "title": "Match"
+    },
+    "referee": "Arbitre",
+    "stage": "Phase",
+    "startTime": "Heure",
+    "status": "Statut",
+    "title": "Matchs",
+    "tournament": "Tournoi",
+    "venue": "Lieu",
+    "details": "Détails"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "logout": "Déconnexion",
+    "matches": "Matchs",
+    "public": "Public",
+    "settings": "Paramètres",
+    "standings": "Classement",
+    "teams": "Équipes",
+    "tournaments": "Tournois"
+  },
+  "phase": {
+    "FINAL": "Finale",
+    "GROUP": "Groupe",
+    "LEAGUE": "Championnat",
+    "QUARTER_FINAL": "Quart de finale",
+    "ROUND_OF_16": "Huitième de finale",
+    "SEMI_FINAL": "Demi-finale"
+  },
+  "players": {
+    "add": "Ajouter joueur",
+    "firstName": "Prénom",
+    "fullName": "Nom complet",
+    "jerseyNumber": "N°",
+    "lastName": "Nom",
+    "phone": "Téléphone",
+    "position": "Poste",
+    "status": "Statut"
+  },
+  "sport": {
+    "BASKETBALL": "Basket",
+    "FOOTBALL": "Football",
+    "HANDBALL": "Handball",
+    "OTHER": "Autre"
+  },
+  "stage": {
+    "GROUP": "Phase de groupes",
+    "KNOCKOUT": "Élimination directe"
+  },
+  "standings": {
+    "compute": "Calculer",
+    "group": "Groupe",
+    "groupTitle": "Groupe {g}",
+    "knockoutTitle": "Matchs éliminatoires",
+    "leagueTitle": "Classement",
+    "matchLabel": "Match",
+    "noGroups": "Aucun groupe trouvé pour ce tournoi.",
+    "noKo": "Aucun match éliminatoire pour le moment.",
+    "noTeamsLinked": "Aucune équipe liée à ce tournoi.",
+    "score": "Score",
+    "slot": "Slot",
+    "stage": "Phase",
+    "stageGroup": "Groupes",
+    "stageKnockout": "Phase finale",
+    "stageLeague": "Championnat",
+    "status": "Statut",
+    "title": "Classement",
+    "tournament": "Tournoi",
+    "statsTitle": "Statistiques du tournoi",
+    "stats": {
+      "noEvents": "Aucun événement de match pour le moment.",
+      "topScorers": "Meilleurs buteurs",
+      "goals": "Buts",
+      "yellowCards": "Cartons jaunes",
+      "redCards": "Cartons rouges",
+      "topPoints": "Meilleurs marqueurs",
+      "points": "Pts",
+      "fouls": "Fautes",
+      "timeouts": "Temps-morts",
+      "susp2min": "Exclusions 2 min",
+      "mostActive": "Plus actifs",
+      "goalsByTeam": "Buts par équipe",
+      "fairPlay": "Fair-play (moins de cartons)",
+      "fairPlayPts": "pts"
+    }
+  },
+  "status": {
+    "ACTIVE": "Actif",
+    "ARCHIVED": "Archivé",
+    "CANCELED": "Annulé",
+    "DRAFT": "Brouillon",
+    "FINISHED": "Terminé",
+    "IN_PROGRESS": "En cours",
+    "PUBLISHED": "Publié",
+    "SCHEDULED": "Programmé"
+  },
+  "table": {
+    "col": {
+      "endDate": "Fin",
+      "format": "Format",
+      "location": "Lieu",
+      "name": "Nom",
+      "sport": "Sport",
+      "startDate": "Début",
+      "status": "Statut"
+    },
+    "matches": {
+      "actions": "Actions",
+      "away": "Extérieur",
+      "dateTime": "Date/Heure",
+      "group": "Groupe",
+      "home": "Domicile",
+      "phase": "Phase",
+      "referee": "Arbitre",
+      "result": "Résultat",
+      "round": "Journée/Round",
+      "score": "Score",
+      "stage": "Phase",
+      "start": "Début",
+      "status": "Statut",
+      "tournament": "Tournoi",
+      "venue": "Lieu"
+    },
+    "standings": {
+      "against": "BC",
+      "diff": "+/-",
+      "draws": "N",
+      "for": "BP",
+      "losses": "P",
+      "played": "J",
+      "points": "Pts",
+      "rank": "#",
+      "team": "Équipe",
+      "wins": "G"
+    },
+    "teams": {
+      "actions": "Actions",
+      "coach": "Coach",
+      "group": "Groupe",
+      "groupCode": "Groupe",
+      "name": "Équipe",
+      "phone": "Téléphone",
+      "players": "Joueurs",
+      "seed": "Seed",
+      "tournament": "Tournoi",
+      "updated": "Mis à jour"
+    },
+    "tournaments": {
+      "format": "Format",
+      "sport": "Sport",
+      "status": "Statut",
+      "title": "Tournois"
+    }
+  },
+  "table.matches.round": "Journée",
+  "teams": {
+    "actions": {
+      "assign": "Affecter",
+      "tournaments": "Tournois"
+    },
+    "addTitle": "Ajouter une équipe",
+    "coach": "Coach",
+    "confirmDeletePlayer": "Supprimer ce joueur ?",
+    "confirmRemoveLink": "Retirer cette équipe du tournoi ?",
+    "editTitle": "Modifier l’équipe",
+    "errors": {
+      "nameRequired": "Nom d'équipe obligatoire",
+      "sportRequired": "Sport obligatoire"
+    },
+    "fields": {
+      "createNewTeam": "Créer une nouvelle équipe",
+      "existingTeam": "Équipe existante",
+      "groupCode": "Groupe",
+      "logoUrl": "URL du logo",
+      "managerName": "Responsable",
+      "managerPhone": "Téléphone",
+      "seed": "Seed",
+      "sport": "Sport",
+      "teamName": "Nom de l’équipe",
+      "tournament": "Tournoi"
+    },
+    "group": "Groupe",
+    "hint": {
+      "tournamentOptional": "Optionnel : laissez vide pour créer l'équipe uniquement."
+    },
+    "modal": {
+      "title": "Équipe"
+    },
+    "phone": "Téléphone",
+    "selectNoTournament": "Aucun tournoi (équipe seule)",
+    "selectSport": "Choisir un sport",
+    "selectTeam": "Sélectionner une équipe",
+    "teamName": "Nom de l’équipe",
+    "title": "Équipes",
+    "tournament": "Tournoi",
+    "tournamentsModal": {
+      "colGroup": "Groupe",
+      "colSeed": "Seed",
+      "colTournament": "Tournoi",
+      "empty": "Aucune participation",
+      "title": "Participations"
+    }
+  },
+  "tournament": {
+    "addTitle": "Ajouter un tournoi",
+    "confirmRegen": "Régénérer (supprimer les matchs existants)",
+    "createFinalPlaceholder": "Créer une finale (placeholder)",
+    "doubleRound": "Aller/Retour",
+    "editTitle": "Modifier le tournoi",
+    "errors": {
+      "groupsCountRequired": "Le nombre de groupes est requis.",
+      "qualifiedPerGroupRequired": "Le nombre de qualifiés par groupe est requis.",
+      "rulesMissing": "Paramètres du tournoi manquants. Éditez le tournoi et renseignez d'abord le nombre d'équipes / paramètres du format.",
+      "teamsCountRequired": "Le nombre d'équipes est requis."
+    },
+    "fields": {
+      "byes": "Exempts",
+      "endDate": "Date fin",
+      "format": "Format",
+      "legs": "Aller/Retour",
+      "name": "Nom",
+      "pairing": "Affrontements",
+      "pairingHint": "Ex: A1 vs B2, B1 vs A2...",
+      "qualifiedPerGroup": "Qualifiés par groupe",
+      "sport": "Sport",
+      "startDate": "Date début",
+      "status": "Statut",
+      "teamsCount": "Nombre d'équipes",
+      "thirdPlace": "Match de classement",
+      "groupsCount": "Nombre de groupes"
+    },
+    "finalsGenerated": "Finales générées",
+    "generateFinals": "Générer finales",
+    "generateSubtitle": "Création automatique selon le format du tournoi.",
+    "generateTitle": "Générer groupes & matchs",
+    "groupsCount": "Nombre de groupes",
+    "hints": {
+      "pairingCrossExample": "CROSS : A1 vs B2, B1 vs A2 ...",
+      "roundsCount": "Journées : {n}",
+      "roundsNeedTeams": "Définissez le nombre d'équipes pour calculer les journées.",
+      "teamsCountHelp": "Définissez le nombre d'équipes pour ce tournoi.",
+      "teamsCountOk": "Équipes : {n}",
+      "teamsPerGroup": "Équipes/groupe : {n}",
+      "totalQualified": "Total qualifiés : {n}"
+    },
+    "modal": {
+      "title": "Tournoi"
+    },
+    "noTeamsLinked": "Aucune équipe n’est liée à ce tournoi.",
+    "rulesMissing": "Les règles du tournoi sont manquantes ou invalides.",
+    "matchesExistEnableRegen": "Des matchs existent déjà. Activez la régénération pour continuer.",
+    "placeholders": {
+      "name": "Nom du tournoi",
+      "teamsCount": "ex. 16",
+      "groupsCount": "ex. 4",
+      "qualifiedPerGroup": "ex. 2"
+    }
+  },
+  "matchDetails": {
+    "title": "Détails du match",
+    "notes": "Notes",
+    "saveNotes": "Enregistrer les notes",
+    "notesPlaceholder": "Écrivez les notes du match ici...",
+    "notFound": "Match introuvable."
+  }
+}

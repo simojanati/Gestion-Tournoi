@@ -1,0 +1,113 @@
+/* === Gestion Tournoi overrides === */
+:root { }
+
+/* make overlay spinner */
+.gt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.gt-overlay.show { display: flex; }
+.gt-overlay .gt-overlay-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  min-width: 280px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+.gt-overlay .spinner-border { width: 2.5rem; height: 2.5rem; }
+
+/* RTL fixes for Sneat vertical menu layout */
+html[dir="rtl"] body { direction: rtl; }
+html[dir="rtl"] .layout-menu { left: auto !important; right: 0 !important; }
+html[dir="rtl"] .layout-page { padding-left: 0 !important; padding-right: 16.25rem; } /* menu width */
+html[dir="rtl"] .layout-navbar { left: 0; right: 0; }
+html[dir="rtl"] .dropdown-menu-end { right: auto !important; left: 0 !important; }
+html[dir="rtl"] .ms-auto { margin-right: auto !important; margin-left: 0 !important; }
+html[dir="rtl"] .me-auto { margin-left: auto !important; margin-right: 0 !important; }
+html[dir="rtl"] .me-2, html[dir="rtl"] .me-3, html[dir="rtl"] .me-4 { margin-left: .5rem !important; margin-right: 0 !important; }
+html[dir="rtl"] .ms-2, html[dir="rtl"] .ms-3, html[dir="rtl"] .ms-4 { margin-right: .5rem !important; margin-left: 0 !important; }
+html[dir="rtl"] .text-end { text-align: left !important; }
+html[dir="rtl"] .text-start { text-align: right !important; }
+
+/* format chip */
+.gt-format-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .6rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(67,89,113,.15);
+  background: rgba(67,89,113,.03);
+}
+.gt-format-chip i { font-size: 1.1rem; }
+
+/* status badges - keep Sneat classes, but enforce min width */
+.gt-badge { display: inline-flex; align-items: center; gap: .35rem; }
+.gt-badge .bx { font-size: 1rem; }
+
+/* === Topbar alignment (LTR/RTL) === */
+#layout-navbar #navbar-collapse{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#layout-navbar .gt-topbar-search{
+  flex: 1 1 auto;
+}
+#layout-navbar .gt-topbar-search .nav-item{
+  width: 100%;
+}
+#layout-navbar .gt-topbar-search .form-control{
+  max-width: 420px;
+}
+#layout-navbar .gt-topbar-actions{
+  flex: 0 0 auto;
+  gap: .75rem;
+}
+
+
+#layout-navbar .gt-topbar-actions{
+  margin-inline-start: auto;
+}
+/* LTR: search left, actions right. RTL: search right, actions left. */
+html[dir="rtl"] #layout-navbar #navbar-collapse{
+  flex-direction: row;
+}
+
+/* In RTL, keep the search icon/input spacing pleasant */
+html[dir="rtl"] #layout-navbar .gt-topbar-search .bx-search{
+  margin-left: .5rem;
+  margin-right: 0;
+}
+
+
+/* === Standings sport stats cards === */
+.gt-stats-card .card-header{
+  background: rgba(67,89,113,.04);
+}
+.gt-stats-card .list-group-item{
+  padding: .55rem .85rem;
+}
+.gt-stats-card .badge{
+  font-weight: 700;
+}
+
+/* === Tournament stats collapsible === */
+.gt-stats-wrap{
+  border: 1px solid rgba(67,89,113,.12);
+}
+.gt-stats-wrap .card-header{
+  background: linear-gradient(135deg, rgba(67,89,113,.06), rgba(67,89,113,.02));
+}
+.gt-stats-wrap #btnToggleStats{
+  font-weight: 700;
+}
+.gt-stats-wrap #statsSportEmoji{
+  font-size: 1rem;
+}

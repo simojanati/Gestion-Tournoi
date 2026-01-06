@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Redirect</title>
+<meta content="" name="description"/>
+<!-- Favicon -->
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons. Uncomment required icon fonts -->
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<!-- Core CSS -->
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+<!-- Page CSS -->
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/config.js"></script>
+<script>
+  (function(){
+    const KEY = (GT_CONFIG.STORAGE_PREFIX||'GT_') + 'session';
+    let s=null;
+    try { s=JSON.parse(localStorage.getItem(KEY)||'null'); } catch(e){}
+    if (s && s.token) window.location.href='dashboard.html';
+    else window.location.href='login.html';
+  })();
+</script>
+</body></html>

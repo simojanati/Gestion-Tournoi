@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html class="light-style layout-menu-fixed" data-assets-path="assets/" data-template="vertical-menu-template-free" data-theme="theme-default" dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Match Details</title>
+<meta content="" name="description"/>
+<!-- Favicon -->
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons. Uncomment required icon fonts -->
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<!-- Core CSS -->
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+<!-- Page CSS -->
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="assets/js/config.js"></script>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+<div id="gtSidebarHost"></div>
+<div class="layout-page">
+<div id="gtTopbarHost"></div>
+<div class="content-wrapper">
+<div class="container-xxl flex-grow-1 container-p-y">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+  <h4 class="fw-bold mb-0">
+    <span class="text-muted fw-light" data-i18n="nav.matches">Matches</span>
+    <span class="text-muted fw-light"> / </span>
+    <span data-i18n="matchDetails.title">Match details</span>
+  </h4>
+  <a id="btnBackMatches" class="btn btn-sm btn-outline-secondary" href="matches.html">
+    <i class="bx bx-arrow-back me-1"></i><span data-i18n="common.back">Back</span>
+  </a>
+</div>
+
+<div id="matchNotFound" class="alert alert-warning d-none" role="alert" data-i18n="matchDetails.notFound">Match not found.</div>
+
+<div id="matchDetailsWrap" class="d-none">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+        <div>
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <span id="mdSportIcon" class="text-muted"></span>
+            <h5 class="mb-0" id="mdTitle">—</h5>
+          </div>
+          <div class="text-muted small mt-1" id="mdMeta">—</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button id="btnMDRefresh" class="btn btn-sm btn-outline-secondary"><i class="bx bx-refresh"></i></button>
+        </div>
+      </div>
+
+      <hr class="my-3"/>
+
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-3">
+          <label class="form-label" data-i18n="matches.homeScore">Home score</label>
+          <input id="mdHomeScore" class="form-control" type="number" min="0" step="1" />
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="form-label" data-i18n="matches.awayScore">Away score</label>
+          <input id="mdAwayScore" class="form-control" type="number" min="0" step="1" />
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="form-label" data-i18n="matches.status">Status</label>
+          <select id="mdStatus" class="form-select"></select>
+        </div>
+        <div class="col-12 col-md-3 d-flex gap-2">
+          <button id="btnMDSaveResult" class="btn btn-primary w-100"><span data-i18n="common.save">Save</span></button>
+          <button id="btnMDApplyAutoScore" class="btn btn-outline-success w-100"><span data-i18n="events.applyScore">Apply score</span></button>
+        </div>
+      </div>
+
+      <div class="mt-3 text-muted small">
+        <span data-i18n="events.autoScore">Auto score</span>: <span id="mdAutoScoreText">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <h5 class="mb-0" data-i18n="matches.events">Events</h5>
+      </div>
+      <button id="btnMDEventsRefresh" class="btn btn-sm btn-outline-secondary"><i class="bx bx-refresh"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-lg-7">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th data-i18n="events.fields.time">Time</th>
+                  <th data-i18n="events.fields.team">Team</th>
+                  <th data-i18n="events.fields.type">Type</th>
+                  <th data-i18n="events.fields.player">Player</th>
+                  <th class="text-end" data-i18n="common.actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="mdTblEvents"></tbody>
+            </table>
+          </div>
+          <div id="mdNoEvents" class="text-muted small d-none" data-i18n="common.noData">No data</div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="alert alert-info d-none" id="mdEditingBadge">
+            <i class="bx bx-edit-alt me-1"></i><span data-i18n="events.editing">Editing event</span>
+          </div>
+
+          <input type="hidden" id="mdEventId" />
+
+          <div class="mb-2">
+            <label class="form-label" data-i18n="events.fields.type">Type</label>
+            <select id="mdEventType" class="form-select"></select>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-12 col-md-6">
+              <label class="form-label" data-i18n="events.fields.team">Team</label>
+              <select id="mdEventTeam" class="form-select"></select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" data-i18n="events.fields.player">Player</label>
+              <select id="mdEventPlayer" class="form-select"></select>
+            </div>
+          </div>
+
+          <div class="row g-2 mt-0" id="mdSubRow" style="display:none;">
+            <div class="col-12 col-md-6">
+              <label class="form-label" data-i18n="events.fields.player">Player out</label>
+              <select id="mdEventPlayerOut" class="form-select"></select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" data-i18n="events.fields.playerIn">Player in</label>
+              <select id="mdEventPlayerIn" class="form-select"></select>
+            </div>
+          </div>
+
+          <div class="row g-2 mt-2">
+            <div class="col-12 col-md-6" id="mdMinuteWrap">
+              <label class="form-label" data-i18n="events.fields.minute">Minute</label>
+              <input id="mdEventMinute" class="form-control" type="number" min="0" step="1" placeholder="45" />
+            </div>
+            <div class="col-12 col-md-6" id="mdPeriodWrap" style="display:none;">
+              <label class="form-label" data-i18n="events.fields.period">Period</label>
+              <select id="mdEventPeriod" class="form-select"></select>
+            </div>
+            <div class="col-12 col-md-6" id="mdClockWrap" style="display:none;">
+              <label class="form-label" data-i18n="events.fields.clock">Clock</label>
+              <input id="mdEventClock" class="form-control" type="text" placeholder="05:32" />
+            </div>
+          </div>
+
+          <div class="row g-2 mt-2" id="mdPointsWrap" style="display:none;">
+            <div class="col-12">
+              <label class="form-label" data-i18n="events.fields.points">Points</label>
+              <select id="mdEventPoints" class="form-select">
+                <option value="">—</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <label class="form-label" data-i18n="events.fields.notes">Notes</label>
+            <input id="mdEventNotes" class="form-control" type="text" />
+          </div>
+
+          <div class="mt-3 d-flex gap-2">
+            <button id="btnMDEventSave" class="btn btn-primary w-100"><span data-i18n="common.save">Save</span></button>
+            <button id="btnMDEventClear" class="btn btn-outline-secondary w-100"><span data-i18n="common.cancel">Clear</span></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="mb-0" data-i18n="matchDetails.notes">Notes</h5>
+      <button id="btnMDSaveNotes" class="btn btn-sm btn-primary"><span data-i18n="matchDetails.saveNotes">Save notes</span></button>
+    </div>
+    <div class="card-body">
+      <textarea id="mdNotes" class="form-control" rows="4" data-i18n-placeholder="matchDetails.notesPlaceholder" placeholder="Notes..."></textarea>
+    </div>
+  </div>
+</div>
+
+
+<script src="assets/vendor/libs/jquery/jquery.js"></script>
+<script src="assets/vendor/libs/popper/popper.js"></script>
+<script src="assets/vendor/js/bootstrap.js"></script>
+<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="assets/vendor/js/menu.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/include.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+(async function() {
+  await GT_i18n.load(GT_i18n.currentLang());
+  GT_auth.requireAuth();
+  await GT_bootAppLayout();
+const SHEET = GT_CONST.sheets;
+
+  // Helpers
+  function esc(s){ return String(s ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function toastOk(msg){ GT_ui.toast(msg, "success"); }
+  function toastErr(err){
+    if (err && err.canceled) return;
+    const msg = (err && (err.message || err.error)) ? (err.message || err.error) : "Error";
+    GT_ui.toast(String(msg), "danger");
+    console.error(err);
+  }
+  function tLabel(key, fallback){
+    const v = GT_i18n.t(key, null, true);
+    return v === key ? (fallback || key) : v;
+  }
+
+  function sportIconClass(sport){
+    const s = String(sport||"").toUpperCase();
+    if (s === "FOOTBALL") return "bx-football";
+    if (s === "BASKETBALL") return "bx-basketball";
+    if (s === "HANDBALL") return "bx-hand";
+    return "bx-run";
+  }
+  function sportIconHtml(sport){
+    return `<i class="bx ${sportIconClass(sport)} me-1 text-muted" style="font-size:1.2rem; position:relative; top:2px;"></i>`;
+  }
+
+  // Event constants
+  const EVENT_TYPES = {
+    FOOTBALL: ["GOAL","PENALTY_GOAL","OWN_GOAL","YELLOW_CARD","SECOND_YELLOW","RED_CARD","SUBSTITUTION","PENALTY_MISSED"],
+    BASKETBALL: ["SCORE","FOUL","TIMEOUT","TECHNICAL","EJECTION"],
+    HANDBALL: ["GOAL","7M_GOAL","7M_MISSED","2MIN_SUSPENSION","YELLOW_CARD","RED_CARD"],
+    OTHER: ["NOTE"]
+  };
+  const PERIODS = {
+    FOOTBALL: ["H1","H2","ET1","ET2","PEN"],
+    BASKETBALL: ["Q1","Q2","Q3","Q4","OT"],
+    HANDBALL: ["H1","H2","OT"],
+    OTHER: ["P1"]
+  };
+
+  function labelEventType(type){
+    const tt = String(type || "").trim().toUpperCase();
+    return tLabel(`events.type.${tt}`, tt);
+  }
+  function labelPeriod(p){
+    const pp = String(p || "").trim().toUpperCase();
+    return tLabel(`events.period.${pp}`, pp);
+  }
+
+  // DOM
+  const matchNotFoundEl = document.getElementById("matchNotFound");
+  const wrapEl = document.getElementById("matchDetailsWrap");
+
+  const mdSportIconEl = document.getElementById("mdSportIcon");
+  const mdTitleEl = document.getElementById("mdTitle");
+  const mdMetaEl = document.getElementById("mdMeta");
+
+  const btnRefresh = document.getElementById("btnMDRefresh");
+
+  const hsEl = document.getElementById("mdHomeScore");
+  const asEl = document.getElementById("mdAwayScore");
+  const statusEl = document.getElementById("mdStatus");
+  const btnSaveResult = document.getElementById("btnMDSaveResult");
+  const btnApplyAuto = document.getElementById("btnMDApplyAutoScore");
+  const autoScoreTextEl = document.getElementById("mdAutoScoreText");
+
+  const tblEvents = document.getElementById("mdTblEvents");
+  const noEventsEl = document.getElementById("mdNoEvents");
+  const btnEventsRefresh = document.getElementById("btnMDEventsRefresh");
+
+  const editingBadgeEl = document.getElementById("mdEditingBadge");
+  const eventIdEl = document.getElementById("mdEventId");
+  const eventTypeEl = document.getElementById("mdEventType");
+  const eventTeamEl = document.getElementById("mdEventTeam");
+  const eventPlayerEl = document.getElementById("mdEventPlayer");
+  const subRowEl = document.getElementById("mdSubRow");
+  const playerOutEl = document.getElementById("mdEventPlayerOut");
+  const playerInEl = document.getElementById("mdEventPlayerIn");
+
+  const minuteWrap = document.getElementById("mdMinuteWrap");
+  const periodWrap = document.getElementById("mdPeriodWrap");
+  const clockWrap = document.getElementById("mdClockWrap");
+  const pointsWrap = document.getElementById("mdPointsWrap");
+
+  const eventMinuteEl = document.getElementById("mdEventMinute");
+  const eventPeriodEl = document.getElementById("mdEventPeriod");
+  const eventClockEl = document.getElementById("mdEventClock");
+  const eventPointsEl = document.getElementById("mdEventPoints");
+  const eventNotesEl = document.getElementById("mdEventNotes");
+
+  const btnEventSave = document.getElementById("btnMDEventSave");
+  const btnEventClear = document.getElementById("btnMDEventClear");
+
+  const notesEl = document.getElementById("mdNotes");
+  const btnSaveNotes = document.getElementById("btnMDSaveNotes");
+
+  // State
+  let tournaments = [], teams = [], players = [], matches = [], results = [], matchEvents = [];
+  let currentMatch = null;
+  let currentResult = null;
+
+  function fillSelect(el, list, idKey, labelFn, emptyLabel){
+    const opts = [];
+    if (emptyLabel !== undefined) opts.push(`<option value="">${esc(emptyLabel)}</option>`);
+    (list || []).forEach(x => opts.push(`<option value="${esc(x[idKey])}">${esc(labelFn(x))}</option>`));
+    el.innerHTML = opts.join("");
+  }
+
+  function teamName(id){
+    const t = teams.find(x => String(x.id)===String(id));
+    return t ? t.name : "";
+  }
+  function tournamentName(id){
+    const t = tournaments.find(x => String(x.id)===String(id));
+    return t ? t.name : "";
+  }
+
+  // Players sheet stores firstName/lastName (not fullName). Build a safe display label.
+  function playerFullName(p){
+    if (!p) return "";
+    const fn = String(p.firstName || "").trim();
+    const ln = String(p.lastName || "").trim();
+    const joined = `${fn} ${ln}`.trim();
+    const alt = String(p.fullName || p.name || "").trim();
+    return joined || alt || (p.id ? `#${p.id}` : "");
+  }
+  function matchSport(match){
+    const t = tournaments.find(x => String(x.id) === String(match?.tournamentId));
+    return String((t && t.sport) ? t.sport : "OTHER").trim().toUpperCase();
+  }
+  function playersForTeam(teamId, tournamentId){
+    return players.filter(p => String(p.teamId)===String(teamId) && (!p.tournamentId || String(p.tournamentId)===String(tournamentId)));
+  }
+
+  function parseTimeSortKey(ev){
+    const sport = String(ev.sport||"OTHER").toUpperCase();
+    if (sport === "BASKETBALL"){
+      const order = (PERIODS.BASKETBALL || []).reduce((a,v,i)=>(a[v]=i,a),{});
+      const per = String(ev.period||"Q1").toUpperCase();
+      const perIdx = order[per] ?? 0;
+      const clock = String(ev.clock||"00:00");
+      // sort later events lower in list: period asc, clock desc
+      const parts = clock.split(":");
+      const sec = (parseInt(parts[0]||"0",10)*60) + parseInt(parts[1]||"0",10);
+      return perIdx*100000 - sec;
+    }
+    const min = parseInt(ev.minute||"0",10);
+    return min;
+  }
+
+  function computeAutoScore(){
+    if (!currentMatch) return null;
+    const sport = matchSport(currentMatch);
+    let h=0, a=0;
+    const hid = String(currentMatch.homeTeamId);
+    const aid = String(currentMatch.awayTeamId);
+    matchEvents.forEach(ev => {
+      const tId = String(ev.teamId || "");
+      const type = String(ev.type||"").toUpperCase();
+      if (sport === "FOOTBALL"){
+        if (type === "GOAL" || type === "PENALTY_GOAL"){
+          if (tId === hid) h += 1;
+          else if (tId === aid) a += 1;
+        }
+        if (type === "OWN_GOAL"){
+          if (tId === hid) a += 1;
+          else if (tId === aid) h += 1;
+        }
+      } else if (sport === "BASKETBALL"){
+        if (type === "SCORE"){
+          const pts = parseInt(ev.value1||"0",10);
+          if (tId === hid) h += pts;
+          else if (tId === aid) a += pts;
+        }
+      } else if (sport === "HANDBALL"){
+        if (type === "GOAL" || type === "7M_GOAL"){
+          if (tId === hid) h += 1;
+          else if (tId === aid) a += 1;
+        }
+      }
+    });
+    return { home: h, away: a };
+  }
+
+  function updateAutoScoreUI(){
+    const sc = computeAutoScore();
+    if (!sc) { autoScoreTextEl.textContent = "—"; return; }
+    autoScoreTextEl.textContent = `${sc.home} - ${sc.away}`;
+  }
+
+  function renderHeader(){
+    const m = currentMatch;
+    if (!m) return;
+    const sport = matchSport(m);
+    mdSportIconEl.innerHTML = sportIconHtml(sport);
+
+    const title = `${teamName(m.homeTeamId)} ${tLabel("common.vs","vs")} ${teamName(m.awayTeamId)}`;
+    mdTitleEl.textContent = title;
+
+    const parts = [
+      tournamentName(m.tournamentId),
+      (m.stage || ""),
+      (m.groupName || m.groupCode || ""),
+      GT_ui.formatDateTime(m.startTime || m.dateTime || "")
+    ].filter(Boolean);
+    mdMetaEl.textContent = parts.join(" • ");
+  }
+
+  function renderEvents(){
+    const list = [...(matchEvents||[])].sort((a,b)=>parseTimeSortKey(a)-parseTimeSortKey(b));
+    if (!list.length){
+      tblEvents.innerHTML = "";
+      noEventsEl.classList.remove("d-none");
+      return;
+    }
+    noEventsEl.classList.add("d-none");
+    tblEvents.innerHTML = list.map(ev => {
+      const t = String(ev.teamId||"");
+      const p = players.find(x => String(x.id)===String(ev.playerId||""));
+      const timeTxt = (String(ev.sport||"").toUpperCase()==="BASKETBALL")
+        ? `${labelPeriod(ev.period||"")} ${esc(ev.clock||"")}`
+        : `${esc(ev.minute||"")}'`;
+      const typeTxt = labelEventType(ev.type);
+      const playerTxt = p ? playerFullName(p) : "";
+      return `
+        <tr>
+          <td class="text-muted">${esc(timeTxt)}</td>
+          <td>${esc(teamName(t))}</td>
+          <td>${esc(typeTxt)}${(String(ev.type||"").toUpperCase()==="SCORE" ? ` <span class="text-muted">(+${esc(ev.value1||"")})</span>`:"")}</td>
+          <td>${esc(playerTxt)}</td>
+          <td class="text-end">
+            <button class="btn btn-xs btn-outline-secondary" data-act="edit" data-id="${esc(ev.id)}"><i class="bx bx-edit-alt"></i></button>
+            <button class="btn btn-xs btn-outline-danger" data-act="del" data-id="${esc(ev.id)}"><i class="bx bx-trash"></i></button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function resetEventForm(){
+    eventIdEl.value = "";
+    editingBadgeEl.classList.add("d-none");
+    eventNotesEl.value = "";
+    eventMinuteEl.value = "";
+    eventClockEl.value = "";
+    eventPointsEl.value = "";
+    // default selects
+    if (eventTypeEl.options.length) eventTypeEl.selectedIndex = 0;
+    if (eventTeamEl.options.length) eventTeamEl.selectedIndex = 0;
+    fillPlayersSelects();
+    toggleEventUI();
+  }
+
+  function fillPlayersSelects(){
+    if (!currentMatch) return;
+    const tid = currentMatch.tournamentId;
+    const teamId = eventTeamEl.value || currentMatch.homeTeamId;
+    const list = playersForTeam(teamId, tid);
+    fillSelect(eventPlayerEl, list, "id", p => playerFullName(p), "—");
+    fillSelect(playerOutEl, list, "id", p => playerFullName(p), "—");
+    // playerIn should list both teams
+    const homeList = playersForTeam(currentMatch.homeTeamId, tid);
+    const awayList = playersForTeam(currentMatch.awayTeamId, tid);
+    fillSelect(playerInEl, [...homeList, ...awayList], "id", p => `${playerFullName(p)} (${teamName(p.teamId)})`, "—");
+  }
+
+  function toggleEventUI(){
+    const sport = String(currentMatch ? matchSport(currentMatch) : "OTHER");
+    const type = String(eventTypeEl.value||"").toUpperCase();
+    const isBasket = sport === "BASKETBALL";
+    const isScore = isBasket && type === "SCORE";
+    const isSub = sport === "FOOTBALL" && type === "SUBSTITUTION";
+
+    // time inputs
+    minuteWrap.style.display = isBasket ? "none" : "";
+    periodWrap.style.display = isBasket ? "" : "none";
+    clockWrap.style.display = isBasket ? "" : "none";
+
+    pointsWrap.style.display = isScore ? "" : "none";
+    subRowEl.style.display = isSub ? "" : "none";
+    // When substitution: hide generic player select
+    eventPlayerEl.parentElement.style.display = isSub ? "none" : "";
+  }
+
+  async function loadAll(){
+    const params = new URLSearchParams(location.search);
+    const matchId = params.get("matchId");
+    const returnTo = params.get("returnTo") || "matches.html";
+    const backEl = document.getElementById("btnBackMatches");
+    if (backEl) backEl.setAttribute("href", returnTo);
+    const [tRes, teamRes, playerRes, mRes, rRes] = await Promise.all([
+      GT_api.list(SHEET.Tournaments),
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.Players),
+      GT_api.list(SHEET.Matches),
+      GT_api.list(SHEET.Results),
+    ]);
+    tournaments = (tRes.rows||[]).filter(x=>x.id);
+    teams = (teamRes.rows||[]).filter(x=>x.id);
+    players = (playerRes.rows||[]).filter(x=>x.id);
+    matches = (mRes.rows||[]).filter(x=>x.id);
+    results = (rRes.rows||[]).filter(x=>x.id);
+
+    currentMatch = matches.find(x=>String(x.id)===String(matchId));
+    if (!currentMatch){
+      matchNotFoundEl.classList.remove("d-none");
+      wrapEl.classList.add("d-none");
+      return;
+    }
+    matchNotFoundEl.classList.add("d-none");
+    wrapEl.classList.remove("d-none");
+
+    // result
+    currentResult = results.find(r => String(r.matchId)===String(currentMatch.id)) || null;
+
+    // fill status select
+    const statuses = (GT_CONST.matchStatuses || []).map(s => {
+      const id = (typeof s === "string") ? s : (s?.value || s?.id || s?.code || "");
+      return { id, label: tLabel(`status.${id}`, id) };
+    }).filter(x => x.id);
+    statusEl.innerHTML = statuses.map(x=>`<option value="${esc(x.id)}">${esc(x.label)}</option>`).join("");
+    statusEl.value = currentMatch.status || "SCHEDULED";
+
+    hsEl.value = currentResult ? (currentResult.homeScore ?? "") : "";
+    asEl.value = currentResult ? (currentResult.awayScore ?? "") : "";
+    notesEl.value = currentResult ? (currentResult.notes ?? "") : "";
+
+    renderHeader();
+
+    // setup event selects based on sport/teams
+    const sport = matchSport(currentMatch);
+    const types = EVENT_TYPES[sport] || EVENT_TYPES.OTHER;
+    eventTypeEl.innerHTML = types.map(tp => `<option value="${esc(tp)}">${esc(labelEventType(tp))}</option>`).join("");
+    const per = PERIODS[sport] || PERIODS.OTHER;
+    eventPeriodEl.innerHTML = per.map(pp => `<option value="${esc(pp)}">${esc(labelPeriod(pp))}</option>`).join("");
+
+    eventTeamEl.innerHTML = `
+      <option value="${esc(currentMatch.homeTeamId)}">${esc(teamName(currentMatch.homeTeamId))}</option>
+      <option value="${esc(currentMatch.awayTeamId)}">${esc(teamName(currentMatch.awayTeamId))}</option>
+    `;
+
+    fillPlayersSelects();
+    resetEventForm();
+
+    await loadEvents();
+    updateAutoScoreUI();
+    GT_i18n.apply(document);
+  }
+
+  async function loadEvents(){
+    if (!currentMatch) return;
+    const evRes = await GT_api.list(SHEET.MatchEvents, "matchId", currentMatch.id);
+    matchEvents = (evRes.rows||[]).filter(x=>x.id);
+    renderEvents();
+    updateAutoScoreUI();
+  }
+
+  async function saveResult(){
+    if (!currentMatch) return;
+    const hs = hsEl.value === "" ? null : parseInt(hsEl.value,10);
+    const as = asEl.value === "" ? null : parseInt(asEl.value,10);
+    // upsert result
+    const payload = {
+      id: currentResult ? currentResult.id : undefined,
+      matchId: currentMatch.id,
+      homeScore: hs,
+      awayScore: as,
+      status: statusEl.value || currentMatch.status || "SCHEDULED",
+      notes: notesEl.value || ""
+    };
+    const res = await GT_api.upsert(SHEET.Results, payload);
+    // refresh results list from server
+    const rRes = await GT_api.list(SHEET.Results);
+    results = (rRes.rows||[]).filter(x=>x.id);
+    currentResult = results.find(r => String(r.matchId)===String(currentMatch.id)) || null;
+    toastOk(tLabel("common.saved","Saved"));
+  }
+
+  async function applyAutoScore(){
+    if (!currentMatch) return;
+    const sc = computeAutoScore();
+    if (!sc) return;
+    // Update results + mark match finished
+    const payloadRes = {
+      id: currentResult ? currentResult.id : undefined,
+      matchId: currentMatch.id,
+      homeScore: sc.home,
+      awayScore: sc.away,
+      status: "FINISHED",
+      notes: notesEl.value || (currentResult ? currentResult.notes : "") || ""
+    };
+    await GT_api.upsert(SHEET.Results, payloadRes);
+    await GT_api.upsert(SHEET.Matches, { id: currentMatch.id, status: "FINISHED" });
+    // refresh
+    await loadAll();
+    toastOk(tLabel("events.scoreApplied","Score applied"));
+  }
+
+  async function saveEvent(){
+    if (!currentMatch) return;
+    const session = GT_auth.getSession() || {};
+    const uid = session?.user?.id || null;
+
+    const sport = matchSport(currentMatch);
+    const type = String(eventTypeEl.value||"").toUpperCase();
+    const isBasket = sport === "BASKETBALL";
+    const isScore = isBasket && type === "SCORE";
+    const isSub = sport === "FOOTBALL" && type === "SUBSTITUTION";
+
+    const teamId = eventTeamEl.value || null;
+
+    let playerId = eventPlayerEl.value || null;
+    let v1 = null, v2 = null;
+
+    if (isScore) v1 = eventPointsEl.value ? parseInt(eventPointsEl.value,10) : null;
+
+    if (isSub){
+      playerId = playerOutEl.value || null;
+      v1 = playerInEl.value || null; // player in
+    }
+
+    const payload = {
+      id: eventIdEl.value || undefined,
+      matchId: currentMatch.id,
+      sport,
+      teamId,
+      playerId,
+      type,
+      period: isBasket ? (eventPeriodEl.value || null) : null,
+      minute: isBasket ? null : (eventMinuteEl.value==="" ? null : parseInt(eventMinuteEl.value,10)),
+      clock: isBasket ? (eventClockEl.value || null) : null,
+      value1: v1,
+      value2: v2,
+      notes: eventNotesEl.value || "",
+      createdBy: uid || null
+    };
+
+    await GT_api.upsert(SHEET.MatchEvents, payload);
+    await loadEvents();
+    resetEventForm();
+    toastOk(tLabel("common.saved","Saved"));
+  }
+
+  function startEditEvent(ev){
+    eventIdEl.value = ev.id;
+    editingBadgeEl.classList.remove("d-none");
+
+    eventTypeEl.value = String(ev.type||"").toUpperCase();
+    eventTeamEl.value = ev.teamId || "";
+    fillPlayersSelects();
+
+    const sport = matchSport(currentMatch);
+    const type = String(ev.type||"").toUpperCase();
+    const isBasket = sport === "BASKETBALL";
+    const isScore = isBasket && type === "SCORE";
+    const isSub = sport === "FOOTBALL" && type === "SUBSTITUTION";
+
+    if (isSub){
+      playerOutEl.value = ev.playerId || "";
+      playerInEl.value = ev.value1 || "";
+    } else {
+      eventPlayerEl.value = ev.playerId || "";
+    }
+
+    eventMinuteEl.value = ev.minute ?? "";
+    eventPeriodEl.value = ev.period || "";
+    eventClockEl.value = ev.clock || "";
+    eventPointsEl.value = (isScore && ev.value1 !== null && ev.value1 !== undefined) ? String(ev.value1) : "";
+    eventNotesEl.value = ev.notes || "";
+
+    toggleEventUI();
+    GT_i18n.apply(document);
+  }
+
+  async function deleteEvent(id){
+    await GT_api.remove(SHEET.MatchEvents, id);
+    await loadEvents();
+    toastOk(tLabel("common.deleted","Deleted"));
+  }
+
+  // Listeners
+  btnRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingTextKey:"common.loading" }).catch(toastErr));
+  btnEventsRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnEventsRefresh, loadEvents, { loadingTextKey:"common.loading" }).catch(toastErr));
+  btnSaveResult.addEventListener("click", () => GT_ui.withOverlaySpinner(btnSaveResult, saveResult, { loadingTextKey:"common.saving" }).catch(toastErr));
+  btnApplyAuto.addEventListener("click", () => GT_ui.withOverlaySpinner(btnApplyAuto, applyAutoScore, { loadingTextKey:"common.saving" }).catch(toastErr));
+  btnSaveNotes.addEventListener("click", () => GT_ui.withOverlaySpinner(btnSaveNotes, saveResult, { loadingTextKey:"common.saving" }).catch(toastErr));
+
+  eventTeamEl.addEventListener("change", () => { fillPlayersSelects(); });
+  eventTypeEl.addEventListener("change", () => { toggleEventUI(); });
+  btnEventClear.addEventListener("click", () => resetEventForm());
+  btnEventSave.addEventListener("click", () => GT_ui.withOverlaySpinner(btnEventSave, saveEvent, { loadingTextKey:"common.saving" }).catch(toastErr));
+
+  tblEvents.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    const ev = matchEvents.find(x => String(x.id)===String(id));
+    if (act === "edit" && ev) startEditEvent(ev);
+    if (act === "del") GT_ui.withOverlaySpinner(btn, () => deleteEvent(id), { loadingTextKey:"common.deleting" }).catch(toastErr);
+  });
+
+  // init
+  GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingTextKey:"common.loading" }).catch(toastErr);
+})();
+</script>
+
+
+</body>
+</html>

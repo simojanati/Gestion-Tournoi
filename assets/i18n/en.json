@@ -1,0 +1,415 @@
+{
+  "app": {
+    "title": "Gestion Tournoi"
+  },
+  "common": {
+    "actions": "Actions",
+    "add": "Add",
+    "all": "All",
+    "auto": "Auto",
+    "cancel": "Cancel",
+    "catalog": "Catalog",
+    "clear": "Clear",
+    "close": "Close",
+    "confirm": "Confirm",
+    "confirmDelete": "Are you sure you want to delete?",
+    "delete": "Delete",
+    "deleted": "Deleted",
+    "deleting": "Deleting...",
+    "edit": "Edit",
+    "filterTournament": "Tournament",
+    "generate": "Generate",
+    "invalidTeams": "Home and away teams must be different.",
+    "loading": "Loading...",
+    "participants": "Participants",
+    "players": "Players",
+    "refresh": "Refresh",
+    "required": "Required fields are missing.",
+    "roster": "Roster",
+    "save": "Save",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "search": "Search",
+    "sync": "Sync",
+    "tbd": "TBD",
+    "update": "Update",
+    "vs": "vs",
+    "noData": "No data",
+    "back": "Back",
+    "show": "Show",
+    "hide": "Hide"
+  },
+  "events": {
+    "add": "Add event",
+    "applyScore": "Apply score",
+    "autoScore": "Auto score",
+    "autoScoreNA": "Auto score: -",
+    "clock": "Clock",
+    "clockPlaceholder": "05:32",
+    "fields": {
+      "clock": "Clock",
+      "minute": "Minute",
+      "notes": "Notes",
+      "period": "Period",
+      "player": "Player",
+      "playerIn": "Player in",
+      "points": "Points",
+      "team": "Team",
+      "time": "Time",
+      "type": "Type",
+      "value": "Value"
+    },
+    "minute": "Minute",
+    "minutePlaceholder": "0",
+    "noEvents": "No events yet.",
+    "notes": "Notes",
+    "notesPlaceholder": "Optional notes...",
+    "period": {
+      "ET1": "ET1",
+      "ET2": "ET2",
+      "H1": "H1",
+      "H2": "H2",
+      "OT": "OT",
+      "P1": "P1",
+      "P2": "P2",
+      "PEN": "PEN",
+      "Q1": "Q1",
+      "Q2": "Q2",
+      "Q3": "Q3",
+      "Q4": "Q4"
+    },
+    "player": "Player",
+    "playerIn": "Player in",
+    "points": "Points",
+    "scoreApplied": "Score applied",
+    "team": "Team",
+    "time": "Time",
+    "timeline": "Timeline",
+    "type": {
+      "2MIN_SUSPENSION": "2 min suspension",
+      "7M_GOAL": "7m goal",
+      "7M_MISSED": "7m missed",
+      "EJECTION": "Ejection",
+      "EVENT": "Event",
+      "FOUL": "Foul",
+      "GOAL": "Goal",
+      "OWN_GOAL": "Own goal",
+      "PENALTY_GOAL": "Penalty goal",
+      "PENALTY_MISSED": "Penalty missed",
+      "RED_CARD": "Red card",
+      "SCORE": "Score",
+      "SECOND_YELLOW": "Second yellow",
+      "SUBSTITUTION": "Substitution",
+      "TECHNICAL": "Technical",
+      "TIMEOUT": "Timeout",
+      "YELLOW_CARD": "Yellow card"
+    },
+    "value": "Value"
+  },
+  "format": {
+    "CHAMPIONNAT": "League",
+    "GROUPS_FINALS": "Groups + Finals",
+    "GROUPS_KO": "Groups + Knockout",
+    "KNOCKOUT": "Knockout",
+    "KO": "Knockout",
+    "LEAGUE": "League"
+  },
+  "format_desc": {
+    "CHAMPIONNAT": "Each team plays all others (round-robin).",
+    "GROUPS_FINALS": "Groups first, then qualifiers go to finals.",
+    "GROUPS_KO": "Groups stage then knockout phases",
+    "KNOCKOUT": "Single elimination bracket.",
+    "KO": "Single elimination bracket",
+    "LEAGUE": "Round-robin: everyone plays everyone"
+  },
+  "format_tip": {
+    "CHAMPIONNAT": "Best for small leagues, ranking decides winner.",
+    "GROUPS_FINALS": "Best when you want groups + exciting finals.",
+    "GROUPS_KO": "Generates groups, group matches, and a final placeholder.",
+    "KNOCKOUT": "Fast format, one loss eliminates.",
+    "KO": "Generates knockout bracket matches (with byes if needed).",
+    "LEAGUE": "Generates league rounds and matches."
+  },
+  "login": {
+    "btn": "Login",
+    "email": "Email",
+    "invalid": "Invalid email or password",
+    "password": "Password",
+    "title": "Sign in"
+  },
+  "matches": {
+    "addTitle": "Add match",
+    "away": "Away team",
+    "awayScore": "Away score",
+    "editTitle": "Edit match",
+    "events": "Events",
+    "group": "Group",
+    "home": "Home team",
+    "homeScore": "Home score",
+    "modal": {
+      "title": "Match"
+    },
+    "referee": "Referee",
+    "stage": "Stage",
+    "startTime": "Start time",
+    "status": "Status",
+    "title": "Matches",
+    "tournament": "Tournament",
+    "venue": "Venue",
+    "details": "Details"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "matches": "Matches",
+    "public": "Public",
+    "settings": "Settings",
+    "standings": "Standings",
+    "teams": "Teams",
+    "tournaments": "Tournaments"
+  },
+  "phase": {
+    "FINAL": "Final",
+    "GROUP": "Group",
+    "LEAGUE": "League",
+    "QUARTER_FINAL": "Quarter-final",
+    "ROUND_OF_16": "Round of 16",
+    "SEMI_FINAL": "Semi-final"
+  },
+  "players": {
+    "add": "Add player",
+    "firstName": "First name",
+    "fullName": "Full name",
+    "jerseyNumber": "Jersey #",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "position": "Position",
+    "status": "Status"
+  },
+  "sport": {
+    "BASKETBALL": "Basketball",
+    "FOOTBALL": "Football",
+    "HANDBALL": "Handball",
+    "OTHER": "Other"
+  },
+  "stage": {
+    "GROUP": "Group stage",
+    "KNOCKOUT": "Knockout"
+  },
+  "standings": {
+    "compute": "Compute",
+    "group": "Group",
+    "groupTitle": "Group {g}",
+    "knockoutTitle": "Knockout matches",
+    "leagueTitle": "League table",
+    "matchLabel": "Match",
+    "noGroups": "No groups found for this tournament.",
+    "noKo": "No knockout matches yet.",
+    "noTeamsLinked": "No teams linked to this tournament.",
+    "score": "Score",
+    "slot": "Slot",
+    "stage": "Stage",
+    "stageGroup": "Groups",
+    "stageKnockout": "Knockout",
+    "stageLeague": "League",
+    "status": "Status",
+    "title": "Standings",
+    "tournament": "Tournament",
+    "statsTitle": "Tournament stats",
+    "stats": {
+      "noEvents": "No match events yet.",
+      "topScorers": "Top scorers",
+      "goals": "Goals",
+      "yellowCards": "Yellow cards",
+      "redCards": "Red cards",
+      "topPoints": "Top points",
+      "points": "Pts",
+      "fouls": "Fouls",
+      "timeouts": "Timeouts",
+      "susp2min": "2 min susp.",
+      "mostActive": "Most active",
+      "goalsByTeam": "Goals by team",
+      "fairPlay": "Fair-play (least cards)",
+      "fairPlayPts": "pts"
+    }
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "ARCHIVED": "Archived",
+    "CANCELED": "Canceled",
+    "DRAFT": "Draft",
+    "FINISHED": "Finished",
+    "IN_PROGRESS": "In progress",
+    "PUBLISHED": "Published",
+    "SCHEDULED": "Scheduled"
+  },
+  "table": {
+    "col": {
+      "endDate": "End",
+      "format": "Format",
+      "location": "Location",
+      "name": "Name",
+      "sport": "Sport",
+      "startDate": "Start",
+      "status": "Status"
+    },
+    "matches": {
+      "actions": "Actions",
+      "away": "Away",
+      "dateTime": "Date/Time",
+      "group": "Group",
+      "home": "Home",
+      "phase": "Phase",
+      "referee": "Referee",
+      "result": "Result",
+      "round": "Round",
+      "score": "Score",
+      "stage": "Stage",
+      "start": "Start",
+      "status": "Status",
+      "tournament": "Tournament",
+      "venue": "Venue"
+    },
+    "standings": {
+      "against": "A",
+      "diff": "+/-",
+      "draws": "D",
+      "for": "F",
+      "losses": "L",
+      "played": "P",
+      "points": "Pts",
+      "rank": "#",
+      "team": "Team",
+      "wins": "W"
+    },
+    "teams": {
+      "actions": "Actions",
+      "coach": "Coach",
+      "group": "Group",
+      "groupCode": "Group",
+      "name": "Team",
+      "phone": "Phone",
+      "players": "Players",
+      "seed": "Seed",
+      "tournament": "Tournament",
+      "updated": "Updated"
+    },
+    "tournaments": {
+      "format": "Format",
+      "sport": "Sport",
+      "status": "Status",
+      "title": "Tournaments"
+    }
+  },
+  "table.matches.round": "Round",
+  "teams": {
+    "actions": {
+      "assign": "Assign",
+      "tournaments": "Tournaments"
+    },
+    "addTitle": "Add team",
+    "coach": "Coach",
+    "confirmDeletePlayer": "Delete this player?",
+    "confirmRemoveLink": "Remove this team from the tournament?",
+    "editTitle": "Edit team",
+    "errors": {
+      "nameRequired": "Team name is required",
+      "sportRequired": "Sport is required"
+    },
+    "fields": {
+      "createNewTeam": "Create new team",
+      "existingTeam": "Existing team",
+      "groupCode": "Group",
+      "logoUrl": "Logo URL",
+      "managerName": "Manager name",
+      "managerPhone": "Manager phone",
+      "seed": "Seed",
+      "sport": "Sport",
+      "teamName": "Team name",
+      "tournament": "Tournament"
+    },
+    "group": "Group",
+    "hint": {
+      "tournamentOptional": "Optional: leave empty to create team only."
+    },
+    "modal": {
+      "title": "Team"
+    },
+    "phone": "Phone",
+    "selectNoTournament": "No tournament (team only)",
+    "selectSport": "Select a sport",
+    "selectTeam": "Select a team",
+    "teamName": "Team name",
+    "title": "Teams",
+    "tournament": "Tournament",
+    "tournamentsModal": {
+      "colGroup": "Group",
+      "colSeed": "Seed",
+      "colTournament": "Tournament",
+      "empty": "No participations",
+      "title": "Participations"
+    }
+  },
+  "tournament": {
+    "addTitle": "Add tournament",
+    "confirmRegen": "Regenerate (delete existing matches)",
+    "createFinalPlaceholder": "Create final placeholder",
+    "doubleRound": "Double round (home/away)",
+    "editTitle": "Edit tournament",
+    "errors": {
+      "groupsCountRequired": "Groups count is required.",
+      "qualifiedPerGroupRequired": "Qualified per group is required.",
+      "rulesMissing": "Tournament settings missing. Please edit the tournament and fill Teams count / format settings first.",
+      "teamsCountRequired": "Teams count is required."
+    },
+    "fields": {
+      "byes": "Byes",
+      "endDate": "End date",
+      "format": "Format",
+      "legs": "Legs",
+      "name": "Name",
+      "pairing": "Pairing",
+      "pairingHint": "Example: A1 vs B2, B1 vs A2...",
+      "qualifiedPerGroup": "Qualified per group",
+      "sport": "Sport",
+      "startDate": "Start date",
+      "status": "Status",
+      "teamsCount": "Teams count",
+      "thirdPlace": "Third-place match",
+      "groupsCount": "Groups count"
+    },
+    "finalsGenerated": "Finals generated",
+    "generateFinals": "Generate Finals",
+    "generateSubtitle": "This will create groups and/or matches based on the tournament format.",
+    "generateTitle": "Generate groups & matches",
+    "groupsCount": "Number of groups",
+    "hints": {
+      "pairingCrossExample": "CROSS: A1 vs B2, B1 vs A2 ...",
+      "roundsCount": "Rounds: {n}",
+      "roundsNeedTeams": "Set teams count to compute rounds.",
+      "teamsCountHelp": "Set the number of teams for this tournament.",
+      "teamsCountOk": "Teams: {n}",
+      "teamsPerGroup": "Teams/group: {n}",
+      "totalQualified": "Total qualified: {n}"
+    },
+    "modal": {
+      "title": "Tournament"
+    },
+    "noTeamsLinked": "No teams linked to this tournament.",
+    "rulesMissing": "Tournament rules are missing or invalid.",
+    "matchesExistEnableRegen": "Matches already exist. Enable regeneration to proceed.",
+    "placeholders": {
+      "name": "Tournament name",
+      "teamsCount": "e.g. 16",
+      "groupsCount": "e.g. 4",
+      "qualifiedPerGroup": "e.g. 2"
+    }
+  },
+  "matchDetails": {
+    "title": "Match details",
+    "notes": "Notes",
+    "saveNotes": "Save notes",
+    "notesPlaceholder": "Write match notes here...",
+    "notFound": "Match not found."
+  }
+}

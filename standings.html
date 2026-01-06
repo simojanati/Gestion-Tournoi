@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html class="light-style layout-menu-fixed" data-assets-path="assets/" data-template="vertical-menu-template-free" data-theme="theme-default" dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title data-i18n="nav.standings">Standings</title>
+<meta content="" name="description"/>
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!-- Theme config -->
+<script src="assets/js/config.js"></script>
+
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <div id="gtSidebarHost"></div>
+
+    <div class="layout-page">
+      <div id="gtTopbarHost"></div>
+
+      <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+
+          <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light" data-i18n="nav.standings">Standings</span>
+          </h4>
+
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h4 class="fw-bold mb-0" data-i18n="standings.title">Standings</h4>
+            <button id="btnRefresh" class="btn btn-outline-primary btn-sm">
+              <i class="bx bx-refresh me-1"></i><span data-i18n="common.refresh">Refresh</span>
+            </button>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                  <label class="form-label" data-i18n="standings.tournament">Tournament</label>
+                  <select id="filterTournament" class="form-select"></select>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label" data-i18n="standings.stage">Stage</label>
+                  <select id="filterStage" class="form-select">
+                    <option value="AUTO" data-i18n="common.auto">Auto</option>
+                    <option value="GROUP" data-i18n="standings.stageGroup">Groups</option>
+                    <option value="LEAGUE" data-i18n="standings.stageLeague">League</option>
+                    <option value="KO" data-i18n="standings.stageKnockout">Knockout</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label" data-i18n="standings.group">Group</label>
+                  <select id="filterGroup" class="form-select">
+                    <option value="ALL" data-i18n="common.all">All</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-2">
+                  <button id="btnCompute" class="btn btn-primary w-100">
+                    <i class="bx bx-calculator me-1"></i><span data-i18n="standings.compute">Compute</span>
+                  </button>
+                </div>
+              </div>
+              <div class="small text-muted mt-2" id="hint"></div>
+            </div>
+          </div>
+
+                    <div class="card mb-3 gt-stats-wrap">
+            <div class="card-header py-2 d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bx bx-stats"></i>
+                <span class="fw-bold" data-i18n="standings.statsTitle">Tournament stats</span>
+                <span id="statsSportEmoji" class="text-muted small"></span>
+              </div>
+              <button id="btnToggleStats" class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#statsCollapse" aria-expanded="false" aria-controls="statsCollapse">
+                <i id="icoToggleStats" class="bx bx-chevron-down"></i>
+                <span id="lblToggleStats" data-i18n="common.show">Show</span>
+              </button>
+            </div>
+            <div id="statsCollapse" class="collapse">
+              <div class="card-body pt-3">
+                <div id="statsHost"></div>
+              </div>
+            </div>
+          </div>
+          <div id="standingsHost"></div>
+          <div id="knockoutHost" class="mt-3"></div>
+
+        </div>
+
+        <div id="gtFooterHost"></div>
+        <div class="content-backdrop fade"></div>
+      </div>
+    </div>
+  </div>
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+
+<script src="assets/vendor/libs/jquery/jquery.js"></script>
+<script src="assets/vendor/libs/popper/popper.js"></script>
+<script src="assets/vendor/js/bootstrap.js"></script>
+<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="assets/vendor/js/menu.js"></script>
+
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/include.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+(async function(){
+  await GT_i18n.load(GT_i18n.currentLang());
+  GT_auth.requireAuth();
+  await GT_bootAppLayout();
+
+  const SHEET = window.GT_CONST.sheets;
+  const norm = (v) => String(v ?? "").trim().toUpperCase();
+  const KO_ORDER = { R128:1, R64:2, R32:3, R16:4, QF:5, SF:6, FINAL:7 };
+  // Accept different stage naming conventions from sheet/generator
+  const KO_ALIAS = {
+    "KNOCKOUT": "",
+    "ROUND_OF_128": "R128",
+    "ROUND_OF_64": "R64",
+    "ROUND_OF_32": "R32",
+    "ROUND_OF_16": "R16",
+    "R128": "R128",
+    "R64": "R64",
+    "R32": "R32",
+    "R16": "R16",
+    "16TH_FINAL": "R16",
+    "EIGHTH_FINAL": "R16",
+    "QUARTER_FINAL": "QF",
+    "QUARTERS": "QF",
+    "QF": "QF",
+    "SEMI_FINAL": "SF",
+    "SEMIFINAL": "SF",
+    "SF": "SF",
+    "FINAL": "FINAL",
+    "F": "FINAL"
+  };
+  const KO_STAGES = new Set(Object.keys(KO_ORDER));
+
+  function koStageCode(match){
+    if (!match) return "";
+    let st = norm(match.stage);
+    let gn = norm(match.groupName);
+    if (KO_ALIAS[st] !== undefined) st = KO_ALIAS[st];
+    if (!st || !KO_STAGES.has(st)){
+      if (KO_ALIAS[gn] !== undefined) st = KO_ALIAS[gn];
+      else if (KO_STAGES.has(gn)) st = gn;
+    }
+    return (st && KO_STAGES.has(st)) ? st : "";
+  }
+
+  function isKoMatch(match){
+    return !!koStageCode(match);
+  }
+const filterTournament = document.getElementById("filterTournament");
+  const filterStage = document.getElementById("filterStage");
+  const filterGroup = document.getElementById("filterGroup");
+  const btnCompute = document.getElementById("btnCompute");
+  const btnRefresh = document.getElementById("btnRefresh");
+  const statsHost = document.getElementById("statsHost");
+  const statsSportEmoji = document.getElementById("statsSportEmoji");
+  const btnToggleStats = document.getElementById("btnToggleStats");
+  const lblToggleStats = document.getElementById("lblToggleStats");
+  const icoToggleStats = document.getElementById("icoToggleStats");
+  const statsCollapse = document.getElementById("statsCollapse");
+  const host = document.getElementById("standingsHost");
+  const koHost = document.getElementById("knockoutHost");
+  const hintEl = document.getElementById("hint");
+
+  let tournaments = [];
+  let teamsById = new Map();
+  let tteamsByTid = new Map(); // tid -> rows
+  let matchesByTid = new Map();
+  let resultsByMatchId = new Map();
+  let playersById = new Map();
+  let matchesById = new Map();
+  let eventsByMatchId = new Map();
+
+  const escSafe = (v) => (window.esc ? window.esc(v) : String(v ?? ""));
+
+  function pointsRulesForSport(sport, rules){
+    const s = norm(sport);
+    const p = rules?.points || null;
+    if (p && typeof p.win === "number") return { win: p.win, draw: (p.draw ?? 0), loss: (p.loss ?? 0), allowDraw: p.allowDraw !== false };
+    if (s === "FOOTBALL") return { win: 3, draw: 1, loss: 0, allowDraw: true };
+    // common tournament rules for basketball/handball/etc: win=2, loss=1, no draw
+    return { win: 2, draw: 0, loss: 1, allowDraw: false };
+  }
+
+  function inferStageFromFormat(t){
+    const fmt = norm(t.format);
+    if (fmt === "CHAMPIONNAT") return "LEAGUE";
+    if (fmt === "KNOCKOUT") return "KO";
+    return "GROUP"; // GROUPS_FINALS default
+  }
+
+  function isKoStage(stage){
+    // Backward-compatible helper (prefer isKoMatch)
+    const st = norm(stage);
+    return KO_STAGES.has(st) || KO_ALIAS[st] !== undefined;
+  }
+function getTeamName(id){
+    if (!id) return GT_i18n.t("common.tbd", null, true) || "TBD";
+    return teamsById.get(String(id))?.name || String(id);
+  }
+
+
+  function playerFullName(p){
+    if (!p) return "";
+    const fn = String(p.firstName || "").trim();
+    const ln = String(p.lastName || "").trim();
+    const name = String(p.name || p.fullName || "").trim();
+    const full = [fn, ln].filter(Boolean).join(" ").trim();
+    return full || name || String(p.id || "").trim();
+  }
+  function getPlayerName(id){
+    if (!id) return "";
+    const p = playersById.get(String(id));
+    return p ? playerFullName(p) : String(id);
+  }
+  function getPlayerTeamName(playerId){
+    const p = playersById.get(String(playerId));
+    const tid = p?.teamId ? String(p.teamId) : "";
+    return tid ? getTeamName(tid) : "";
+  }
+
+  function sportEmoji(sport){
+    const s = norm(sport);
+    if (s === "FOOTBALL") return "⚽";
+    if (s === "BASKETBALL") return "🏀";
+    if (s === "HANDBALL") return "🤾";
+    return "🏟️";
+  }
+
+  function topN(map, n=5){
+    return Array.from(map.entries())
+      .filter(([,v]) => Number(v) > 0)
+      .sort((a,b)=> (b[1]||0)-(a[1]||0))
+      .slice(0,n);
+  }
+
+  function bottomN(map, n=5){
+    return Array.from(map.entries())
+      .sort((a,b)=> (a[1]||0)-(b[1]||0))
+      .slice(0,n);
+  }
+
+  function renderStatsCard(titleHtml, items, valueLabel){
+    const rows = (items && items.length) ? items.map(it => {
+      const sub = it.sub ? `<small class="text-muted">${escSafe(it.sub)}</small>` : "";
+      return `
+        <li class="list-group-item d-flex align-items-center justify-content-between">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">${escSafe(it.name)}</span>
+            ${sub}
+          </div>
+          <span class="badge bg-label-primary rounded-pill">${escSafe(it.value)}${valueLabel ? " "+escSafe(valueLabel) : ""}</span>
+        </li>`;
+    }).join("") : `<li class="list-group-item text-center text-muted py-3" data-i18n="standings.stats.noEvents">No match events yet.</li>`;
+
+    return `
+      <div class="card gt-stats-card h-100">
+        <div class="card-header py-2">
+          <div class="fw-bold">${titleHtml}</div>
+        </div>
+        <ul class="list-group list-group-flush">${rows}</ul>
+      </div>
+    `;
+  }
+
+  function computeTournamentStats(tid, tournament){
+    const sport = norm(tournament?.sport);
+    const matches = (matchesByTid.get(String(tid)) || []);
+    const finishedIds = matches.filter(m => norm(m.status)==="FINISHED").map(m => String(m.id));
+    const events = [];
+    for (const mid of finishedIds){
+      const es = eventsByMatchId.get(String(mid)) || [];
+      events.push(...es);
+    }
+
+    if (!events.length){
+      return { sport, cards: [], empty: true };
+    }
+
+    if (sport === "FOOTBALL"){
+      const goalTypes = ["GOAL","PENALTY_GOAL"];
+      const yTypes = ["YELLOW_CARD","SECOND_YELLOW"];
+      const rTypes = ["RED_CARD","SECOND_YELLOW"];
+
+      const goalsByPlayer = new Map();
+      const yellowByPlayer = new Map();
+      const redByPlayer = new Map();
+
+      // Extra: team goals + fair-play (lower is better)
+      const goalsByTeam = new Map();
+      const fairByTeam = new Map();
+
+      // init teams participating (so 0 يظهر فـ fair-play)
+      const ttRowsAll = (tteamsByTid.get(String(tid)) || []).filter(r => r.teamId);
+      for (const r of ttRowsAll){
+        const teamId = String(r.teamId);
+        if (!teamId) continue;
+        if (!goalsByTeam.has(teamId)) goalsByTeam.set(teamId, 0);
+        if (!fairByTeam.has(teamId)) fairByTeam.set(teamId, 0);
+      }
+
+      for (const e of events){
+        const t = norm(e.type);
+        const pid = String(e.playerId || "");
+        const teamId = String(e.teamId || "");
+        const mid = String(e.matchId || "");
+
+        // Player leaderboards
+        if (goalTypes.includes(t) && pid){
+          goalsByPlayer.set(pid, (goalsByPlayer.get(pid)||0) + 1);
+        }
+        if (yTypes.includes(t) && pid){
+          yellowByPlayer.set(pid, (yellowByPlayer.get(pid)||0) + 1);
+        }
+        if (rTypes.includes(t) && pid){
+          redByPlayer.set(pid, (redByPlayer.get(pid)||0) + 1);
+        }
+
+        // Team goals
+        if (goalTypes.includes(t) && teamId){
+          goalsByTeam.set(teamId, (goalsByTeam.get(teamId)||0) + 1);
+        }
+        if (t === "OWN_GOAL" && teamId){
+          const m = matchesById.get(mid);
+          const homeId = String(m?.homeTeamId || "");
+          const awayId = String(m?.awayTeamId || "");
+          const opp = (teamId && homeId && awayId) ? (teamId === homeId ? awayId : homeId) : "";
+          const addTo = opp || teamId;
+          goalsByTeam.set(addTo, (goalsByTeam.get(addTo)||0) + 1);
+        }
+
+        // Fair-play points: 🟨=1, 🟥=3, SECOND_YELLOW=4 (2nd 🟨 + 🟥)
+        if (teamId){
+          if (t === "YELLOW_CARD"){
+            fairByTeam.set(teamId, (fairByTeam.get(teamId)||0) + 1);
+          } else if (t === "RED_CARD"){
+            fairByTeam.set(teamId, (fairByTeam.get(teamId)||0) + 3);
+          } else if (t === "SECOND_YELLOW"){
+            fairByTeam.set(teamId, (fairByTeam.get(teamId)||0) + 4);
+          }
+        }
+      }
+
+      const topScorers = topN(goalsByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topY = topN(yellowByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topR = topN(redByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+
+      const topGoalsTeams = topN(goalsByTeam).map(([teamId,v])=>({ name:getTeamName(teamId), sub:"", value:v }));
+
+      // Fair-play: أقل نقاط أحسن (لكن نعرض 5 الأوائل)
+      const fairTop = bottomN(fairByTeam, 5).map(([teamId,v])=>({ name:getTeamName(teamId), sub:"", value:v }));
+
+      return {
+        sport,
+        cards: [
+          { titleHtml: `${sportEmoji(sport)} ${GT_i18n.t("standings.stats.topScorers", null, true) || "Top scorers"}`, items: topScorers, valueLabel: GT_i18n.t("standings.stats.goals", null, true) || "Goals" },
+          { titleHtml: `⚽ ${GT_i18n.t("standings.stats.goalsByTeam", null, true) || "Goals by team"}`, items: topGoalsTeams, valueLabel: "" },
+          { titleHtml: `🟨 ${GT_i18n.t("standings.stats.yellowCards", null, true) || "Yellow cards"}`, items: topY, valueLabel: "" },
+          { titleHtml: `🟥 ${GT_i18n.t("standings.stats.redCards", null, true) || "Red cards"}`, items: topR, valueLabel: "" },
+          { titleHtml: `🤝 ${GT_i18n.t("standings.stats.fairPlay", null, true) || "Fair-play (least cards)"}`, items: fairTop, valueLabel: GT_i18n.t("standings.stats.fairPlayPts", null, true) || "pts" }
+        ]
+      };
+    }
+
+    if (sport === "BASKETBALL"){
+      const pointsByPlayer = new Map();
+      const foulsByPlayer = new Map();
+      const timeoutsByTeam = new Map();
+
+      for (const e of events){
+        const t = norm(e.type);
+        const pid = String(e.playerId || "");
+        const teamId = String(e.teamId || "");
+        if (t === "SCORE"){
+          const pts = Number(e.value1);
+          if (pid && Number.isFinite(pts)){
+            pointsByPlayer.set(pid, (pointsByPlayer.get(pid)||0) + pts);
+          }
+        }
+        if (t === "FOUL" && pid){
+          foulsByPlayer.set(pid, (foulsByPlayer.get(pid)||0) + 1);
+        }
+        if (t === "TIMEOUT" && teamId){
+          timeoutsByTeam.set(teamId, (timeoutsByTeam.get(teamId)||0) + 1);
+        }
+      }
+
+      const topPts = topN(pointsByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topFouls = topN(foulsByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topTO = topN(timeoutsByTeam).map(([tid,v])=>({ name:getTeamName(tid), sub:"", value:v }));
+
+      return {
+        sport,
+        cards: [
+          { titleHtml: `${sportEmoji(sport)} ${GT_i18n.t("standings.stats.topPoints", null, true) || "Top points"}`, items: topPts, valueLabel: GT_i18n.t("standings.stats.points", null, true) || "Pts" },
+          { titleHtml: `🚫 ${GT_i18n.t("standings.stats.fouls", null, true) || "Fouls"}`, items: topFouls, valueLabel: "" },
+          { titleHtml: `⏱️ ${GT_i18n.t("standings.stats.timeouts", null, true) || "Timeouts"}`, items: topTO, valueLabel: "" }
+        ]
+      };
+    }
+
+    if (sport === "HANDBALL"){
+      const goalsByPlayer = new Map();
+      const suspByPlayer = new Map();
+      const redByPlayer = new Map();
+
+      for (const e of events){
+        const t = norm(e.type);
+        const pid = String(e.playerId || "");
+        if ((t === "GOAL" || t === "7M_GOAL") && pid){
+          goalsByPlayer.set(pid, (goalsByPlayer.get(pid)||0) + 1);
+        }
+        if (t === "2MIN_SUSPENSION" && pid){
+          suspByPlayer.set(pid, (suspByPlayer.get(pid)||0) + 1);
+        }
+        if (t === "RED_CARD" && pid){
+          redByPlayer.set(pid, (redByPlayer.get(pid)||0) + 1);
+        }
+      }
+
+      const topGoals = topN(goalsByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topSusp = topN(suspByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+      const topR = topN(redByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+
+      return {
+        sport,
+        cards: [
+          { titleHtml: `${sportEmoji(sport)} ${GT_i18n.t("standings.stats.topScorers", null, true) || "Top scorers"}`, items: topGoals, valueLabel: GT_i18n.t("standings.stats.goals", null, true) || "Goals" },
+          { titleHtml: `⏳ ${GT_i18n.t("standings.stats.susp2min", null, true) || "2 min susp."}`, items: topSusp, valueLabel: "" },
+          { titleHtml: `🟥 ${GT_i18n.t("standings.stats.redCards", null, true) || "Red cards"}`, items: topR, valueLabel: "" }
+        ]
+      };
+    }
+
+    // OTHER / fallback
+    const countByPlayer = new Map();
+    for (const e of events){
+      const pid = String(e.playerId || "");
+      if (!pid) continue;
+      countByPlayer.set(pid, (countByPlayer.get(pid)||0) + 1);
+    }
+    const topActive = topN(countByPlayer).map(([pid,v])=>({ name:getPlayerName(pid), sub:getPlayerTeamName(pid), value:v }));
+    return {
+      sport,
+      cards: [
+        { titleHtml: `${sportEmoji(sport)} ${GT_i18n.t("standings.stats.mostActive", null, true) || "Most active"}`, items: topActive, valueLabel: "" }
+      ]
+    };
+  }
+  function renderTournamentStats(tid, tournament){
+    const st = computeTournamentStats(tid, tournament);
+
+    if (statsSportEmoji) statsSportEmoji.textContent = st.sport ? sportEmoji(st.sport) : "";
+    if (!statsHost) return;
+
+    if (st.empty || !st.cards.length){
+      statsHost.innerHTML = `
+        <div class="text-muted" data-i18n="standings.stats.noEvents">No match events yet.</div>
+      `;
+      GT_i18n.apply(statsHost);
+      return;
+    }
+
+    statsHost.innerHTML = `
+      <div class="row g-3">
+        ${st.cards.map(c => `<div class="col-12 col-md-4">${renderStatsCard(c.titleHtml, c.items, c.valueLabel)}</div>`).join("")}
+      </div>
+    `;
+    GT_i18n.apply(statsHost);
+  }
+
+  function computeStandingsForGroup({ tournamentId, groupCode, sport, rules }){
+    const pts = pointsRulesForSport(sport, rules);
+    const ttRowsAll = (tteamsByTid.get(String(tournamentId)) || []).filter(r => r.teamId);
+    const ttRows = groupCode ? ttRowsAll.filter(r => norm(r.groupCode || r.groupName || "") === norm(groupCode)) : ttRowsAll;
+
+    const teamIds = ttRows.map(r => String(r.teamId));
+    const byTeam = new Map();
+    for (const tid of teamIds){
+      byTeam.set(tid, { teamId: tid, played:0, win:0, draw:0, loss:0, for:0, against:0, diff:0, points:0 });
+    }
+
+    const matches = (matchesByTid.get(String(tournamentId)) || []);
+    const finished = matches.filter(m => norm(m.stage)==="GROUP" && norm(m.status)==="FINISHED" && resultsByMatchId.has(String(m.id)));
+
+    for (const m of finished){
+      const g = norm(m.groupName || "");
+      if (groupCode && g !== norm(groupCode)) continue;
+
+      const homeId = String(m.homeTeamId || "");
+      const awayId = String(m.awayTeamId || "");
+      if (!byTeam.has(homeId) || !byTeam.has(awayId)) continue;
+
+      const res = resultsByMatchId.get(String(m.id));
+      const hs = Number(res.homeScore);
+      const as = Number(res.awayScore);
+      if (!Number.isFinite(hs) || !Number.isFinite(as)) continue;
+
+      const home = byTeam.get(homeId);
+      const away = byTeam.get(awayId);
+
+      home.played++; away.played++;
+      home.for += hs; home.against += as;
+      away.for += as; away.against += hs;
+
+      if (hs > as){
+        home.win++; away.loss++;
+        home.points += pts.win;
+        away.points += pts.loss;
+      } else if (hs < as){
+        away.win++; home.loss++;
+        away.points += pts.win;
+        home.points += pts.loss;
+      } else {
+        home.draw++; away.draw++;
+        home.points += pts.draw;
+        away.points += pts.draw;
+      }
+    }
+
+    const rows = Array.from(byTeam.values()).map(s => ({ ...s, diff: (s.for - s.against) }));
+    rows.sort((a,b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.diff !== a.diff) return b.diff - a.diff;
+      if (b.for !== a.for) return b.for - a.for;
+      return getTeamName(a.teamId).localeCompare(getTeamName(b.teamId));
+    });
+
+    return rows.map((r, idx) => ({ ...r, rank: idx+1, name: getTeamName(r.teamId) }));
+  }
+
+  function computeStandingsLeague({ tournamentId, sport, rules }){
+    const pts = pointsRulesForSport(sport, rules);
+    const ttRows = (tteamsByTid.get(String(tournamentId)) || []).filter(r => r.teamId);
+    const teamIds = ttRows.map(r => String(r.teamId));
+    const byTeam = new Map();
+    for (const tid of teamIds){
+      byTeam.set(tid, { teamId: tid, played:0, win:0, draw:0, loss:0, for:0, against:0, diff:0, points:0 });
+    }
+
+    const matches = (matchesByTid.get(String(tournamentId)) || []);
+    const finished = matches.filter(m => norm(m.stage)==="LEAGUE" && norm(m.status)==="FINISHED" && resultsByMatchId.has(String(m.id)));
+
+    for (const m of finished){
+      const homeId = String(m.homeTeamId || "");
+      const awayId = String(m.awayTeamId || "");
+      if (!byTeam.has(homeId) || !byTeam.has(awayId)) continue;
+
+      const res = resultsByMatchId.get(String(m.id));
+      const hs = Number(res.homeScore);
+      const as = Number(res.awayScore);
+      if (!Number.isFinite(hs) || !Number.isFinite(as)) continue;
+
+      const home = byTeam.get(homeId);
+      const away = byTeam.get(awayId);
+
+      home.played++; away.played++;
+      home.for += hs; home.against += as;
+      away.for += as; away.against += hs;
+
+      if (hs > as){
+        home.win++; away.loss++;
+        home.points += pts.win;
+        away.points += pts.loss;
+      } else if (hs < as){
+        away.win++; home.loss++;
+        away.points += pts.win;
+        home.points += pts.loss;
+      } else {
+        home.draw++; away.draw++;
+        home.points += pts.draw;
+        away.points += pts.draw;
+      }
+    }
+
+    const rows = Array.from(byTeam.values()).map(s => ({ ...s, diff: (s.for - s.against) }));
+    rows.sort((a,b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.diff !== a.diff) return b.diff - a.diff;
+      if (b.for !== a.for) return b.for - a.for;
+      return getTeamName(a.teamId).localeCompare(getTeamName(b.teamId));
+    });
+
+    return rows.map((r, idx) => ({ ...r, rank: idx+1, name: getTeamName(r.teamId) }));
+  }
+
+  function renderStandingsCard(title, rows, opts = {}){
+    const highlightTop = Number(opts.highlightTop || 0);
+    const trophyFirst = !!opts.trophyFirst;
+    const highlightClass = opts.highlightClass || "table-success";
+
+    const header = `
+      <div class="card-header d-flex align-items-center justify-content-between py-2">
+        <div class="fw-bold">${escSafe(title)}</div>
+        <div class="text-muted small">${rows.length} ${GT_i18n.t("table.standings.team", null, true) || "Teams"}</div>
+      </div>
+    `;
+
+    const bodyRows = rows.length ? rows.map(r => {
+      const rank = Number(r.rank || 0);
+      const isHighlight = highlightTop > 0 && rank > 0 && rank <= highlightTop;
+      const trCls = isHighlight ? ` class="${highlightClass} gt-standings-highlight"` : "";
+      const trophy = (trophyFirst && rank === 1) ? ` <i class="bx bxs-trophy text-warning"></i>` : "";
+      return `
+        <tr${trCls}>
+          <td class="fw-semibold">${rank || ""}</td>
+          <td class="fw-semibold">${escSafe(r.name)}${trophy}</td>
+          <td>${r.played}</td>
+          <td>${r.win}</td>
+          <td>${r.draw}</td>
+          <td>${r.loss}</td>
+          <td>${r.for}</td>
+          <td>${r.against}</td>
+          <td>${r.diff}</td>
+          <td class="fw-semibold">${r.points}</td>
+        </tr>
+      `;
+    }).join("") : `<tr><td colspan="10" class="text-center text-muted py-4" data-i18n="common.noData">No data</td></tr>`;
+
+    const table = `
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th data-i18n="table.standings.rank">#</th>
+              <th data-i18n="table.standings.team">Team</th>
+              <th data-i18n="table.standings.played">P</th>
+              <th data-i18n="table.standings.wins">W</th>
+              <th data-i18n="table.standings.draws">D</th>
+              <th data-i18n="table.standings.losses">L</th>
+              <th data-i18n="table.standings.for">F</th>
+              <th data-i18n="table.standings.against">A</th>
+              <th data-i18n="table.standings.diff">+/-</th>
+              <th data-i18n="table.standings.points">Pts</th>
+            </tr>
+          </thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>
+    `;
+    return `<div class="card mb-3">${header}${table}</div>`;
+  }
+
+  function renderInfoCard(textKey){
+    return `
+      <div class="card">
+        <div class="card-body text-muted">
+          <span data-i18n="${textKey}">${GT_i18n.t(textKey, null, true)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderKnockout(tournamentId){
+    const matches = (matchesByTid.get(String(tournamentId)) || []).filter(m => isKoMatch(m));
+    if (!matches.length){
+      koHost.innerHTML = renderInfoCard("standings.noKo");
+      GT_i18n.apply(koHost);
+      return;
+    }
+
+    const groups = {};
+    for (const m of matches){
+      const st = koStageCode(m) || norm(m.stage);
+      if (!groups[st]) groups[st] = [];
+      groups[st].push(m);
+    }
+
+    const stages = Object.keys(groups).sort((a,b) => (KO_ORDER[a]||999) - (KO_ORDER[b]||999));
+    const cards = stages.map(st => {
+      const ms = groups[st].slice().sort((a,b)=>{
+        const la = String(a.groupName||"");
+        const lb = String(b.groupName||"");
+        return la.localeCompare(lb);
+      });
+
+      const rows = ms.map(m => {
+        const res = resultsByMatchId.get(String(m.id));
+        const score = (res && res.homeScore !== "" && res.awayScore !== "") ? `${res.homeScore} - ${res.awayScore}` : "—";
+        const h = m.homeTeamId ? getTeamName(m.homeTeamId) : (m.groupName ? m.groupName : (GT_i18n.t("common.tbd", null, true) || "TBD"));
+        const a = m.awayTeamId ? getTeamName(m.awayTeamId) : (m.groupName ? "" : (GT_i18n.t("common.tbd", null, true) || "TBD"));
+        const vs = a ? `${escSafe(h)} <span class="text-muted mx-1">vs</span> ${escSafe(a)}` : `${escSafe(h)}`;
+        const status = window.GT_ui?.statusBadge ? GT_ui.statusBadge(m.status) : escSafe(m.status || "");
+        return `<tr>
+          <td class="fw-semibold">${escSafe(st)}</td>
+          <td>${vs}</td>
+          <td class="fw-semibold">${escSafe(score)}</td>
+          <td>${status}</td>
+        </tr>`;
+      }).join("");
+
+      return `
+        <div class="card mb-3">
+          <div class="card-header fw-bold">${escSafe(st)}</div>
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th data-i18n="standings.stage">Stage</th>
+                  <th data-i18n="standings.matchLabel">Match</th>
+                  <th data-i18n="standings.score">Score</th>
+                  <th data-i18n="standings.status">Status</th>
+                </tr>
+              </thead>
+              <tbody>${rows || `<tr><td colspan="4" class="text-center text-muted py-4" data-i18n="common.noData">No data</td></tr>`}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    koHost.innerHTML = `
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h5 class="mb-0" data-i18n="standings.knockoutTitle">Knockout matches</h5>
+      </div>
+      ${cards}
+    `;
+    GT_i18n.apply(koHost);
+  }
+
+  function refillGroups(tournamentId){
+    filterGroup.innerHTML = `<option value="ALL" data-i18n="common.all">All</option>`;
+    const ttRows = (tteamsByTid.get(String(tournamentId)) || []);
+    const groups = Array.from(new Set(ttRows.map(r => norm(r.groupCode || r.groupName || "")).filter(Boolean))).sort();
+    groups.forEach(g => {
+      const opt = document.createElement("option");
+      opt.value = g;
+      opt.textContent = g;
+      filterGroup.appendChild(opt);
+    });
+    GT_i18n.apply(filterGroup);
+  }
+
+  function updateGroupEnabled(stage){
+    const st = norm(stage);
+    const disabled = (st === "LEAGUE" || st === "KO");
+    filterGroup.disabled = disabled;
+  }
+
+  async function loadCaches(){
+    const [tr, te, tt, pl, ma, re, ev] = await Promise.all([
+      GT_api.list(SHEET.Tournaments),
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.TournamentTeams),
+      GT_api.list(SHEET.Players),
+      GT_api.list(SHEET.Matches),
+      GT_api.list(SHEET.Results),
+      GT_api.list(SHEET.MatchEvents)
+    ]);
+
+    tournaments = (tr.rows || []);
+    teamsById = new Map((te.rows || []).filter(x=>x.id).map(x => [String(x.id), x]));
+
+    const ttRows = (tt.rows || []);
+    tteamsByTid = new Map();
+    ttRows.forEach(r => {
+      const tid = String(r.tournamentId || "");
+      if (!tid) return;
+      if (!tteamsByTid.has(tid)) tteamsByTid.set(tid, []);
+      tteamsByTid.get(tid).push(r);
+    });
+
+    const mRows = (ma.rows || []);
+    matchesByTid = new Map();
+    mRows.forEach(m => {
+      const tid = String(m.tournamentId || "");
+      if (!tid) return;
+      if (!matchesByTid.has(tid)) matchesByTid.set(tid, []);
+      matchesByTid.get(tid).push(m);
+    });
+
+    resultsByMatchId = new Map((re.rows || []).filter(r=>r.matchId).map(r => [String(r.matchId), r]));
+
+    playersById = new Map((pl.rows || []).filter(p=>p.id).map(p => [String(p.id), p]));
+
+    matchesById = new Map((mRows || []).filter(m=>m.id).map(m => [String(m.id), m]));
+
+    const evRows = (ev.rows || []);
+    eventsByMatchId = new Map();
+    evRows.forEach(e => {
+      const mid = String(e.matchId || "");
+      if (!mid) return;
+      if (!eventsByMatchId.has(mid)) eventsByMatchId.set(mid, []);
+      eventsByMatchId.get(mid).push(e);
+    });
+
+
+    // tournament selector
+    filterTournament.innerHTML = "";
+    tournaments.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.name || t.id;
+      filterTournament.appendChild(opt);
+    });
+
+    if (tournaments.length){
+      refillGroups(tournaments[0].id);
+      // Auto stage for first tournament
+      updateGroupEnabled(inferStageFromFormat(tournaments[0]));
+    }
+
+    GT_i18n.apply(document.body);
+
+
+    // Tournament stats toggle (default: collapsed)
+    if (!window.__gtStatsToggleBound && btnToggleStats && lblToggleStats && icoToggleStats && statsCollapse){
+      window.__gtStatsToggleBound = true;
+      const setLbl = (key, fallback) => { lblToggleStats.textContent = GT_i18n.t(key, null, true) || fallback; };
+      setLbl("common.show", "Show");
+      statsCollapse.addEventListener("show.bs.collapse", () => {
+        icoToggleStats.className = "bx bx-chevron-up";
+        setLbl("common.hide", "Hide");
+      });
+      statsCollapse.addEventListener("hide.bs.collapse", () => {
+        icoToggleStats.className = "bx bx-chevron-down";
+        setLbl("common.show", "Show");
+      });
+    }
+  }
+
+  async function computeNow(){
+    const tid = filterTournament.value;
+    const t = tournaments.find(x => String(x.id) === String(tid));
+    if (!t) return;
+
+    let rules = {};
+    try { rules = t.rulesJson ? JSON.parse(t.rulesJson) : {}; } catch (_) { rules = {}; }
+
+    // stage selection
+    let st = norm(filterStage.value);
+    if (st === "AUTO"){
+      st = inferStageFromFormat(t);
+    }
+    updateGroupEnabled(st);
+
+    statsHost.innerHTML = "";
+    host.innerHTML = "";
+    koHost.innerHTML = "";
+    hintEl.textContent = "";
+
+    // groups/league use participants list; show message if none
+    const ttCount = (tteamsByTid.get(String(tid)) || []).filter(r => r.teamId).length;
+    if (!ttCount){
+      host.innerHTML = renderInfoCard("standings.noTeamsLinked");
+      GT_i18n.apply(host);
+      return;
+    }
+
+    // Sport-specific tournament stats from match events
+    renderTournamentStats(tid, t);
+
+    if (st === "LEAGUE"){
+      const rows = computeStandingsLeague({ tournamentId: tid, sport: t.sport, rules });
+      host.innerHTML = renderStandingsCard(GT_i18n.t("standings.leagueTitle", null, true) || "League", rows, { highlightTop: 3, trophyFirst: true });
+      GT_i18n.apply(host);
+    } else if (st === "GROUP"){
+      // list groups from TournamentTeams
+      const ttRows = (tteamsByTid.get(String(tid)) || []);
+      const groups = Array.from(new Set(ttRows.map(r => norm(r.groupCode || r.groupName || "")).filter(Boolean))).sort();
+      if (!groups.length){
+        host.innerHTML = renderInfoCard("standings.noGroups");
+        GT_i18n.apply(host);
+      } else {
+        const gSel = norm(filterGroup.value || "ALL");
+        const codes = (gSel === "ALL") ? groups : groups.filter(g => g === gSel);
+        host.innerHTML = codes.map(g => {
+          const title = GT_i18n.t("standings.groupTitle", { g }, true);
+          const rows = computeStandingsForGroup({ tournamentId: tid, groupCode: g, sport: t.sport, rules });
+          const q = Number(rules?.qualification?.qualifiedPerGroup || 2);
+          return renderStandingsCard(title, rows, { highlightTop: q, trophyFirst: false });
+        }).join("");
+        GT_i18n.apply(host);
+      }
+
+      // For formats with finals, display knockout section if any KO matches exist
+      renderKnockout(tid);
+    } else if (st === "KO"){
+      // KO-only view
+      host.innerHTML = "";
+      renderKnockout(tid);
+    }
+
+    const allMatches = (matchesByTid.get(String(tid)) || []);
+    const finishedCount = allMatches.filter(m => norm(m.status)==="FINISHED").length;
+    const groupCount = allMatches.filter(m => norm(m.stage)==="GROUP").length;
+    const leagueCount = allMatches.filter(m => norm(m.stage)==="LEAGUE").length;
+    const koCount = allMatches.filter(m => isKoMatch(m)).length;
+    hintEl.textContent = `Matches: ${allMatches.length} (GROUP ${groupCount} · LEAGUE ${leagueCount} · KO ${koCount}) · Finished: ${finishedCount}`;
+  }
+
+  filterTournament.addEventListener("change", () => {
+    refillGroups(filterTournament.value);
+    computeNow().catch(console.error);
+  });
+  filterStage.addEventListener("change", () => computeNow().catch(console.error));
+  filterGroup.addEventListener("change", () => computeNow().catch(console.error));
+  btnCompute.addEventListener("click", () => GT_ui.withOverlaySpinner(btnCompute, computeNow, { loadingTextKey: "common.loading" }).catch(GT_ui.toastError));
+  btnRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnRefresh, async ()=>{ await loadCaches(); await computeNow(); }, { loadingTextKey: "common.loading" }).catch(GT_ui.toastError));
+
+  await GT_ui.withOverlaySpinner(btnCompute, async ()=>{ await loadCaches(); await computeNow(); }, { loadingTextKey: "common.loading" });
+})();
+</script>
+
+</body>
+</html>

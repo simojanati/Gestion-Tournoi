@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html class="light-style layout-menu-fixed" data-assets-path="assets/" data-template="vertical-menu-template-free" data-theme="theme-default" dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Matches</title>
+<meta content="" name="description"/>
+<!-- Favicon -->
+<link href="assets/img/favicon/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons. Uncomment required icon fonts -->
+<link href="assets/vendor/fonts/boxicons.css" rel="stylesheet"/>
+<!-- Core CSS -->
+<link class="template-customizer-core-css" href="assets/vendor/css/core.css" rel="stylesheet"/>
+<link class="template-customizer-theme-css" href="assets/vendor/css/theme-default.css" rel="stylesheet"/>
+<link href="assets/css/demo.css" rel="stylesheet"/>
+<link href="assets/css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Vendors CSS -->
+<link href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet"/>
+<link href="assets/vendor/libs/apex-charts/apex-charts.css" rel="stylesheet"/>
+<!-- Page CSS -->
+<!-- Helpers -->
+<script src="assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="assets/js/config.js"></script>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+<div id="gtSidebarHost"></div>
+<div class="layout-page">
+<div id="gtTopbarHost"></div>
+<div class="content-wrapper">
+<div class="container-xxl flex-grow-1 container-p-y">
+<h4 class="fw-bold py-3 mb-4">
+  <span class="text-muted fw-light" data-i18n="nav.matches">Matches</span>
+</h4>
+
+<div class="card">
+  <div class="card-header d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <label class="form-label mb-0 me-2" data-i18n="common.filterTournament">Tournament</label>
+      <select id="matchesTournamentFilter" class="form-select form-select-sm" style="min-width: 220px;"></select>
+      <button id="btnMatchesRefresh" class="btn btn-sm btn-outline-primary">
+        <i class="bx bx-refresh me-1"></i><span data-i18n="common.refresh">Refresh</span>
+      </button>
+    </div>
+    <div class="d-flex gap-2">
+      <button id="btnMatchesAdd" class="btn btn-sm btn-primary">
+        <i class="bx bx-plus me-1"></i><span data-i18n="common.add">Add</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div id="matchesAlert" class="mb-3"></div>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          
+          <tr>
+            <th data-i18n="table.matches.tournament">Tournament</th>
+            <th data-i18n="table.matches.stage">Phase</th>
+            <th data-i18n="table.matches.group">Group</th>
+            <th data-i18n="table.matches.round">Round</th>
+            <th data-i18n="table.matches.home">Home</th>
+            <th data-i18n="table.matches.away">Away</th>
+            <th data-i18n="table.matches.result">Result</th>
+            <th data-i18n="table.matches.venue">Venue</th>
+            <th data-i18n="table.matches.referee">Referee</th>
+            <th data-i18n="table.matches.dateTime">Date/Time</th>
+            <th data-i18n="table.matches.status">Status</th>
+            <th data-i18n="table.matches.actions">Actions</th>
+          </tr>
+
+        </thead>
+        <tbody id="tblMatches"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Match Modal -->
+<div class="modal fade" id="matchModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" data-i18n="matches.modal.title">Match</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="matchForm" class="row g-3">
+          <input type="hidden" id="matchId">
+
+          <div class="col-12 col-md-4">
+            <label class="form-label" data-i18n="table.matches.tournament">Tournament</label>
+            <select id="matchTournamentId" class="form-select"></select>
+          </div>
+
+          <div class="col-6 col-md-4">
+            <label class="form-label" data-i18n="table.matches.stage">Phase</label>
+            <select id="matchPhase" class="form-select"></select>
+          </div>
+
+          <div class="col-6 col-md-2">
+            <label class="form-label" data-i18n="table.matches.group">Group</label>
+            <input id="matchGroupCode" class="form-control" placeholder="A">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="table.matches.home">Home</label>
+            <select id="matchHomeTeamId" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" data-i18n="table.matches.away">Away</label>
+            <select id="matchAwayTeamId" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label" data-i18n="table.matches.venue">Venue</label>
+            <select id="matchVenueId" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label" data-i18n="table.matches.referee">Referee</label>
+            <select id="matchRefereeId" class="form-select"></select>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label" data-i18n="table.matches.dateTime">Date/Time</label>
+            <input id="matchDateTime" type="datetime-local" class="form-control">
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label" data-i18n="table.matches.status">Status</label>
+            <select id="matchStatus" class="form-select"></select>
+          </div>
+          <input type="hidden" id="matchResultId">
+
+          <div class="col-6 col-md-2 d-none" id="wrapHomeScore">
+            <label class="form-label" data-i18n="matches.homeScore">Home score</label>
+            <input id="matchHomeScore" type="number" class="form-control" min="0" step="1">
+          </div>
+
+          <div class="col-6 col-md-2 d-none" id="wrapAwayScore">
+            <label class="form-label" data-i18n="matches.awayScore">Away score</label>
+            <input id="matchAwayScore" type="number" class="form-control" min="0" step="1">
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.cancel">Cancel</button>
+        <button class="btn btn-primary" id="btnMatchSave" type="button" data-i18n="common.save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Events Modal -->
+<div class="modal fade" id="eventsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="direction:ltr;">
+        
+        <h5 class="modal-title">
+          <span data-i18n="matches.events">Events</span>
+          <span class="text-muted">—</span>
+          <span id="eventsMatchLabel" class="text-muted"></span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12 col-lg-7">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="fw-semibold" data-i18n="events.timeline">Timeline</div>
+              <div class="d-flex align-items-center gap-2">
+                <span id="eventsAutoScore" class="badge bg-label-secondary" data-i18n="events.autoScore">Auto score</span>
+                <button id="btnApplyAutoScore" class="btn btn-sm btn-outline-success d-none" type="button">
+                  <i class="bx bx-check-circle me-1"></i><span data-i18n="events.applyScore">Apply</span>
+                </button>
+                <button id="btnEventsRefresh" class="btn btn-sm btn-outline-secondary" type="button">
+                  <i class="bx bx-refresh me-1"></i><span data-i18n="common.refresh">Refresh</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive text-nowrap">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th data-i18n="events.fields.time">Time</th>
+                    <th data-i18n="events.fields.type">Type</th>
+                    <th data-i18n="events.fields.team">Team</th>
+                    <th data-i18n="events.fields.player">Player</th>
+                    <th data-i18n="events.fields.value">Value</th>
+                    <th data-i18n="common.actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tblEvents"></tbody>
+              </table>
+            </div>
+            <div id="eventsEmpty" class="text-muted small d-none" data-i18n="events.noEvents">No events</div>
+          </div>
+
+          <div class="col-12 col-lg-5">
+            <div class="fw-semibold mb-2" data-i18n="events.add">Add event</div>
+            <form id="eventForm" class="row g-2">
+              <input type="hidden" id="eventId">
+              <input type="hidden" id="eventMatchId">
+              <input type="hidden" id="eventSport">
+
+              <div class="col-12">
+                <label class="form-label" data-i18n="events.fields.type">Type</label>
+                <select id="eventType" class="form-select"></select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label" data-i18n="events.fields.team">Team</label>
+                <select id="eventTeamId" class="form-select"></select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label" data-i18n="events.fields.player">Player</label>
+                <select id="eventPlayerId" class="form-select"></select>
+              </div>
+
+              <div class="col-12 d-none" id="wrapPlayerIn">
+                <label class="form-label" data-i18n="events.fields.playerIn">Player in</label>
+                <select id="eventPlayerInId" class="form-select"></select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="events.fields.period">Period</label>
+                <select id="eventPeriod" class="form-select"></select>
+              </div>
+
+              <div class="col-6 col-md-3" id="wrapMinute">
+                <label class="form-label" data-i18n="events.fields.minute">Minute</label>
+                <input id="eventMinute" type="number" class="form-control" min="0" step="1" data-i18n-placeholder="events.minutePlaceholder" placeholder="">
+              </div>
+
+              <div class="col-6 col-md-3 d-none" id="wrapClock">
+                <label class="form-label" data-i18n="events.fields.clock">Clock</label>
+                <input id="eventClock" type="text" class="form-control" data-i18n-placeholder="events.clockPlaceholder" placeholder="">
+              </div>
+
+              <div class="col-12 d-none" id="wrapPoints">
+                <label class="form-label" data-i18n="events.fields.points">Points</label>
+                <select id="eventPoints" class="form-select">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label" data-i18n="events.fields.notes">Notes</label>
+                <input id="eventNotes" class="form-control" data-i18n-placeholder="events.notesPlaceholder" placeholder="">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" data-i18n="common.close">Close</button>
+        <button class="btn btn-primary" id="btnEventSave" type="button" data-i18n="common.save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="assets/vendor/libs/jquery/jquery.js"></script>
+<script src="assets/vendor/libs/popper/popper.js"></script>
+<script src="assets/vendor/js/bootstrap.js"></script>
+<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="assets/vendor/js/menu.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/include.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+(async function() {
+  await GT_i18n.load(GT_i18n.currentLang());
+  GT_auth.requireAuth();
+  await GT_bootAppLayout();
+
+  const SHEET = GT_CONST.sheets;
+
+  const tbody = document.getElementById("tblMatches");
+  const filterSel = document.getElementById("matchesTournamentFilter");
+  const btnRefresh = document.getElementById("btnMatchesRefresh");
+  const btnAdd = document.getElementById("btnMatchesAdd");
+
+  const modalEl = document.getElementById("matchModal");
+  const modal = new bootstrap.Modal(modalEl);
+  const btnSave = document.getElementById("btnMatchSave");
+
+  const idEl = document.getElementById("matchId");
+  const tidEl = document.getElementById("matchTournamentId");
+  const phaseEl = document.getElementById("matchPhase");
+  const groupEl = document.getElementById("matchGroupCode");
+const homeEl = document.getElementById("matchHomeTeamId");
+  const awayEl = document.getElementById("matchAwayTeamId");
+  const venueEl = document.getElementById("matchVenueId");
+  const refEl = document.getElementById("matchRefereeId");
+  const dtEl = document.getElementById("matchDateTime");
+  const statusEl = document.getElementById("matchStatus");
+
+  const resultIdEl = document.getElementById("matchResultId");
+  const hsEl = document.getElementById("matchHomeScore");
+  const asEl = document.getElementById("matchAwayScore");
+  const wrapHs = document.getElementById("wrapHomeScore");
+  const wrapAs = document.getElementById("wrapAwayScore");
+
+  // Events modal elements
+  const eventsModalEl = document.getElementById("eventsModal");
+  const eventsModal = new bootstrap.Modal(eventsModalEl);
+  const eventsMatchLabelEl = document.getElementById("eventsMatchLabel");
+  const btnEventsRefresh = document.getElementById("btnEventsRefresh");
+  const eventsAutoScoreEl = document.getElementById("eventsAutoScore");
+  const btnApplyAutoScore = document.getElementById("btnApplyAutoScore");
+  const tblEvents = document.getElementById("tblEvents");
+  const eventsEmpty = document.getElementById("eventsEmpty");
+  const btnEventSave = document.getElementById("btnEventSave");
+
+  const eventIdEl = document.getElementById("eventId");
+  const eventMatchIdEl = document.getElementById("eventMatchId");
+  const eventSportEl = document.getElementById("eventSport");
+  const eventTypeEl = document.getElementById("eventType");
+  const eventTeamEl = document.getElementById("eventTeamId");
+  const eventPlayerEl = document.getElementById("eventPlayerId");
+  const wrapPlayerIn = document.getElementById("wrapPlayerIn");
+  const eventPlayerInEl = document.getElementById("eventPlayerInId");
+  const eventPeriodEl = document.getElementById("eventPeriod");
+  const wrapMinute = document.getElementById("wrapMinute");
+  const eventMinuteEl = document.getElementById("eventMinute");
+  const wrapClock = document.getElementById("wrapClock");
+  const eventClockEl = document.getElementById("eventClock");
+  const wrapPoints = document.getElementById("wrapPoints");
+  const eventPointsEl = document.getElementById("eventPoints");
+  const eventNotesEl = document.getElementById("eventNotes");
+
+  function toggleScoreFields() {
+    const show = String(statusEl.value || "").trim().toUpperCase() === "FINISHED";
+    wrapHs.classList.toggle("d-none", !show);
+    wrapAs.classList.toggle("d-none", !show);
+    if (!show) {
+      hsEl.value = "";
+      asEl.value = "";
+      resultIdEl.value = "";
+    }
+  }
+
+  let tournaments = [];
+  let teams = [];
+  let tournamentTeams = [];
+  let venues = [];
+  let referees = [];
+  let matches = [];
+  let players = [];
+
+  
+  let results = [];
+
+  // Events state
+  let currentMatchForEvents = null;
+  let currentEvents = [];
+function safe(v) { return (v === null || v === undefined) ? "" : String(v); }
+  function esc(s) { return safe(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function toastOk(msg){ GT_ui.toast(msg, "success"); }
+  function toastErr(err){
+    if (err && err.canceled) return;
+    const msg = (err && (err.message || err.error)) ? (err.message || err.error) : String(err);
+    GT_ui.toast(msg, "danger");
+  }
+
+  function teamName(id){ return (teams.find(t => String(t.id)===String(id))||{}).name || ""; }
+  function tournamentName(id){ return (tournaments.find(t => String(t.id)===String(id))||{}).name || ""; }
+  function venueName(id){ return (venues.find(v => String(v.id)===String(id))||{}).name || ""; }
+  function refName(id){ return (referees.find(r => String(r.id)===String(id))||{}).fullName || ""; }
+
+  // --- Match Events (details) ---
+  const EVENTS_SHEET = SHEET.MatchEvents || "match_events";
+
+  const EVENT_TYPES = {
+    FOOTBALL: ["GOAL","PENALTY_GOAL","OWN_GOAL","YELLOW_CARD","SECOND_YELLOW","RED_CARD","SUBSTITUTION","PENALTY_MISSED"],
+    BASKETBALL: ["SCORE","FOUL","TIMEOUT","TECHNICAL","EJECTION"],
+    HANDBALL: ["GOAL","7M_GOAL","7M_MISSED","2MIN_SUSPENSION","YELLOW_CARD","RED_CARD"],
+    OTHER: ["EVENT"]
+  };
+
+  const PERIODS = {
+    FOOTBALL: ["H1","H2","ET1","ET2","PEN"],
+    BASKETBALL: ["Q1","Q2","Q3","Q4","OT"],
+    HANDBALL: ["H1","H2"],
+    OTHER: ["P1","P2"]
+  };
+
+  function tLabel(key, fallback) {
+    const v = GT_i18n.t(key, null, true);
+    return v === key ? (fallback || key) : v;
+  }
+
+  function labelEventType(type) {
+    return tLabel(`events.type.${String(type || "").trim()}`, String(type || ""));
+  }
+
+  function labelPeriod(p) {
+    return tLabel(`events.period.${String(p || "").trim()}`, String(p || ""));
+  }
+
+  function matchSport(match) {
+    const t = tournaments.find(x => String(x.id) === String(match?.tournamentId));
+    return String((t && t.sport) ? t.sport : "OTHER").trim().toUpperCase();
+  }
+
+  
+  function sportIconClass(sport){
+    const s = String(sport||"").toUpperCase();
+    if (s === "FOOTBALL") return "bx-football";
+    if (s === "BASKETBALL") return "bx-basketball";
+    if (s === "HANDBALL") return "bx-hand";
+    return "bx-run";
+  }
+  function sportIconHtml(sport){
+    // small icon used near team names
+    return `<i class="bx ${sportIconClass(sport)} me-1 text-muted" style="font-size:1rem; position:relative; top:1px;"></i>`;
+  }
+
+
+
+  function winnerSide(m){
+    const st = String(m?.status || "").trim().toUpperCase();
+    if (st !== "FINISHED") return null;
+    const r = results.find(x => String(x.matchId) === String(m?.id));
+    if (!r) return null;
+    const hs = Number(r.homeScore);
+    const as = Number(r.awayScore);
+    if (!Number.isFinite(hs) || !Number.isFinite(as)) return null;
+    if (hs > as) return "HOME";
+    if (as > hs) return "AWAY";
+    return "DRAW";
+  }
+
+  function teamCellHtml(m, side){
+    const tid = (side === "HOME") ? m?.homeTeamId : m?.awayTeamId;
+    const nm = esc(teamName(tid));
+    const win = winnerSide(m);
+    const isWin = (win === side);
+    const trophy = isWin
+      ? `<i class="bx bx-trophy ms-1 text-success" style="font-size:1.05rem; position:relative; top:1px;"></i>`
+      : "";
+    const cls = isWin ? "text-success fw-bold" : "";
+    return `<span class="d-inline-flex align-items-center ${cls}">${nm}${trophy}</span>`;
+  }
+
+function playersForTeam(teamId, tournamentId) {
+    return players.filter(p => String(p.teamId) === String(teamId) && (!p.tournamentId || String(p.tournamentId) === String(tournamentId)));
+  }
+
+  function fillEventSelectsForMatch(match) {
+    const sport = matchSport(match);
+    eventSportEl.value = sport;
+
+    // types
+    const types = EVENT_TYPES[sport] || EVENT_TYPES.OTHER;
+    eventTypeEl.innerHTML = types.map(tp => `<option value="${esc(tp)}">${esc(labelEventType(tp))}</option>`).join("");
+
+    // periods
+    const per = PERIODS[sport] || PERIODS.OTHER;
+    eventPeriodEl.innerHTML = per.map(pp => `<option value="${esc(pp)}">${esc(labelPeriod(pp))}</option>`).join("");
+
+    // teams (home/away)
+    const opts = [
+      { id: match.homeTeamId, name: teamName(match.homeTeamId) },
+      { id: match.awayTeamId, name: teamName(match.awayTeamId) }
+    ].filter(x => x.id);
+    eventTeamEl.innerHTML = opts.map(o => `<option value="${esc(o.id)}">${esc(o.name || o.id)}</option>`).join("");
+    eventTeamEl.value = opts[0] ? opts[0].id : "";
+
+    // players (depends on team)
+    refreshPlayersDropdown();
+
+    toggleEventFields();
+  }
+
+  function refreshPlayersDropdown() {
+    if (!currentMatchForEvents) return;
+    const teamId = eventTeamEl.value;
+    const list = teamId ? playersForTeam(teamId, currentMatchForEvents.tournamentId) : [];
+    const ph = `<option value="">—</option>`;
+    eventPlayerEl.innerHTML = ph + list.map(p => {
+      const name = `${safe(p.firstName)} ${safe(p.lastName)}`.trim();
+      const num = p.jerseyNumber ? `#${safe(p.jerseyNumber)} ` : "";
+      return `<option value="${esc(p.id)}">${esc((num + name).trim() || p.id)}</option>`;
+    }).join("");
+
+    eventPlayerInEl.innerHTML = ph + list.map(p => {
+      const name = `${safe(p.firstName)} ${safe(p.lastName)}`.trim();
+      const num = p.jerseyNumber ? `#${safe(p.jerseyNumber)} ` : "";
+      return `<option value="${esc(p.id)}">${esc((num + name).trim() || p.id)}</option>`;
+    }).join("");
+  }
+
+  function toggleEventFields() {
+    const sport = String(eventSportEl.value || "OTHER").toUpperCase();
+    const type = String(eventTypeEl.value || "").toUpperCase();
+
+    const isBasket = sport === "BASKETBALL";
+    const isSub = sport === "FOOTBALL" && type === "SUBSTITUTION";
+    const isScore = sport === "BASKETBALL" && type === "SCORE";
+
+    wrapClock.classList.toggle("d-none", !isBasket);
+    wrapMinute.classList.toggle("d-none", isBasket);
+    wrapPoints.classList.toggle("d-none", !isScore);
+    wrapPlayerIn.classList.toggle("d-none", !isSub);
+  }
+
+  function eventTimeLabel(ev) {
+    const sport = String(ev.sport || "OTHER").toUpperCase();
+    const p = ev.period ? labelPeriod(ev.period) : "";
+    if (sport === "BASKETBALL") {
+      const c = ev.clock ? String(ev.clock) : "";
+      return `${p} ${c}`.trim();
+    }
+    const m = (ev.minute !== undefined && ev.minute !== null && String(ev.minute) !== "") ? `${ev.minute}'` : "";
+    return `${p} ${m}`.trim();
+  }
+
+  function eventValueLabel(ev) {
+    const sport = String(ev.sport || "OTHER").toUpperCase();
+    const type = String(ev.type || "").toUpperCase();
+    if (sport === "BASKETBALL" && type === "SCORE") return safe(ev.value1);
+    if (sport === "FOOTBALL" && type === "SUBSTITUTION") {
+      const out = playerName(ev.playerId);
+      const _in = playerName(ev.value1);
+      return `${out} → ${_in}`.trim();
+    }
+    return safe(ev.value1 || "");
+  }
+
+  function playerName(playerId) {
+    const p = players.find(x => String(x.id) === String(playerId));
+    if (!p) return "";
+    const name = `${safe(p.firstName)} ${safe(p.lastName)}`.trim();
+    const num = p.jerseyNumber ? `#${safe(p.jerseyNumber)} ` : "";
+    return (num + name).trim();
+  }
+
+  function sortEvents(list) {
+    const sport = String(eventSportEl.value || "OTHER").toUpperCase();
+    const perOrder = (PERIODS[sport] || PERIODS.OTHER).reduce((acc, v, i) => (acc[v] = i, acc), {});
+    return [...(list || [])].sort((a, b) => {
+      const ap = perOrder[String(a.period || "").toUpperCase()] ?? 99;
+      const bp = perOrder[String(b.period || "").toUpperCase()] ?? 99;
+      if (ap !== bp) return ap - bp;
+      if (sport === "BASKETBALL") {
+        const ac = String(a.clock || "");
+        const bc = String(b.clock || "");
+        // In basketball clock counts down; larger clock => earlier
+        if (ac !== bc) return bc.localeCompare(ac);
+      } else {
+        const am = Number(a.minute || 0);
+        const bm = Number(b.minute || 0);
+        if (am !== bm) return am - bm;
+      }
+      const at = Date.parse(a.createdAt || "") || 0;
+      const bt = Date.parse(b.createdAt || "") || 0;
+      return at - bt;
+    });
+  }
+
+  function renderEvents() {
+    const list = sortEvents(currentEvents);
+    eventsEmpty.classList.toggle("d-none", list.length !== 0);
+    tblEvents.innerHTML = list.map(ev => {
+      const team = teamName(ev.teamId);
+      const player = playerName(ev.playerId);
+      return `
+        <tr>
+          <td class="text-muted">${esc(eventTimeLabel(ev))}</td>
+          <td>${esc(labelEventType(ev.type))}</td>
+          <td>${esc(team)}</td>
+          <td>${esc(player)}</td>
+          <td>${esc(eventValueLabel(ev))}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger" data-act="ev-del" data-id="${esc(ev.id)}"><i class="bx bx-trash"></i></button>
+          </td>
+        </tr>`;
+    }).join("");
+
+    GT_i18n.apply(eventsModalEl);
+    updateAutoScoreUI();
+  }
+
+  function computeAutoScoreFromEvents(match, events){
+    if (!match) return null;
+    const sport = matchSport(match);
+    const homeId = String(match.homeTeamId || "");
+    const awayId = String(match.awayTeamId || "");
+    if (!homeId || !awayId) return null;
+
+    let hs = 0, as = 0;
+
+    const addHome = (n=1) => { hs += Number(n)||0; };
+    const addAway = (n=1) => { as += Number(n)||0; };
+
+    for (const ev of (events || [])){
+      const t = String(ev.type || "").toUpperCase();
+      const tid = String(ev.teamId || "");
+
+      if (sport === "FOOTBALL"){
+        if (t === "GOAL" || t === "PENALTY_GOAL"){
+          if (tid === homeId) addHome(1);
+          else if (tid === awayId) addAway(1);
+        } else if (t === "OWN_GOAL"){
+          // own goal by team -> point to opponent
+          if (tid === homeId) addAway(1);
+          else if (tid === awayId) addHome(1);
+        }
+      } else if (sport === "BASKETBALL"){
+        if (t === "SCORE"){
+          const pts = Number(ev.value1 || 0);
+          if (!Number.isFinite(pts)) continue;
+          if (tid === homeId) addHome(pts);
+          else if (tid === awayId) addAway(pts);
+        }
+      } else if (sport === "HANDBALL"){
+        if (t === "GOAL" || t === "7M_GOAL"){
+          if (tid === homeId) addHome(1);
+          else if (tid === awayId) addAway(1);
+        }
+      }
+    }
+
+    if (!Number.isFinite(hs) || !Number.isFinite(as)) return null;
+    return { homeScore: hs, awayScore: as };
+  }
+
+  function updateAutoScoreUI(){
+    if (!eventsAutoScoreEl || !btnApplyAutoScore) return;
+    const s = computeAutoScoreFromEvents(currentMatchForEvents, currentEvents);
+    if (!s){
+      eventsAutoScoreEl.textContent = tLabel('events.autoScoreNA', 'Auto score: -');
+      btnApplyAutoScore.classList.add('d-none');
+      return;
+    }
+    const prefix = tLabel('events.autoScore', 'Auto score');
+    eventsAutoScoreEl.textContent = `${prefix}: ${s.homeScore} - ${s.awayScore}`;
+    btnApplyAutoScore.classList.remove('d-none');
+  }
+
+  async function applyAutoScoreToResult(){
+    if (!currentMatchForEvents) return;
+    const s = computeAutoScoreFromEvents(currentMatchForEvents, currentEvents);
+    if (!s){
+      toastErr(new Error(tLabel('events.autoScoreNA', 'No auto score')));
+      return;
+    }
+
+    // Mark match finished (only when user explicitly applies)
+    await GT_api.upsert(SHEET.Matches, { id: currentMatchForEvents.id, status: 'FINISHED' });
+
+    const existing = results.find(r => String(r.matchId) === String(currentMatchForEvents.id));
+    const rPayload = {
+      id: existing ? (existing.id || undefined) : undefined,
+      matchId: currentMatchForEvents.id,
+      homeScore: s.homeScore,
+      awayScore: s.awayScore,
+      status: 'FINISHED'
+    };
+    await GT_api.upsert(SHEET.Results, rPayload);
+
+    toastOk(tLabel('events.scoreApplied', 'Score applied'));
+
+    // refresh caches & keep modal context
+    await loadAll();
+    currentMatchForEvents = matches.find(x => String(x.id) === String(currentMatchForEvents.id)) || currentMatchForEvents;
+    updateAutoScoreUI();
+  }
+
+  async function loadEvents(matchId) {
+    const res = await GT_api.list(EVENTS_SHEET, "matchId", matchId);
+    currentEvents = (res.rows || []).filter(x => x.id);
+    renderEvents();
+  }
+
+  function resetEventForm() {
+    eventIdEl.value = "";
+    eventMinuteEl.value = "";
+    eventClockEl.value = "";
+    eventNotesEl.value = "";
+    eventPointsEl.value = "2";
+    eventPlayerEl.value = "";
+    eventPlayerInEl.value = "";
+  }
+
+  async function openEvents(matchId) {
+    const m = matches.find(x => String(x.id) === String(matchId));
+    if (!m) return;
+    currentMatchForEvents = m;
+    eventsMatchLabelEl.textContent = `${teamName(m.homeTeamId)} ${tLabel("common.vs", "vs")} ${teamName(m.awayTeamId)}`;
+
+    fillEventSelectsForMatch(m);
+    resetEventForm();
+    await loadEvents(m.id);
+    eventsModal.show();
+    GT_i18n.apply(eventsModalEl);
+    updateAutoScoreUI();
+  }
+
+  async function saveEvent() {
+    if (!currentMatchForEvents) return;
+    const session = GT_auth.getSession() || {};
+    const uid = session?.user?.id || null;
+
+    const sport = String(eventSportEl.value || "OTHER").toUpperCase();
+    const type = String(eventTypeEl.value || "").toUpperCase();
+
+    const isBasket = sport === "BASKETBALL";
+    const isScore = sport === "BASKETBALL" && type === "SCORE";
+    const isSub = sport === "FOOTBALL" && type === "SUBSTITUTION";
+
+    const payload = {
+      id: eventIdEl.value || undefined,
+      matchId: currentMatchForEvents.id,
+      sport,
+      teamId: eventTeamEl.value || null,
+      playerId: eventPlayerEl.value || null,
+      type,
+      period: eventPeriodEl.value || null,
+      minute: !isBasket && eventMinuteEl.value.trim() !== "" ? Number(eventMinuteEl.value) : null,
+      clock: isBasket && eventClockEl.value.trim() !== "" ? eventClockEl.value.trim() : null,
+      value1: isScore ? Number(eventPointsEl.value || 0) : (isSub ? (eventPlayerInEl.value || null) : null),
+      value2: null,
+      notes: eventNotesEl.value.trim() ? eventNotesEl.value.trim() : null,
+      createdBy: uid
+    };
+
+    await GT_api.upsert(EVENTS_SHEET, payload);
+    toastOk(GT_i18n.t("common.saved"));
+    resetEventForm();
+    await loadEvents(currentMatchForEvents.id);
+  }
+
+  async function deleteEvent(eventId) {
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("common.confirmDelete"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+
+    await GT_api.remove(EVENTS_SHEET, eventId);
+    toastOk(GT_i18n.t("common.deleted"));
+    await loadEvents(currentMatchForEvents.id);
+  }
+
+  function fillSelect(selectEl, items, valueKey, labelFn, placeholder) {
+    const ph = placeholder ? `<option value="">${esc(placeholder)}</option>` : "";
+    selectEl.innerHTML = ph + items.map(it => `<option value="${esc(it[valueKey])}">${esc(labelFn(it))}</option>`).join("");
+  }
+
+  function fillConsts(selectEl, list) {
+    selectEl.innerHTML = list.map(x => `<option value="${esc(x.value)}">${esc(x.value)}</option>`).join("");
+  }
+  function matchResultText(matchId, status) {
+    const st = String(status || "").trim().toUpperCase();
+    if (st !== "FINISHED") return "";
+    const r = results.find(x => String(x.matchId) === String(matchId));
+    if (!r) return "-";
+    const hs = (r.homeScore !== undefined && r.homeScore !== null && String(r.homeScore)!=="") ? r.homeScore : "-";
+    const as = (r.awayScore !== undefined && r.awayScore !== null && String(r.awayScore)!=="") ? r.awayScore : "-";
+    return `${hs} - ${as}`;
+  }
+
+
+function computeRoundMap(rows) {
+  const byKey = new Map();
+  const getKey = (m) => {
+    const st = String(m.stage || m.phase || "").trim().toUpperCase();
+    const g = String(m.groupName || m.groupCode || "").trim().toUpperCase();
+    return `${m.tournamentId || ""}|${st}|${g}`;
+  };
+  for (const m of rows) {
+    const k = getKey(m);
+    if (!byKey.has(k)) byKey.set(k, []);
+    byKey.get(k).push(m);
+  }
+  const map = {};
+  for (const [k, arr] of byKey.entries()) {
+    arr.sort((a, b) => {
+      const at = Date.parse(a.startTime || a.dateTime || "") || 0;
+      const bt = Date.parse(b.startTime || b.dateTime || "") || 0;
+      if (at !== bt) return at - bt;
+      return String(a.id || "").localeCompare(String(b.id || ""));
+    });
+    arr.forEach((m, idx) => { map[String(m.id)] = String(idx + 1); });
+  }
+  return map;
+}
+
+
+  function render() {
+    const tid = filterSel.value;
+    const rows = tid ? matches.filter(m => String(m.tournamentId)===String(tid)) : matches;
+
+    const roundMap = computeRoundMap(rows);
+
+    tbody.innerHTML = rows.map(m => `
+      <tr>
+        <td class="text-muted">${esc(tournamentName(m.tournamentId))}</td>
+        <td><span class="d-inline-flex align-items-center">${sportIconHtml(matchSport(m))}${esc(m.stage || "")}</span></td>
+        <td>${esc(m.groupName || m.groupCode || "")}</td>
+        <td>${esc(roundMap[String(m.id)] || "")}</td>
+<td class="fw-semibold">${teamCellHtml(m,"HOME")}</td>
+        <td class="fw-semibold">${teamCellHtml(m,"AWAY")}</td>
+        <td>${esc(matchResultText(m.id, m.status))}</td>
+        <td>${esc(venueName(m.venueId))}</td>
+        <td>${esc(refName(m.refereeId))}</td>
+        <td class="text-muted">${esc(GT_ui.formatDateTime(m.startTime || m.dateTime || ""))}</td>
+        <td>${GT_ui.statusBadge(m.status)}</td>
+        <td class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-info" data-act="details" data-id="${esc(m.id)}" title="${esc(tLabel("matches.details","Details"))}"><i class="bx bx-detail"></i></button>
+<button class="btn btn-sm btn-outline-secondary" data-act="edit" data-id="${esc(m.id)}"><i class="bx bx-edit-alt"></i></button>
+          <button class="btn btn-sm btn-outline-danger" data-act="del" data-id="${esc(m.id)}"><i class="bx bx-trash"></i></button>
+        </td>
+      </tr>
+    `).join("");
+
+    GT_i18n.apply(document);
+  }
+
+  async function loadAll() {
+    const tid = filterSel.value || "";
+    const prevTid = tid;
+    const [tRes, teamRes, playerRes, venueRes, refRes] = await Promise.all([
+      GT_api.list(SHEET.Tournaments),
+      GT_api.list(SHEET.Teams),
+      GT_api.list(SHEET.Players),
+      GT_api.list(SHEET.Venues),
+      GT_api.list(SHEET.Referees)
+    ]);
+    tournaments = (tRes.rows || []).filter(x => x.id);
+    teams = (teamRes.rows || []).filter(x => x.id);
+    players = (playerRes.rows || []).filter(x => x.id);
+    venues = (venueRes.rows || []).filter(x => x.id);
+    referees = (refRes.rows || []).filter(x => x.id);
+
+    fillSelect(filterSel, tournaments, "id", t => t.name, GT_i18n.t("common.all"));
+    // Restore filter from URL/localStorage
+    const urlTid = new URLSearchParams(location.search).get("tournamentId") || "";
+    let storedTid = "";
+    try { storedTid = localStorage.getItem("GT_matches_tournamentId") || ""; } catch(e) {}
+    const desiredTid = urlTid || storedTid || prevTid;
+    if (desiredTid) filterSel.value = desiredTid;
+    // Sync URL with current filter
+    const u0 = new URL(window.location.href);
+    if (filterSel.value) u0.searchParams.set("tournamentId", filterSel.value);
+    else u0.searchParams.delete("tournamentId");
+    history.replaceState(null, "", u0.toString());
+
+    fillSelect(tidEl, tournaments, "id", t => t.name);
+    fillConsts(phaseEl, GT_CONST.phases);
+    fillConsts(statusEl, GT_CONST.matchStatuses);
+    fillSelect(venueEl, venues, "id", v => v.name, "—");
+    fillSelect(refEl, referees, "id", r => r.fullName, "—");
+    // load all matches, tournamentTeams and results once (filter is local)
+    const [mRes, ttRes, rRes] = await Promise.all([
+      GT_api.list(SHEET.Matches),
+      GT_api.list(SHEET.TournamentTeams),
+      GT_api.list(SHEET.Results)
+    ]);
+    matches = (mRes.rows || []).filter(x => x.id);
+    tournamentTeams = (ttRes.rows || []).filter(x => x.id);
+    results = (rRes.rows || []).filter(x => x.id);
+
+    render();
+
+  }
+
+  function teamsForTournament(tid) {
+    const ids = tournamentTeams.filter(tt => String(tt.tournamentId)===String(tid)).map(tt => tt.teamId);
+    return teams.filter(t => ids.includes(t.id));
+  }
+
+  function openAdd() {
+    idEl.value = "";
+    const tid = filterSel.value || (tournaments[0] ? tournaments[0].id : "");
+    tidEl.value = tid;
+
+    phaseEl.value = "LEAGUE";
+    groupEl.value = "";
+statusEl.value = "SCHEDULED";
+    
+    resultIdEl.value = "";
+    hsEl.value = "";
+    asEl.value = "";
+    toggleScoreFields();
+dtEl.value = "";
+
+    const tTeams = tid ? teamsForTournament(tid) : teams;
+    fillSelect(homeEl, tTeams, "id", t => t.name, "—");
+    fillSelect(awayEl, tTeams, "id", t => t.name, "—");
+    homeEl.value = tTeams[0] ? tTeams[0].id : "";
+    awayEl.value = tTeams[1] ? tTeams[1].id : "";
+
+    venueEl.value = "";
+    refEl.value = "";
+
+    modal.show();
+    GT_i18n.apply(modalEl);
+  }
+
+  function openEdit(id) {
+    const m = matches.find(x => String(x.id)===String(id));
+    if (!m) return;
+
+    idEl.value = m.id;
+    tidEl.value = m.tournamentId;
+    phaseEl.value = m.stage || "LEAGUE";
+    groupEl.value = m.groupName || m.groupCode || "";
+statusEl.value = m.status || "SCHEDULED";
+    dtEl.value = (m.startTime || m.dateTime) ? String(m.startTime || m.dateTime).replace("Z","") : "";
+
+    const tTeams = teamsForTournament(m.tournamentId);
+    fillSelect(homeEl, tTeams, "id", t => t.name, "—");
+    fillSelect(awayEl, tTeams, "id", t => t.name, "—");
+    homeEl.value = m.homeTeamId || "";
+    awayEl.value = m.awayTeamId || "";
+
+    fillSelect(venueEl, venues, "id", v => v.name, "—");
+    fillSelect(refEl, referees, "id", r => r.fullName, "—");
+    venueEl.value = m.venueId || "";
+    refEl.value = m.refereeId || "";
+
+
+    // Prefill result if exists
+    const r = results.find(x => String(x.matchId) === String(m.id));
+    resultIdEl.value = r ? (r.id || "") : "";
+    hsEl.value = r && r.homeScore !== undefined && r.homeScore !== null ? String(r.homeScore) : "";
+    asEl.value = r && r.awayScore !== undefined && r.awayScore !== null ? String(r.awayScore) : "";
+    toggleScoreFields();
+    modal.show();
+    GT_i18n.apply(modalEl);
+  }
+
+  async function save() {
+    if (homeEl.value && awayEl.value && homeEl.value === awayEl.value) {
+      throw new Error(GT_i18n.t("common.invalidTeams"));
+    }
+
+    const status = String(statusEl.value || "").trim().toUpperCase();
+
+    const payload = {
+      id: idEl.value || undefined,
+      tournamentId: tidEl.value,
+      stage: phaseEl.value,
+      groupName: groupEl.value.trim() ? groupEl.value.trim() : null,
+      homeTeamId: homeEl.value || null,
+      awayTeamId: awayEl.value || null,
+      venueId: venueEl.value || null,
+      refereeId: refEl.value || null,
+      startTime: dtEl.value ? new Date(dtEl.value).toISOString() : null,
+      status
+    };
+
+    const mRes = await GT_api.upsert(SHEET.Matches, payload);
+    const matchId = mRes.id || payload.id;
+
+    // Results handling
+    if (status === "FINISHED") {
+      const hsRaw = hsEl.value.trim();
+      const asRaw = asEl.value.trim();
+      const homeScore = hsRaw === "" ? null : Number(hsRaw);
+      const awayScore = asRaw === "" ? null : Number(asRaw);
+
+      let rid = resultIdEl.value || "";
+      if (!rid) {
+        const existing = results.find(x => String(x.matchId) === String(matchId));
+        rid = existing ? (existing.id || "") : "";
+      }
+
+      const rPayload = {
+        id: rid || undefined,
+        matchId,
+        homeScore,
+        awayScore,
+        status: "FINISHED"
+      };
+
+      await GT_api.upsert(SHEET.Results, rPayload);
+    } else {
+      try { await GT_api.removeWhere(SHEET.Results, "matchId", matchId); } catch (_) {}
+    }
+
+    modal.hide();
+    toastOk(GT_i18n.t("common.saved"));
+    await loadAll();
+  }
+
+  async function del(id) {
+    const ok = await GT_ui.confirm({
+      title: GT_i18n.t("common.confirm"),
+      message: GT_i18n.t("common.confirmDelete"),
+      confirmText: GT_i18n.t("common.delete")
+    });
+    if (!ok) return;
+
+    try { await GT_api.removeWhere(SHEET.Results, "matchId", id); } catch(_) {}
+    try { await GT_api.removeWhere(EVENTS_SHEET, "matchId", id); } catch(_) {}
+    await GT_api.remove(SHEET.Matches, id);
+    toastOk(GT_i18n.t("common.deleted"));
+    await loadAll();
+  }
+
+  // events
+  btnAdd.addEventListener("click", openAdd);
+  btnRefresh.addEventListener("click", () => GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingTextKey: "common.loading" }).catch(toastErr));
+  btnSave.addEventListener("click", () => GT_ui.withOverlaySpinner(btnSave, save, { loadingTextKey: "common.saving" }).catch(toastErr));
+
+  statusEl.addEventListener("change", toggleScoreFields);
+
+  // Events listeners
+  eventTeamEl.addEventListener("change", () => { refreshPlayersDropdown(); });
+  eventTypeEl.addEventListener("change", () => { toggleEventFields(); });
+  if (btnEventsRefresh) btnEventsRefresh.addEventListener("click", () => {
+    if (!currentMatchForEvents) return;
+    GT_ui.withOverlaySpinner(btnEventsRefresh, () => loadEvents(currentMatchForEvents.id), { loadingTextKey: "common.loading" }).catch(toastErr);
+  });
+  btnEventSave.addEventListener("click", () => GT_ui.withOverlaySpinner(btnEventSave, saveEvent, { loadingTextKey: "common.saving" }).catch(toastErr));
+  if (btnApplyAutoScore) btnApplyAutoScore.addEventListener('click', () => {
+    if (!currentMatchForEvents) return;
+    GT_ui.withOverlaySpinner(btnApplyAutoScore, () => applyAutoScoreToResult(), { loadingTextKey: 'common.saving' }).catch(toastErr);
+  });
+
+  tblEvents.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act='ev-del']");
+    if (!btn) return;
+    const id = btn.getAttribute("data-id");
+    GT_ui.withOverlaySpinner(btn, () => deleteEvent(id), { loadingTextKey: "common.deleting" }).catch(toastErr);
+  });
+
+  filterSel.addEventListener("change", () => {
+    const tid = filterSel.value || "";
+    try {
+      if (tid) localStorage.setItem("GT_matches_tournamentId", tid);
+      else localStorage.removeItem("GT_matches_tournamentId");
+    } catch (e) {}
+    const u = new URL(window.location.href);
+    if (tid) u.searchParams.set("tournamentId", tid);
+    else u.searchParams.delete("tournamentId");
+    history.replaceState(null, "", u.toString());
+    render();
+  });
+tidEl.addEventListener("change", () => {
+    const tTeams = teamsForTournament(tidEl.value);
+    fillSelect(homeEl, tTeams, "id", t => t.name, "—");
+    fillSelect(awayEl, tTeams, "id", t => t.name, "—");
+  });
+
+  tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if (!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if (act === "events") GT_ui.withOverlaySpinner(btn, () => openEvents(id), { loadingTextKey: "common.loading" }).catch(toastErr);
+    if (act === "details") {
+      const tid = filterSel.value || "";
+      const url = new URL(window.location.href);
+      if (tid) url.searchParams.set("tournamentId", tid); else url.searchParams.delete("tournamentId");
+      const returnTo = `${url.pathname.split("/").pop()}${url.search}`;
+      window.open(`match_details.html?matchId=${encodeURIComponent(id)}&returnTo=${encodeURIComponent(returnTo)}`, '_blank', 'noopener');
+    }
+    if (act === "edit") openEdit(id);
+    if (act === "del") GT_ui.withOverlaySpinner(btn, () => del(id), { loadingTextKey: "common.deleting" }).catch(toastErr);
+  });
+
+  await GT_ui.withOverlaySpinner(btnRefresh, loadAll, { loadingTextKey: "common.loading" });
+})();
+</script>
