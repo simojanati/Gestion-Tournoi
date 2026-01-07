@@ -263,6 +263,9 @@ window.GT_ui = (() => {
   }
 
   return {
+    // utils
+    esc,
+
     // spinners
     withSpinner,
     withOverlaySpinner,

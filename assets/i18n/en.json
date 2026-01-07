@@ -38,6 +38,49 @@
     "back": "Back",
     "show": "Show",
     "hide": "Hide"
+    ,"view": "View"
+    ,"manage": "Manage"
+  },
+  "dashboard": {
+    "kpi": {
+      "activeTournaments": "Active tournaments",
+      "matchesToday": "Matches today",
+      "finishedMatches": "Finished matches",
+      "events7d": "Events (7 days)"
+    },
+    "section": {
+      "quickActions": "Quick actions",
+      "nextMatches": "Next matches",
+      "alerts": "Alerts",
+      "tournamentsProgress": "Tournaments progress"
+    },
+    "badge": {
+      "liveNow": "LIVE"
+    },
+    "actions": {
+      "createTournament": "Create tournament",
+      "goTournaments": "Tournaments",
+      "goMatches": "Matches",
+      "goStandings": "Standings",
+      "liveMatches": "Live matches"
+    },
+    "table": {
+      "time": "Time",
+      "tournament": "Tournament",
+      "stage": "Stage",
+      "match": "Match",
+      "action": "Action"
+    },
+    "progress": {
+      "matches": "Matches",
+      "viewMatches": "Matches",
+      "viewStandings": "Standings"
+    },
+    "alerts": {
+      "noAlerts": "No alerts 🎉",
+      "finishedNoResult": "Finished match without result",
+      "scheduledPast": "Scheduled match is in the past"
+    }
   },
   "events": {
     "add": "Add event",

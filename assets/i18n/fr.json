@@ -37,7 +37,50 @@
     "noData": "Aucune donnée",
     "back": "Retour",
     "show": "Afficher",
-    "hide": "Masquer"
+    "hide": "Masquer",
+    "view": "Voir",
+    "manage": "Gérer"
+  },
+  "dashboard": {
+    "kpi": {
+      "activeTournaments": "Tournois actifs",
+      "matchesToday": "Matchs aujourd'hui",
+      "finishedMatches": "Matchs terminés",
+      "events7d": "Événements (7 jours)"
+    },
+    "section": {
+      "quickActions": "Actions rapides",
+      "nextMatches": "Prochains matchs",
+      "alerts": "Alertes",
+      "tournamentsProgress": "Progression des tournois"
+    },
+    "badge": {
+      "liveNow": "LIVE"
+    },
+    "actions": {
+      "createTournament": "Créer un tournoi",
+      "goTournaments": "Tournois",
+      "goMatches": "Matchs",
+      "goStandings": "Classement",
+      "liveMatches": "Matchs en cours"
+    },
+    "table": {
+      "time": "Heure",
+      "tournament": "Tournoi",
+      "stage": "Phase",
+      "match": "Match",
+      "action": "Action"
+    },
+    "progress": {
+      "matches": "Matchs",
+      "viewMatches": "Matchs",
+      "viewStandings": "Classement"
+    },
+    "alerts": {
+      "noAlerts": "Aucune alerte 🎉",
+      "finishedNoResult": "Match terminé sans résultat",
+      "scheduledPast": "Match planifié dans le passé"
+    }
   },
   "events": {
     "add": "Ajouter un événement",

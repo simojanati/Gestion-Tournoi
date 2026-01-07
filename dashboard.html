@@ -37,19 +37,129 @@
 <div id="gtTopbarHost"></div>
 <div class="content-wrapper">
 <div class="container-xxl flex-grow-1 container-p-y">
-<h4 class="fw-bold py-3 mb-4">
-<span class="text-muted fw-light" data-i18n="nav.dashboard">Dashboard</span>
-</h4>
-<div class="card">
-<div class="card-body">
-<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-<div>
-<div class="fw-semibold" data-i18n="app.title">Gestion Tournoi</div>
-<div class="text-muted small">v6</div>
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+  <h4 class="fw-bold mb-0">
+    <span class="text-muted fw-light" data-i18n="nav.dashboard">Dashboard</span>
+  </h4>
+  <div class="d-flex align-items-center gap-2">
+    <a class="btn btn-outline-primary" href="tournaments.html"><i class="bx bx-flag me-2"></i><span data-i18n="dashboard.actions.goTournaments">Tournois</span></a>
+    <a class="btn btn-primary" href="matches.html"><i class="bx bx-list-ul me-2"></i><span data-i18n="dashboard.actions.goMatches">Matchs</span></a>
+  </div>
 </div>
-<a class="btn btn-primary" href="tournaments.html"><i class="bx bx-flag me-2"></i><span data-i18n="nav.tournaments">Tournois</span></a>
+
+<!-- KPI cards -->
+<div class="row g-3">
+  <div class="col-6 col-lg-3">
+    <div class="card gt-kpi-card">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="gt-kpi-icon bg-label-primary"><i class="bx bx-trophy"></i></div>
+        <div class="flex-grow-1">
+          <div class="text-muted small" data-i18n="dashboard.kpi.activeTournaments">Tournois actifs</div>
+          <div class="fs-4 fw-bold" id="kpiActiveTournaments">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card gt-kpi-card">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="gt-kpi-icon bg-label-info"><i class="bx bx-calendar"></i></div>
+        <div class="flex-grow-1">
+          <div class="text-muted small" data-i18n="dashboard.kpi.matchesToday">Matchs اليوم</div>
+          <div class="fs-4 fw-bold" id="kpiMatchesToday">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card gt-kpi-card">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="gt-kpi-icon bg-label-success"><i class="bx bx-check-circle"></i></div>
+        <div class="flex-grow-1">
+          <div class="text-muted small" data-i18n="dashboard.kpi.finishedMatches">Matchs finis</div>
+          <div class="fs-4 fw-bold" id="kpiFinishedMatches">—</div>
+          <div class="text-muted small" id="kpiFinishedMatchesSub">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card gt-kpi-card">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="gt-kpi-icon bg-label-warning"><i class="bx bx-bolt-circle"></i></div>
+        <div class="flex-grow-1">
+          <div class="text-muted small" data-i18n="dashboard.kpi.events7d">Events (7j)</div>
+          <div class="fs-4 fw-bold" id="kpiEvents7d">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="row g-3 mt-1">
+  <!-- Next matches -->
+  <div class="col-12 col-xl-8">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="fw-bold" data-i18n="dashboard.section.nextMatches">Prochains matchs</div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-label-info" id="dashLiveBadge" style="display:none"><i class="bx bx-broadcast me-1"></i><span data-i18n="dashboard.badge.liveNow">LIVE</span>: <span id="dashLiveCount">0</span></span>
+          <a class="btn btn-sm btn-outline-primary" href="matches.html"><i class="bx bx-right-arrow-alt"></i> <span data-i18n="common.view">Voir</span></a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0" id="tblNextMatches">
+            <thead>
+              <tr>
+                <th data-i18n="dashboard.table.time">وقت</th>
+                <th class="d-none d-md-table-cell" data-i18n="dashboard.table.tournament">Tournoi</th>
+                <th data-i18n="dashboard.table.stage">Stage</th>
+                <th data-i18n="dashboard.table.match">Match</th>
+                <th class="text-end" data-i18n="dashboard.table.action">Action</th>
+              </tr>
+            </thead>
+            <tbody id="nextMatchesBody">
+              <tr><td colspan="5" class="text-muted" data-i18n="common.loading">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions + Alerts -->
+  <div class="col-12 col-xl-4">
+    <div class="card mb-3">
+      <div class="card-header fw-bold" data-i18n="dashboard.section.quickActions">Actions rapides</div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <a class="btn btn-primary" href="tournaments.html"><i class="bx bx-plus-circle me-2"></i><span data-i18n="dashboard.actions.createTournament">Créer un tournoi</span></a>
+          <a class="btn btn-outline-primary" href="standings.html"><i class="bx bx-bar-chart-alt-2 me-2"></i><span data-i18n="dashboard.actions.goStandings">Classement</span></a>
+          <a class="btn btn-outline-info" href="matches.html?status=IN_PROGRESS"><i class="bx bx-broadcast me-2"></i><span data-i18n="dashboard.actions.liveMatches">Matchs en cours</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="card h-100">
+      <div class="card-header fw-bold" data-i18n="dashboard.section.alerts">Alerts</div>
+      <div class="card-body" id="alertsHost">
+        <div class="text-muted" data-i18n="common.loading">Loading...</div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Tournaments progress -->
+<div class="card mt-3">
+  <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div class="fw-bold" data-i18n="dashboard.section.tournamentsProgress">Progression tournois</div>
+    <a class="btn btn-sm btn-outline-primary" href="tournaments.html"><i class="bx bx-flag"></i> <span data-i18n="common.manage">Gérer</span></a>
+  </div>
+  <div class="card-body">
+    <div class="row g-3" id="tournamentsProgressGrid">
+      <div class="col-12"><div class="text-muted" data-i18n="common.loading">Loading...</div></div>
+    </div>
+  </div>
 </div>
 </div>
 <div id="gtFooterHost"></div>
@@ -79,7 +189,262 @@
       await GT_i18n.load(GT_i18n.currentLang());
       GT_auth.requireAuth();
       await GT_bootAppLayout();
-      
+      await GT_ui.withOverlaySpinner(null, async () => {
+        await loadDashboard();
+      });
+
+      // Re-render dynamic dashboard blocks (alerts, next matches, KPIs) on language change
+      window.addEventListener('gt:langChanged', () => {
+        GT_ui.withOverlaySpinner(null, async () => {
+          await loadDashboard();
+        });
+      });
     })();
+
+    function el(id){ return document.getElementById(id); }
+    function n(v){ return (v === undefined || v === null || v === "") ? 0 : Number(v) || 0; }
+
+    function parseTs(v){
+      const s = String(v || "").trim();
+      const t = Date.parse(s);
+      return isNaN(t) ? 0 : t;
+    }
+
+    function sportIcon(sport){
+      const sp = String(sport || "OTHER").toUpperCase();
+      const map = {
+        FOOTBALL: "bx-football",
+        BASKETBALL: "bx-basketball",
+        HANDBALL: "bx-hand",
+        OTHER: "bx-dots-horizontal-rounded"
+      };
+      const ic = map[sp] || map.OTHER;
+      return `<i class="bx ${ic}"></i>`;
+    }
+
+    function stageLabel(m){
+      const st = String(m?.stage || "").trim();
+      const g = String(m?.groupName || "").trim();
+      if (!st) return "—";
+      if (g) return `${GT_ui.esc(st)} ${GT_ui.esc(g)}`;
+      return GT_ui.esc(st);
+    }
+
+    function pct(num, den){
+      if (!den) return 0;
+      return Math.max(0, Math.min(100, Math.round((num/den)*100)));
+    }
+
+    async function loadDashboard(){
+      const [tRes, mRes, rRes, eRes, teamsRes] = await Promise.all([
+        GT_api.list("tournaments"),
+        GT_api.list("matches"),
+        GT_api.list("results"),
+        GT_api.list("match_events"),
+        GT_api.list("teams")
+      ]);
+
+      const tournaments = tRes.rows || [];
+      const matches = mRes.rows || [];
+      const results = rRes.rows || [];
+      const events = eRes.rows || [];
+      const teams = teamsRes.rows || [];
+
+      const tById = Object.fromEntries(tournaments.map(t => [String(t.id), t]));
+      const teamById = Object.fromEntries(teams.map(t => [String(t.id), t]));
+      const rByMatch = Object.fromEntries(results.map(r => [String(r.matchId), r]));
+
+      // KPI: Active tournaments
+      const activeT = tournaments.filter(t => String(t.status || "").toUpperCase() === "ACTIVE");
+      el("kpiActiveTournaments").textContent = String(activeT.length);
+
+      // KPI: matches today
+      const now = new Date();
+      const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const tomorrowStart = todayStart + 24*60*60*1000;
+      const matchesToday = matches.filter(m => {
+        const ts = parseTs(m.startTime || m.dateTime);
+        return ts >= todayStart && ts < tomorrowStart;
+      });
+      el("kpiMatchesToday").textContent = String(matchesToday.length);
+
+      // KPI: finished matches overall
+      const playable = matches.filter(m => String(m.status || "").toUpperCase() !== "CANCELED");
+      const finished = playable.filter(m => String(m.status || "").toUpperCase() === "FINISHED");
+      el("kpiFinishedMatches").textContent = `${finished.length}/${playable.length}`;
+      el("kpiFinishedMatchesSub").textContent = `${pct(finished.length, playable.length)}%`;
+
+      // KPI: events last 7 days
+      const d7 = Date.now() - 7*24*60*60*1000;
+      const events7d = events.filter(ev => parseTs(ev.createdAt) >= d7);
+      el("kpiEvents7d").textContent = String(events7d.length);
+
+      // Live badge
+      const liveMatches = matches.filter(m => String(m.status || "").toUpperCase() === "IN_PROGRESS");
+      if (liveMatches.length) {
+        el("dashLiveCount").textContent = String(liveMatches.length);
+        el("dashLiveBadge").style.display = "inline-flex";
+      }
+
+      // Next matches table
+      const upcoming = matches
+        .filter(m => {
+          const st = String(m.status || "").toUpperCase();
+          if (st === "CANCELED") return false;
+          if (st === "FINISHED") return false;
+          const ts = parseTs(m.startTime || m.dateTime);
+          return ts ? ts >= (Date.now() - 60*60*1000) : true; // keep no-date matches at end
+        })
+        .sort((a,b) => (parseTs(a.startTime || a.dateTime) || 9e15) - (parseTs(b.startTime || b.dateTime) || 9e15))
+        .slice(0, 10);
+
+      const nextBody = el("nextMatchesBody");
+      if (!upcoming.length) {
+        nextBody.innerHTML = `<tr><td colspan="5" class="text-muted">${GT_ui.esc(GT_i18n.t("common.noData", null, true))}</td></tr>`;
+      } else {
+        nextBody.innerHTML = upcoming.map(m => {
+          const t = tById[String(m.tournamentId)] || {};
+          const home = teamById[String(m.homeTeamId)] || {};
+          const away = teamById[String(m.awayTeamId)] || {};
+          const dt = GT_ui.formatDateTime(m.startTime || m.dateTime || "");
+          const stg = stageLabel(m);
+          const detailsUrl = new URL("match_details.html", location.href);
+          detailsUrl.searchParams.set("matchId", String(m.id || ""));
+          detailsUrl.searchParams.set("returnTo", location.href);
+
+          return `<tr>
+            <td class="text-muted">${GT_ui.esc(dt || "—")}</td>
+            <td class="d-none d-md-table-cell">
+              <div class="d-flex align-items-center gap-2">
+                <span class="gt-sport-badge">${sportIcon(t.sport)}</span>
+                <span class="fw-semibold">${GT_ui.esc(t.name || "—")}</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge bg-label-secondary">
+                <span class="me-1">${sportIcon(t.sport)}</span>
+                ${GT_ui.esc(stg)}
+              </span>
+            </td>
+            <td>
+              <div class="gt-match-line">
+                <span class="fw-semibold">${GT_ui.esc(home.name || GT_i18n.t("common.tbd", null, true))}</span>
+                <span class="text-muted mx-1">${GT_ui.esc(GT_i18n.t("common.vs", null, true))}</span>
+                <span class="fw-semibold">${GT_ui.esc(away.name || GT_i18n.t("common.tbd", null, true))}</span>
+                ${GT_ui.statusBadge(m.status)}
+              </div>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-primary" target="_blank" href="${GT_ui.esc(detailsUrl.toString())}"><i class="bx bx-detail"></i> <span class="d-none d-sm-inline" data-i18n="matches.details">Details</span></a>
+            </td>
+          </tr>`;
+        }).join("");
+        GT_i18n.apply(nextBody);
+      }
+
+      // Alerts
+      const alerts = [];
+      for (const m of matches) {
+        const st = String(m.status || "").toUpperCase();
+        const ts = parseTs(m.startTime || m.dateTime);
+        const r = rByMatch[String(m.id)];
+        if (st === "FINISHED" && !r) {
+          alerts.push({
+            type: "warning",
+            key: "dashboard.alerts.finishedNoResult",
+            match: m
+          });
+        }
+        if (st === "SCHEDULED" && ts && ts < Date.now() - 15*60*1000) {
+          alerts.push({
+            type: "info",
+            key: "dashboard.alerts.scheduledPast",
+            match: m
+          });
+        }
+      }
+
+      const alertsHost = el("alertsHost");
+      if (!alerts.length) {
+        alertsHost.innerHTML = `<div class="text-muted">${GT_ui.esc(GT_i18n.t("dashboard.alerts.noAlerts", null, true))}</div>`;
+      } else {
+        const top = alerts.slice(0, 8);
+        alertsHost.innerHTML = `<div class="list-group list-group-flush">${top.map(a => {
+          const t = tById[String(a.match.tournamentId)] || {};
+          const home = teamById[String(a.match.homeTeamId)] || {};
+          const away = teamById[String(a.match.awayTeamId)] || {};
+          const detailsUrl = new URL("match_details.html", location.href);
+          detailsUrl.searchParams.set("matchId", String(a.match.id || ""));
+          detailsUrl.searchParams.set("returnTo", location.href);
+          return `<a class="list-group-item list-group-item-action d-flex align-items-start gap-2" target="_blank" href="${GT_ui.esc(detailsUrl.toString())}">
+            <span class="badge bg-label-${a.type} mt-1"><i class="bx bx-bell"></i></span>
+            <div class="flex-grow-1">
+              <div class="fw-semibold">${GT_ui.esc(GT_i18n.t(a.key, null, true))}</div>
+              <div class="text-muted small">${GT_ui.esc(t.name || "—")} • ${GT_ui.esc(home.name || GT_i18n.t("common.tbd", null, true))} ${GT_ui.esc(GT_i18n.t("common.vs", null, true))} ${GT_ui.esc(away.name || GT_i18n.t("common.tbd", null, true))}</div>
+            </div>
+            <i class="bx bx-chevron-right text-muted"></i>
+          </a>`;
+        }).join("")}</div>`;
+      }
+
+      // Tournaments progress cards
+      const grid = el("tournamentsProgressGrid");
+      const sortedT = [...tournaments].sort((a,b) => {
+        const sa = String(a.status || "").toUpperCase();
+        const sb = String(b.status || "").toUpperCase();
+        if (sa !== sb) {
+          const pr = { ACTIVE: 0, DRAFT: 1, FINISHED: 2, CANCELED: 3 };
+          return (pr[sa] ?? 9) - (pr[sb] ?? 9);
+        }
+        return String(a.name||"").localeCompare(String(b.name||""));
+      });
+
+      if (!sortedT.length) {
+        grid.innerHTML = `<div class="col-12"><div class="text-muted">${GT_ui.esc(GT_i18n.t("common.noData", null, true))}</div></div>`;
+      } else {
+        grid.innerHTML = sortedT.map(t => {
+          const tMatches = matches.filter(m => String(m.tournamentId) === String(t.id) && String(m.status||"").toUpperCase() !== "CANCELED");
+          const tFinished = tMatches.filter(m => String(m.status||"").toUpperCase() === "FINISHED");
+          const p = pct(tFinished.length, tMatches.length);
+          const matchesUrl = new URL("matches.html", location.href);
+          matchesUrl.searchParams.set("tournamentId", String(t.id));
+          const standingsUrl = new URL("standings.html", location.href);
+          standingsUrl.searchParams.set("tournamentId", String(t.id));
+
+          return `<div class="col-12 col-md-6 col-xl-4">
+            <div class="card gt-dash-tournament h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between gap-2">
+                  <div>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="gt-sport-badge">${sportIcon(t.sport)}</span>
+                      <div class="fw-bold">${GT_ui.esc(t.name || "—")}</div>
+                    </div>
+                    <div class="mt-1">${GT_ui.statusBadge(t.status)}</div>
+                  </div>
+                  <div>${GT_ui.formatChip(t.format)}</div>
+                </div>
+
+                <div class="mt-3">
+                  <div class="d-flex align-items-center justify-content-between small text-muted">
+                    <span data-i18n="dashboard.progress.matches">Matchs</span>
+                    <span>${GT_ui.esc(tFinished.length)}/${GT_ui.esc(tMatches.length)}</span>
+                  </div>
+                  <div class="progress mt-1" style="height:.55rem;">
+                    <div class="progress-bar" role="progressbar" style="width:${p}%" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3 flex-wrap">
+                  <a class="btn btn-sm btn-outline-primary" href="${GT_ui.esc(matchesUrl.toString())}"><i class="bx bx-list-ul me-1"></i><span data-i18n="dashboard.progress.viewMatches">Matchs</span></a>
+                  <a class="btn btn-sm btn-outline-success" href="${GT_ui.esc(standingsUrl.toString())}"><i class="bx bx-bar-chart-alt-2 me-1"></i><span data-i18n="dashboard.progress.viewStandings">Classement</span></a>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join("");
+        GT_i18n.apply(grid);
+      }
+    }
   </script>
 </body></html>

@@ -822,7 +822,11 @@ function computeRoundMap(rows) {
 
   function render() {
     const tid = filterSel.value;
-    const rows = tid ? matches.filter(m => String(m.tournamentId)===String(tid)) : matches;
+    const urlStatus = new URLSearchParams(location.search).get("status") || "";
+    const statusFilter = String(urlStatus || "").trim().toUpperCase();
+
+    const rows0 = tid ? matches.filter(m => String(m.tournamentId)===String(tid)) : matches;
+    const rows = statusFilter ? rows0.filter(m => String(m.status||"").toUpperCase() === statusFilter) : rows0;
 
     const roundMap = computeRoundMap(rows);
 

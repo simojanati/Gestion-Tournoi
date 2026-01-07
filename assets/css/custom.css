@@ -140,3 +140,36 @@ html[dir="rtl"] #layout-navbar .gt-topbar-search .bx-search{
 .gt-stats-wrap #statsSportEmoji{
   font-size: 1rem;
 }
+
+/* === Dashboard sporty look === */
+.gt-kpi-card{
+  border: 1px solid rgba(67,89,113,.12);
+  overflow: hidden;
+}
+.gt-kpi-icon{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(67,89,113,.12);
+}
+.gt-kpi-icon i{ font-size: 1.35rem; }
+
+.gt-sport-badge{
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(67,89,113,.15);
+  background: rgba(67,89,113,.04);
+}
+.gt-sport-badge i{ font-size: 1.15rem; }
+
+.gt-dash-tournament .progress{ border-radius: 999px; overflow: hidden; }
+
+/* RTL: keep "LIVE" badge layout pleasant */
+html[dir="rtl"] #dashLiveBadge .me-1{ margin-left: .25rem !important; margin-right: 0 !important; }
